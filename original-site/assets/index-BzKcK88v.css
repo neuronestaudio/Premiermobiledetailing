@@ -24,3 +24,131 @@
   letter-spacing:-0.01em;
   text-transform:none;
 }
+
+/* ============================================================
+   PREMIER — HIGH-END UI ENHANCEMENT LAYER (takeover)
+   Depth, motion & micro-interactions. Pure CSS; pointer/scroll
+   niceties are driven by /assets/enhance.js. Reduced-motion safe.
+   ============================================================ */
+:root{ --ease:cubic-bezier(.22,1,.36,1); --brand:37 99 235; }
+
+#root a, #root button{
+  transition:color .25s var(--ease), background-color .25s var(--ease),
+    border-color .25s var(--ease), box-shadow .35s var(--ease), transform .3s var(--ease);
+}
+
+/* ---------- PRIMARY / CTA BUTTONS: sheen + lift + glow + magnetic ---------- */
+#root a.bg-primary, #root button.bg-primary,
+#root a.bg-white, #root button.bg-white{
+  position:relative; overflow:hidden; isolation:isolate;
+  transform:translate(var(--tx,0px), var(--ty,0px));
+}
+#root a.bg-primary::after, #root button.bg-primary::after,
+#root a.bg-white::after, #root button.bg-white::after{
+  content:""; position:absolute; top:-25%; left:-90%; width:55%; height:150%;
+  background:linear-gradient(100deg, transparent, rgba(255,255,255,.55), transparent);
+  transform:skewX(-18deg); pointer-events:none; z-index:3;
+  mix-blend-mode:overlay; transition:left .7s var(--ease);
+}
+#root a.bg-primary:hover::after, #root button.bg-primary:hover::after,
+#root a.bg-white:hover::after, #root button.bg-white:hover::after{ left:150%; }
+#root a.bg-primary:hover, #root button.bg-primary:hover{
+  transform:translate(var(--tx,0px), calc(var(--ty,0px) - 3px)) scale(1.025);
+  box-shadow:0 16px 38px -12px rgba(var(--brand)/.7), inset 0 0 0 1px rgba(var(--brand)/.5);
+}
+#root a.bg-white:hover, #root button.bg-white:hover{
+  transform:translate(var(--tx,0px), calc(var(--ty,0px) - 3px)) scale(1.025);
+  box-shadow:0 16px 38px -12px rgba(255,255,255,.4);
+}
+#root a.bg-primary:active, #root button.bg-primary:active,
+#root a.bg-white:active, #root button.bg-white:active{ transform:scale(.97); transition-duration:.09s; }
+
+/* outline / ghost buttons */
+#root button.border-white\/20:hover, #root a.border-white\/20:hover,
+#root a.border.bg-background:hover, #root button.border.bg-background:hover{
+  transform:translateY(-3px);
+  border-color:rgba(var(--brand)/.6) !important;
+  box-shadow:0 12px 30px -12px rgba(0,0,0,.6), 0 0 22px -6px rgba(var(--brand)/.4);
+}
+
+/* ---------- CARDS: cursor spotlight + lift + image zoom ---------- */
+#root a.group{ transition:transform .5s var(--ease); }
+#root a.group > div{
+  position:relative; overflow:hidden;
+  transition:transform .5s var(--ease), box-shadow .5s var(--ease), border-color .4s var(--ease);
+}
+#root a.group:hover > div{
+  transform:translateY(-6px);
+  box-shadow:0 28px 64px -22px rgba(0,0,0,.8), 0 0 0 1px rgba(var(--brand)/.5);
+}
+#root a.group img{ transition:transform .85s var(--ease); }
+#root a.group:hover img{ transform:scale(1.08); }
+#root a.group:hover .text-primary{ filter:drop-shadow(0 0 10px rgba(var(--brand)/.6)); }
+
+/* spotlight (vars from enhance.js) */
+#root a.group > div::before,
+#root .rounded-2xl.bg-card::before,
+#root .bg-primary\/10.border-primary::before{
+  content:""; position:absolute; inset:0; border-radius:inherit; pointer-events:none; z-index:3;
+  background:radial-gradient(320px circle at var(--mx,50%) var(--my,50%), rgba(var(--brand)/.16), transparent 46%);
+  opacity:0; transition:opacity .35s var(--ease);
+}
+#root a.group:hover > div::before,
+#root .rounded-2xl.bg-card:hover::before,
+#root .bg-primary\/10.border-primary:hover::before{ opacity:1; }
+
+/* problem / feature cards */
+#root .rounded-2xl.bg-card{
+  position:relative; overflow:hidden;
+  transition:transform .45s var(--ease), box-shadow .45s var(--ease), border-color .4s var(--ease);
+}
+#root .rounded-2xl.bg-card:hover{ transform:translateY(-6px); box-shadow:0 26px 54px -22px rgba(0,0,0,.72); }
+#root .rounded-2xl.bg-card svg{ transition:transform .45s var(--ease); }
+#root .rounded-2xl.bg-card:hover svg{ transform:scale(1.14) rotate(-3deg); }
+
+/* comparison "Premier" highlighted card */
+#root .bg-primary\/10.border-primary{ position:relative; overflow:hidden; }
+#root .bg-primary\/10.border-primary:hover{
+  transform:translateY(-6px);
+  box-shadow:0 30px 64px -20px rgba(var(--brand)/.55);
+}
+
+/* ---------- NAV LINKS: centered animated underline ---------- */
+#root nav a.transition-colors{ position:relative; }
+#root nav a.transition-colors::after{
+  content:""; position:absolute; left:50%; bottom:-5px; height:2px; width:0; transform:translateX(-50%);
+  background:linear-gradient(90deg, transparent, rgb(var(--brand)), transparent);
+  border-radius:2px; transition:width .32s var(--ease);
+}
+#root nav a.transition-colors:hover::after{ width:110%; }
+
+/* ---------- GALLERY ---------- */
+#root #gallery img{
+  transition:transform .7s var(--ease), filter .5s var(--ease), box-shadow .5s var(--ease) !important;
+  will-change:transform;
+}
+#root #gallery img:hover{
+  transform:scale(1.06) !important; filter:brightness(1.08) saturate(1.08);
+  box-shadow:0 26px 54px -22px rgba(0,0,0,.72); position:relative; z-index:2;
+}
+
+/* ---------- AREA / SUBURB CHIPS ---------- */
+#root #areas a{ transition:transform .3s var(--ease), background-color .3s, border-color .3s, color .3s, box-shadow .3s; }
+#root #areas a:hover{
+  transform:translateY(-3px) scale(1.05);
+  color:#fff !important; border-color:rgba(var(--brand)/.7) !important;
+  box-shadow:0 10px 24px -10px rgba(var(--brand)/.55);
+}
+
+/* ---------- FAQ rows ---------- */
+#root [data-radix-collection-item]{ transition:color .25s var(--ease); }
+#root [data-radix-collection-item]:hover{ color:rgb(var(--brand)); }
+
+/* ---------- SCROLL REVEAL (enhance.js; fail-safe: hidden state only added by JS) ---------- */
+.rz{ opacity:0; transform:translateY(26px); }
+.rz-in{ opacity:1 !important; transform:none !important; transition:opacity .7s var(--ease), transform .7s var(--ease); }
+
+@media (prefers-reduced-motion:reduce){
+  #root *, #root *::before, #root *::after{ transition-duration:.01ms !important; animation:none !important; }
+  .rz{ opacity:1; transform:none; }
+}
