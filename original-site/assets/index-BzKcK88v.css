@@ -8,3 +8,19 @@
   background-size:cover,40px 40px;
   background-position:center center,top left;
 }
+
+/* === Elegant script/italic font for hero "Detailed at Your Door." === */
+@font-face{
+  font-family:'Playfair Display';
+  font-style:italic;
+  font-weight:700;
+  font-display:swap;
+  src:url('/assets/fonts/playfair-italic-700-latin.woff2') format('woff2');
+}
+#root section[class*="min-h-"] h1 span.italic{
+  font-family:'Playfair Display', Georgia, serif;
+  font-weight:700;
+  font-style:italic;
+  letter-spacing:-0.01em;
+  text-transform:none;
+}
