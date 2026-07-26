@@ -2,11 +2,19 @@
 
 /* === Carbon-fibre texture on dark sections (takeover customisation) === */
 #root section[class*="py-24"]:not([class*="bg-card"]){
-  background-color:#080B16;
-  background-image:linear-gradient(rgba(8,11,22,0.5),rgba(8,11,22,0.5)),url('/assets/images/carbon-mesh.png');
-  background-repeat:no-repeat,repeat;
-  background-size:cover,27px 48px;
-  background-position:center center,top left;
+  position:relative; isolation:isolate; background-color:#080B16;
+}
+#root section[class*="py-24"]:not([class*="bg-card"])::after{
+  content:""; position:absolute; inset:0; z-index:-1; pointer-events:none;
+  background:url('/assets/images/carbon-mesh.png') repeat;
+  background-size:27px 48px;
+  opacity:.5;   /* carbon mesh at true 50% opacity */
+}
+
+/* stats bar (55 / 1500+ / 4.9): centre it between the two mesh sections */
+#root .grid.mt-16.rounded-xl.shadow-2xl{
+  margin-top:24px !important;
+  margin-bottom:80px !important;
 }
 
 /* === Elegant script/italic font for hero "Detailed at Your Door." === */
