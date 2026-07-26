@@ -3,9 +3,9 @@
 /* === Carbon-fibre texture on dark sections (takeover customisation) === */
 #root section[class*="py-24"]:not([class*="bg-card"]){
   background-color:#080B16;
-  background-image:linear-gradient(rgba(8,11,22,0.5),rgba(8,11,22,0.5)),url('/assets/images/carbon-texture.svg');
+  background-image:linear-gradient(rgba(8,11,22,0.5),rgba(8,11,22,0.5)),url('/assets/images/carbon-mesh.png');
   background-repeat:no-repeat,repeat;
-  background-size:cover,40px 40px;
+  background-size:cover,27px 48px;
   background-position:center center,top left;
 }
 
@@ -151,4 +151,10 @@
 @media (prefers-reduced-motion:reduce){
   #root *, #root *::before, #root *::after{ transition-duration:.01ms !important; animation:none !important; }
   .rz{ opacity:1; transform:none; }
+}
+
+/* === Header logo: 1.5x + nudged ~100px toward the right (desktop) === */
+@media (min-width:768px){
+  #root nav a.flex.flex-col{ margin-left:100px; }
+  #root nav a.flex.flex-col img.md\:block{ height:72px !important; }
 }
