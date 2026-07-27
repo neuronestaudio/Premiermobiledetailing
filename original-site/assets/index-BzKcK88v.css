@@ -166,3 +166,6 @@
   #root nav a.flex.flex-col{ margin-left:100px; }
   #root nav a.flex.flex-col img.md\:block{ height:72px !important; }
 }
+
+/* Playfair hero accent for standalone pages (warranties / TDS) */
+#root h1.hero-script span.italic{ font-family:'Playfair Display', Georgia, serif; font-weight:700; font-style:italic; letter-spacing:-0.01em; }

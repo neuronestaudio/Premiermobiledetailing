@@ -92,10 +92,40 @@
     requestAnimationFrame(function (t) {});
   }
 
-  var mo = new MutationObserver(function () { init(); if (done) mo.disconnect(); });
+  // ---- inject Warranties + TDS links into the existing nav & footer (idempotent) ----
+  var EXTRA = [{ t: 'Warranties', h: '/warranties' }, { t: 'TDS', h: '/product-tds' }];
+  function injectNavLinks() {
+    var nav = document.querySelector('nav');
+    if (nav && !nav.querySelector('a[href="/warranties"]')) {
+      var links = [...nav.querySelectorAll('a')];
+      var about = links.find(function (a) { return (a.getAttribute('href') || '').replace(/^https?:\/\/[^/]+/, '') === '/about'; });
+      if (about) {
+        var ref = about;
+        EXTRA.forEach(function (o) {
+          var a = document.createElement('a'); a.href = o.h; a.textContent = o.t; a.className = about.className;
+          ref.after(a); ref = a;
+        });
+      }
+    }
+    document.querySelectorAll('footer ul').forEach(function (ul) {
+      var hasAbout = [...ul.querySelectorAll('a')].some(function (a) { return /\/about$/.test(a.getAttribute('href') || ''); });
+      if (hasAbout && !ul.querySelector('a[href="/warranties"]')) {
+        var li0 = ul.querySelector('li'), a0 = ul.querySelector('a');
+        [{ t: 'Warranties', h: '/warranties' }, { t: 'Product TDS', h: '/product-tds' }].forEach(function (o) {
+          var li = document.createElement('li'); li.className = li0 ? li0.className : '';
+          var a = document.createElement('a'); a.className = a0 ? a0.className : 'hover:text-primary transition-colors';
+          a.href = o.h; a.textContent = o.t; li.appendChild(a); ul.appendChild(li);
+        });
+      }
+    });
+  }
+
+  function boot() { init(); injectNavLinks(); }
+  var mo = new MutationObserver(function () { boot(); if (done) mo.disconnect(); });
   var r = document.getElementById('root');
   if (r) mo.observe(r, { childList: true, subtree: true });
-  document.addEventListener('DOMContentLoaded', init);
-  window.addEventListener('load', function () { setTimeout(init, 400); });
+  document.addEventListener('DOMContentLoaded', boot);
+  window.addEventListener('load', function () { setTimeout(boot, 400); });
+  [800, 1600, 3000].forEach(function (t) { setTimeout(injectNavLinks, t); });
   setTimeout(init, 1600);
 })();
