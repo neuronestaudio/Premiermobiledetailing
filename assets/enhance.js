@@ -93,10 +93,10 @@
   }
 
   // ---- inject Warranties + TDS links into the existing nav & footer (idempotent) ----
-  var EXTRA = [{ t: 'Warranties', h: '/warranties' }, { t: 'TDS', h: '/product-tds' }];
+  var EXTRA = [{ t: 'Ceramic Coating', h: '/ceramic-coating-melbourne' }, { t: 'PPF', h: '/ppf-melbourne' }, { t: 'Tinting', h: '/automotive-window-tinting-melbourne' }];
   function injectNavLinks() {
     var nav = document.querySelector('nav');
-    if (nav && !nav.querySelector('a[href="/warranties"]')) {
+    if (nav && !nav.querySelector('a[href="/ceramic-coating-melbourne"]')) {
       var links = [...nav.querySelectorAll('a')];
       var about = links.find(function (a) { return (a.getAttribute('href') || '').replace(/^https?:\/\/[^/]+/, '') === '/about'; });
       if (about) {
@@ -109,9 +109,9 @@
     }
     document.querySelectorAll('footer ul').forEach(function (ul) {
       var hasAbout = [...ul.querySelectorAll('a')].some(function (a) { return /\/about$/.test(a.getAttribute('href') || ''); });
-      if (hasAbout && !ul.querySelector('a[href="/warranties"]')) {
+      if (hasAbout && !ul.querySelector('a[href="/ceramic-coating-melbourne"]')) {
         var li0 = ul.querySelector('li'), a0 = ul.querySelector('a');
-        [{ t: 'Warranties', h: '/warranties' }, { t: 'Product TDS', h: '/product-tds' }].forEach(function (o) {
+        [{ t: 'Ceramic Coating', h: '/ceramic-coating-melbourne' }, { t: 'PPF', h: '/ppf-melbourne' }, { t: 'Window Tinting', h: '/automotive-window-tinting-melbourne' }, { t: 'Warranties', h: '/warranties' }, { t: 'Product TDS', h: '/product-tds' }].forEach(function (o) {
           var li = document.createElement('li'); li.className = li0 ? li0.className : '';
           var a = document.createElement('a'); a.className = a0 ? a0.className : 'hover:text-primary transition-colors';
           a.href = o.h; a.textContent = o.t; li.appendChild(a); ul.appendChild(li);
