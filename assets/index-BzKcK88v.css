@@ -171,13 +171,19 @@
 #root h1.hero-script span.italic{ font-family:'Playfair Display', Georgia, serif; font-weight:700; font-style:italic; letter-spacing:-0.01em; }
 
 /* === Metallic / chrome text fill for hero + section titles === */
-@keyframes pmdMetalSheen { to { background-position: 200% center; } }
+@keyframes pmdMetalSheen { 0%{ background-position:-40% 0, 0 0, 0 0; } 100%{ background-position:140% 0, 0 0, 0 0; } }
 #root h1, #root h2{
-  background-image:linear-gradient(100deg,#c3cbd6 0%,#ffffff 18%,#eef2f7 33%,#a6aebd 50%,#ffffff 64%,#dfe4ea 82%,#c3cbd6 100%);
-  background-size:200% auto;
+  /* layer 1: moving specular streak · layer 2: fine brushed-metal texture · layer 3: chrome reflection bands */
+  background-image:
+    linear-gradient(105deg, transparent 40%, rgba(255,255,255,.85) 48%, rgba(255,255,255,.25) 53%, transparent 60%),
+    repeating-linear-gradient(90deg, rgba(0,0,0,.06) 0 1px, rgba(255,255,255,.05) 1px 2px),
+    linear-gradient(180deg, #ffffff 2%, #c6ccd6 20%, #878e9b 42%, #f2f5f9 52%, #a9b0bd 72%, #dbe0e7 90%, #b4bbc7 100%);
+  background-size: 220% 100%, 4px 100%, 100% 100%;
+  background-repeat: no-repeat, repeat, no-repeat;
+  background-position: -40% 0, 0 0, 0 0;
   -webkit-background-clip:text; background-clip:text;
   -webkit-text-fill-color:transparent; color:transparent;
-  animation:pmdMetalSheen 6.5s linear infinite;
+  animation:pmdMetalSheen 5s linear infinite;
 }
 /* keep brand-blue italic accents blue (not chrome) */
 #root h1 span.text-primary, #root h2 span.text-primary,
