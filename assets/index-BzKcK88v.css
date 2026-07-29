@@ -197,3 +197,13 @@
 
 /* Keep phone numbers on one line everywhere */
 #root a[href^="tel:"]{ white-space:nowrap; }
+
+/* === Bebas Neue titles (replaces Playfair cursive) — Next LVL aesthetic === */
+@font-face{ font-family:'Bebas Neue'; font-style:normal; font-weight:400; font-display:swap; src:url('/assets/fonts/bebas-neue-400.woff2') format('woff2'); }
+#root h1, #root h2{ font-family:'Bebas Neue', Impact, sans-serif !important; letter-spacing:.015em; line-height:.98; font-weight:400 !important; }
+#root h1 span.text-primary, #root h2 span.text-primary,
+#root h1 span.italic, #root h2 span.italic{
+  font-family:'Bebas Neue', Impact, sans-serif !important; font-style:normal !important;
+  -webkit-text-fill-color:hsl(var(--primary)); color:hsl(var(--primary));
+  background-image:none; animation:none;
+}
