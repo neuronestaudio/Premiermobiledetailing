@@ -4,6 +4,36 @@
 (function () {
   if (window.__pmdEnhanced) return; window.__pmdEnhanced = true;
   var RM = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // ---- About page: PD logo splash intro ----
+  (function () {
+    var path = (location.pathname.replace(/\/+$/, '') || '/');
+    if (path !== '/about') return;
+    function splash() {
+      if (document.getElementById('pmd-splash')) return;
+      var ov = document.createElement('div'); ov.id = 'pmd-splash';
+      ov.style.cssText = 'position:fixed;inset:0;z-index:99999;background:#080B16;display:flex;align-items:center;justify-content:center;overflow:hidden';
+      var mesh = document.createElement('div');
+      mesh.style.cssText = "position:absolute;inset:0;background:url('/assets/images/carbon-mesh.png') repeat;background-size:27px 48px;opacity:.4";
+      var glow = document.createElement('div');
+      glow.style.cssText = 'position:absolute;inset:0;background:radial-gradient(720px 520px at 50% 45%, rgba(37,99,235,.30), transparent 62%)';
+      var img = document.createElement('img'); img.src = '/assets/images/45ead650-192d-44cb-8c3f-0ae51ecbbc4b.webp'; img.alt = 'Premier Mobile Detailing';
+      img.style.cssText = 'width:min(60vw,440px);height:auto;position:relative;filter:drop-shadow(0 12px 44px rgba(0,0,0,.6))';
+      ov.appendChild(mesh); ov.appendChild(glow); ov.appendChild(img);
+      (document.body || document.documentElement).appendChild(ov);
+      if (RM) { setTimeout(function () { ov.remove(); }, 500); return; }
+      img.animate([{ opacity: 0, transform: 'scale(.82)' }, { opacity: 1, transform: 'scale(1)' }], { duration: 760, easing: 'cubic-bezier(.22,1,.36,1)', fill: 'both' });
+      var shine = document.createElement('div');
+      shine.style.cssText = 'position:absolute;top:0;bottom:0;width:38%;left:-50%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.4),transparent);transform:skewX(-18deg)';
+      ov.appendChild(shine);
+      shine.animate([{ left: '-50%' }, { left: '125%' }], { duration: 1100, delay: 360, easing: 'cubic-bezier(.22,1,.36,1)', fill: 'both' });
+      setTimeout(function () {
+        var a = ov.animate([{ opacity: 1 }, { opacity: 0 }], { duration: 560, easing: 'ease', fill: 'both' });
+        a.onfinish = function () { ov.remove(); };
+      }, 1500);
+    }
+    if (document.body) splash(); else document.addEventListener('DOMContentLoaded', splash);
+  })();
   var SPOT = 'a.group > div, .rounded-2xl.bg-card, .bg-primary\\/10.border-primary';
   var MAG = 'a.bg-primary, button.bg-primary, a.bg-white, button.bg-white';
 
@@ -111,7 +141,7 @@
       var hasAbout = [...ul.querySelectorAll('a')].some(function (a) { return /\/about$/.test(a.getAttribute('href') || ''); });
       if (hasAbout && !ul.querySelector('a[href="/ceramic-coating-melbourne"]')) {
         var li0 = ul.querySelector('li'), a0 = ul.querySelector('a');
-        [{ t: 'Ceramic Coating', h: '/ceramic-coating-melbourne' }, { t: 'PPF', h: '/ppf-melbourne' }, { t: 'Window Tinting', h: '/automotive-window-tinting-melbourne' }, { t: 'Warranties', h: '/warranties' }, { t: 'Product TDS', h: '/product-tds' }].forEach(function (o) {
+        [{ t: 'Ceramic Coating', h: '/ceramic-coating-melbourne' }, { t: 'PPF', h: '/ppf-melbourne' }, { t: 'Window Tinting', h: '/automotive-window-tinting-melbourne' }, { t: 'Get a Quote', h: '/enquiry' }, { t: 'Warranties', h: '/warranties' }, { t: 'Product TDS', h: '/product-tds' }].forEach(function (o) {
           var li = document.createElement('li'); li.className = li0 ? li0.className : '';
           var a = document.createElement('a'); a.className = a0 ? a0.className : 'hover:text-primary transition-colors';
           a.href = o.h; a.textContent = o.t; li.appendChild(a); ul.appendChild(li);
