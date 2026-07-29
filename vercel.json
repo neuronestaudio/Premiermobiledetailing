@@ -15,7 +15,6 @@
       "destination": "https://premiermobiledetailing.com.au/:path+",
       "permanent": true
     },
-    { "source": "/sitemap", "destination": "/sitemap.xml", "permanent": true },
     { "source": "/portfolio.html", "destination": "/", "permanent": true },
     { "source": "/portfolio", "destination": "/", "permanent": true }
   ]
