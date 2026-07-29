@@ -194,3 +194,6 @@
   animation:none;
 }
 @media (prefers-reduced-motion:reduce){ #root h1, #root h2{ animation:none; } }
+
+/* Keep phone numbers on one line everywhere */
+#root a[href^="tel:"]{ white-space:nowrap; }

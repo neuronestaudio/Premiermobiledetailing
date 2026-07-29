@@ -93,7 +93,7 @@
   }
 
   // ---- inject Warranties + TDS links into the existing nav & footer (idempotent) ----
-  var EXTRA = [{ t: 'Ceramic Coating', h: '/ceramic-coating-melbourne' }, { t: 'PPF', h: '/ppf-melbourne' }, { t: 'Tinting', h: '/automotive-window-tinting-melbourne' }];
+  var EXTRA = [{ t: 'Ceramic Coating', h: '/ceramic-coating-melbourne' }];
   function injectNavLinks() {
     var nav = document.querySelector('nav');
     if (nav && !nav.querySelector('a[href="/ceramic-coating-melbourne"]')) {
