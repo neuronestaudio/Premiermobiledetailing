@@ -4,9 +4,15 @@
   "trailingSlash": false,
   "redirects": [
     {
-      "source": "/:path*",
+      "source": "/",
       "has": [{ "type": "host", "value": "www.premiermobiledetailing.com.au" }],
-      "destination": "https://premiermobiledetailing.com.au/:path*",
+      "destination": "https://premiermobiledetailing.com.au/",
+      "permanent": true
+    },
+    {
+      "source": "/:path+",
+      "has": [{ "type": "host", "value": "www.premiermobiledetailing.com.au" }],
+      "destination": "https://premiermobiledetailing.com.au/:path+",
       "permanent": true
     },
     { "source": "/portfolio.html", "destination": "/", "permanent": true },
