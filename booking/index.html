@@ -85,8 +85,11 @@
 
     <!-- BOOKING -->
     <section class="relative overflow-hidden" style="padding-top:130px;padding-bottom:90px;min-height:100vh">
-      <div class="absolute inset-0 -z-10" style="background:url('/assets/images/c4666376-4d41-4d35-9779-03e354a38d90.png') center 35%/cover, #080B16;"></div>
-      <div class="absolute inset-0 -z-10" style="background:linear-gradient(180deg, rgba(8,11,22,.86), rgba(8,11,22,.94) 40%, #080B16 80%);"></div>
+      <!-- Glossed-Out-style backdrop: dark base + carbon texture at low opacity + soft brand glow -->
+      <div class="absolute inset-0 -z-10" style="background:#080B16"></div>
+      <div aria-hidden="true" class="absolute inset-0 -z-10" style="background-image:url('/assets/images/carbon-mesh.png');background-repeat:repeat;background-size:27px 48px;opacity:.22"></div>
+      <div aria-hidden="true" class="absolute inset-0 -z-10" style="background:radial-gradient(1100px 640px at 50% -6%, rgba(37,99,235,.20), transparent 62%)"></div>
+      <div aria-hidden="true" class="absolute inset-0 -z-10" style="background:linear-gradient(180deg, transparent 55%, #080B16 92%)"></div>
 
       <div class="pmd-book-wrap">
         <div style="text-align:center;margin-bottom:26px">
