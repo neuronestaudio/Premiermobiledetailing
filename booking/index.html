@@ -19,10 +19,43 @@
     textarea.enq-field{resize:vertical;min-height:110px}
     .enq-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
     @media (max-width:640px){.enq-row{grid-template-columns:1fr}}
-    .enq-btn{width:100%;background:#2563eb;color:#fff;border:0;border-radius:10px;padding:16px;font-size:16px;font-weight:700;cursor:pointer;
+
+    /* ---- stepped booking card ---- */
+    .pmd-book-wrap{max-width:720px;margin:0 auto;padding:0 20px}
+    .pmd-book-card{background:#0b1020;border:1px solid rgba(255,255,255,.10);border-radius:22px;padding:30px 30px 34px;
+      box-shadow:0 40px 90px -40px rgba(0,0,0,.9)}
+    @media (max-width:640px){.pmd-book-card{padding:22px 18px 26px;border-radius:18px}}
+    .pmd-book-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+    .pmd-back{background:transparent;border:0;color:#9aa4b5;font:600 14px/1 inherit;cursor:pointer;display:inline-flex;align-items:center;gap:7px;padding:6px 2px;transition:color .2s}
+    .pmd-back:hover{color:#fff}
+    .pmd-steplbl{font:700 12px/1 inherit;letter-spacing:.14em;color:#2f6bff;text-transform:uppercase}
+    .pmd-prog{height:5px;border-radius:9999px;background:rgba(255,255,255,.08);overflow:hidden;margin-bottom:22px}
+    .pmd-prog-fill{height:100%;border-radius:9999px;background:linear-gradient(90deg,#6aa0ff,#2f6bff);width:33%;transition:width .4s cubic-bezier(.5,0,.15,1)}
+    .pmd-h{font-size:26px;font-weight:800;letter-spacing:-.01em;margin:0 0 4px}
+    .pmd-sub{color:#9aa4b5;font-size:14px;margin:0 0 22px}
+    @keyframes pmdStepIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+    .pmd-step{animation:pmdStepIn .34s ease both}
+    .pmd-step[hidden]{display:none}
+
+    .pmd-pkg-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    @media (max-width:560px){.pmd-pkg-grid{grid-template-columns:1fr}}
+    .pmd-pkg{position:relative;text-align:left;background:#0F1524;border:1.5px solid rgba(255,255,255,.10);border-radius:14px;
+      padding:15px 16px;cursor:pointer;color:#fff;font-family:inherit;transition:transform .15s, border-color .2s, background .2s, box-shadow .3s}
+    .pmd-pkg:hover{transform:translateY(-3px);border-color:rgba(47,107,255,.55);box-shadow:0 16px 34px -18px rgba(47,107,255,.7)}
+    .pmd-pkg.sel{border-color:#2f6bff;background:#101b33;box-shadow:0 0 0 3px rgba(47,107,255,.25)}
+    .pmd-pkg-t{display:block;font-weight:700;font-size:15px;margin-bottom:3px}
+    .pmd-pkg-d{display:block;font-size:12.5px;color:#9aa4b5;line-height:1.35}
+    .pmd-pkg-tick{position:absolute;top:12px;right:12px;width:20px;height:20px;border-radius:9999px;background:#2f6bff;color:#fff;
+      display:none;align-items:center;justify-content:center;font-size:12px}
+    .pmd-pkg.sel .pmd-pkg-tick{display:flex}
+
+    .pmd-nav{display:flex;gap:12px;margin-top:24px}
+    .enq-btn{flex:1;background:#2563eb;color:#fff;border:0;border-radius:10px;padding:15px;font-size:16px;font-weight:700;cursor:pointer;
       transition:transform .15s, box-shadow .3s, background .2s}
     .enq-btn:hover{background:#1d4ed8;transform:translateY(-2px);box-shadow:0 14px 34px -12px rgba(37,99,235,.7)}
-    .enq-btn:disabled{opacity:.6;cursor:not-allowed;transform:none}
+    .enq-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
+    .enq-btn.ghost{background:transparent;border:1.5px solid rgba(255,255,255,.16);color:#cbd2dd;flex:0 0 auto;padding-left:22px;padding-right:22px}
+    .enq-btn.ghost:hover{background:rgba(255,255,255,.06);box-shadow:none}
     .enq-note{display:none;border-radius:10px;padding:14px 16px;margin-top:16px;font-size:14px}
     .enq-ok{display:block;background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.4);color:#bbf7d0}
     .enq-err{display:block;background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.4);color:#fecaca}
@@ -42,116 +75,156 @@
         </div>
         <div class="flex items-center gap-3">
           <a href="tel:0411566186" class="hidden lg:inline text-sm font-semibold text-white hover:text-primary transition-colors">0411 566 186</a>
-          <a href="#enquiry-form" class="inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground hover:bg-primary/90 h-10 rounded-md px-6 font-semibold shadow-lg transition-all">Book Now</a>
+          <a href="/" class="inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground hover:bg-primary/90 h-10 rounded-md px-6 font-semibold shadow-lg transition-all">Home</a>
         </div>
       </div>
     </nav>
 
-    <!-- HERO + FORM -->
-    <section class="relative overflow-hidden" style="padding-top:150px;padding-bottom:80px">
-      <div class="absolute inset-0 -z-10" style="background:url('/assets/images/c4666376-4d41-4d35-9779-03e354a38d90.png') center 40%/cover, #080B16;"></div>
-      <div class="absolute inset-0 -z-10" style="background:linear-gradient(90deg, rgba(8,11,22,.96), rgba(8,11,22,.9) 45%, rgba(8,11,22,.6)), linear-gradient(0deg, #080B16 2%, transparent 40%);"></div>
-      <div class="container">
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-          <!-- Left -->
-          <div class="max-w-xl pt-6">
-            <p class="text-primary font-semibold tracking-wider uppercase text-sm mb-4">Book Now</p>
-            <h1 class="text-5xl md:text-6xl font-extrabold tracking-tight mb-6 text-white drop-shadow-xl">Book Your <br /><span class="text-primary italic">Detail.</span></h1>
-            <p class="text-lg text-muted-foreground mb-8">Tell us about your car and what you're after — ceramic coating, paint correction, a full detail, PPF or tinting. We come to you. Fill it out and we'll call or text you straight back with a price and a time that suits.</p>
-            <div class="space-y-3">
-              <a href="tel:0411566186" class="flex items-center gap-3 text-white hover:text-primary transition-colors"><span class="text-primary">📞</span> 0411 566 186</a>
-              <p class="flex items-center gap-3 text-muted-foreground"><span class="text-primary">📍</span> Mobile across Officer &amp; South-East Melbourne</p>
-              <p class="flex items-center gap-3 text-muted-foreground"><span class="text-primary">⭐</span> 4.9 from 55+ Google reviews</p>
-            </div>
-          </div>
-          <!-- Right: the ONE form -->
-          <div id="enquiry-form" class="rounded-2xl bg-card border border-border/50 p-6 md:p-8 shadow-2xl" style="background:#0b1020;scroll-margin-top:100px">
-            <h2 class="text-3xl font-bold mb-1">Request Your <span class="text-primary italic">Booking.</span></h2>
-            <p class="text-sm text-muted-foreground mb-6">Takes 30 seconds. We'll call or text back to confirm your time.</p>
-            <form id="pmdEnquiry">
-              <div class="enq-row">
-                <div><label class="enq-label" for="name">Name *</label><input class="enq-field" id="name" name="name" type="text" required placeholder="Your name" /></div>
-                <div><label class="enq-label" for="mobile">Mobile *</label><input class="enq-field" id="mobile" name="mobile" type="tel" required placeholder="04__ ___ ___" /></div>
-              </div>
-              <div class="enq-row" style="margin-top:16px">
-                <div><label class="enq-label" for="email">Email</label><input class="enq-field" id="email" name="email" type="email" placeholder="you@email.com" /></div>
-                <div><label class="enq-label" for="suburb">Suburb</label><input class="enq-field" id="suburb" name="suburb" type="text" placeholder="e.g. Officer" /></div>
-              </div>
-              <div class="enq-row" style="margin-top:16px">
-                <div><label class="enq-label" for="vehicle">Vehicle</label><input class="enq-field" id="vehicle" name="vehicle" type="text" placeholder="e.g. 2022 Audi RS5" /></div>
-                <div><label class="enq-label" for="service">Service</label>
-                  <select class="enq-field" id="service" name="service">
-                    <option>Not sure — need advice</option>
-                    <option>Mini Detail</option>
-                    <option>Deluxe Detail</option>
-                    <option>Full Detail</option>
-                    <option>Paint Correction</option>
-                    <option>Paint Enhancement</option>
-                    <option>Ceramic Coating</option>
-                  </select>
-                </div>
-              </div>
-              <div style="margin-top:16px"><label class="enq-label" for="message">Anything else?</label><textarea class="enq-field" id="message" name="message" placeholder="Tell us about the car's condition and what you're after..."></textarea></div>
-              <!-- honeypot (spam trap) -->
-              <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off" />
-              <div style="margin-top:22px"><button class="enq-btn" type="submit" id="enqBtn">Request My Booking</button></div>
-              <div class="enq-note" id="enqOk">✅ Thanks — your booking request is in. We'll call or text shortly to confirm your time. For anything urgent, call <a href="tel:0411566186" style="color:#bbf7d0;text-decoration:underline">0411 566 186</a>.</div>
-              <div class="enq-note" id="enqErr">Something went wrong sending that. Please call or text us on <a href="tel:0411566186" style="color:#fecaca;text-decoration:underline">0411 566 186</a>.</div>
-            </form>
-          </div>
+    <!-- BOOKING -->
+    <section class="relative overflow-hidden" style="padding-top:130px;padding-bottom:90px;min-height:100vh">
+      <div class="absolute inset-0 -z-10" style="background:url('/assets/images/c4666376-4d41-4d35-9779-03e354a38d90.png') center 35%/cover, #080B16;"></div>
+      <div class="absolute inset-0 -z-10" style="background:linear-gradient(180deg, rgba(8,11,22,.86), rgba(8,11,22,.94) 40%, #080B16 80%);"></div>
+
+      <div class="pmd-book-wrap">
+        <div style="text-align:center;margin-bottom:26px">
+          <p class="text-primary font-semibold tracking-wider uppercase text-sm mb-3">Book Now</p>
+          <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight text-white drop-shadow-xl" style="margin:0">Book Your <span class="text-primary italic">Detail.</span></h1>
+          <p class="text-muted-foreground" style="margin-top:12px">We come to you across Officer &amp; South-East Melbourne. Takes under a minute — we'll call or text back to confirm a time.</p>
         </div>
+
+        <div class="pmd-book-card">
+          <div class="pmd-book-top">
+            <button type="button" class="pmd-back" id="btnBack" hidden>&larr; Back</button>
+            <div class="pmd-steplbl">Step <span id="stepNum">1</span> of 3</div>
+          </div>
+          <div class="pmd-prog"><div class="pmd-prog-fill" id="progFill"></div></div>
+          <h2 class="pmd-h" id="stepTitle">Choose your service</h2>
+          <p class="pmd-sub" id="stepSub">Pick what you're after — not sure? Choose “Help me choose”.</p>
+
+          <form id="pmdEnquiry">
+            <!-- STEP 1 — package -->
+            <div class="pmd-step" data-step="1">
+              <div class="pmd-pkg-grid">
+                <button type="button" class="pmd-pkg" data-val="Mini Detail"><span class="pmd-pkg-t">Mini Detail</span><span class="pmd-pkg-d">Wash, vac &amp; quick interior/exterior clean</span><span class="pmd-pkg-tick">&#10003;</span></button>
+                <button type="button" class="pmd-pkg" data-val="Deluxe Detail"><span class="pmd-pkg-t">Deluxe Detail</span><span class="pmd-pkg-d">Complete interior &amp; exterior detail</span><span class="pmd-pkg-tick">&#10003;</span></button>
+                <button type="button" class="pmd-pkg" data-val="Full Detail"><span class="pmd-pkg-t">Full Detail</span><span class="pmd-pkg-d">Full detail + machine polish</span><span class="pmd-pkg-tick">&#10003;</span></button>
+                <button type="button" class="pmd-pkg" data-val="Paint Enhancement"><span class="pmd-pkg-t">Paint Enhancement</span><span class="pmd-pkg-d">One-step gloss &amp; shine boost</span><span class="pmd-pkg-tick">&#10003;</span></button>
+                <button type="button" class="pmd-pkg" data-val="Paint Correction"><span class="pmd-pkg-t">Paint Correction</span><span class="pmd-pkg-d">Multi-step swirl &amp; scratch removal</span><span class="pmd-pkg-tick">&#10003;</span></button>
+                <button type="button" class="pmd-pkg" data-val="Ceramic Coating"><span class="pmd-pkg-t">Ceramic Coating</span><span class="pmd-pkg-d">Long-lasting paint protection</span><span class="pmd-pkg-tick">&#10003;</span></button>
+                <button type="button" class="pmd-pkg" data-val="Not sure — need advice"><span class="pmd-pkg-t">Not sure yet</span><span class="pmd-pkg-d">Help me pick the right service</span><span class="pmd-pkg-tick">&#10003;</span></button>
+              </div>
+            </div>
+
+            <!-- STEP 2 — vehicle -->
+            <div class="pmd-step" data-step="2" hidden>
+              <div style="margin-bottom:16px"><label class="enq-label" for="vehicle">Vehicle</label><input class="enq-field" id="vehicle" name="vehicle" type="text" placeholder="e.g. 2022 Audi RS5 (make, model, year)" /></div>
+              <div style="margin-bottom:16px"><label class="enq-label" for="suburb">Suburb</label><input class="enq-field" id="suburb" name="suburb" type="text" placeholder="e.g. Officer" /></div>
+              <div><label class="enq-label" for="message">Any other comments / special requests?</label><textarea class="enq-field" id="message" name="message" placeholder="Special requests, paint condition, access notes — anything we should know..."></textarea></div>
+            </div>
+
+            <!-- STEP 3 — contact -->
+            <div class="pmd-step" data-step="3" hidden>
+              <div class="enq-row">
+                <div><label class="enq-label" for="name">Name *</label><input class="enq-field" id="name" name="name" type="text" placeholder="Your name" /></div>
+                <div><label class="enq-label" for="mobile">Mobile *</label><input class="enq-field" id="mobile" name="mobile" type="tel" placeholder="04__ ___ ___" /></div>
+              </div>
+              <div style="margin-top:16px"><label class="enq-label" for="email">Email</label><input class="enq-field" id="email" name="email" type="email" placeholder="you@email.com" /></div>
+              <div id="enqReview" style="margin-top:18px;font-size:13.5px;color:#9aa4b5;background:#0F1524;border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:12px 14px"></div>
+            </div>
+
+            <input type="hidden" name="service" id="service" />
+            <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off" />
+
+            <div class="pmd-nav">
+              <button type="button" class="enq-btn ghost" id="btnBack2" hidden>Back</button>
+              <button type="button" class="enq-btn" id="btnNext" hidden>Continue</button>
+              <button type="submit" class="enq-btn" id="enqBtn" hidden>Request My Booking</button>
+            </div>
+            <div class="enq-note" id="enqOk">✅ Thanks — your booking request is in. We'll call or text shortly to confirm your time. For anything urgent, call <a href="tel:0411566186" style="color:#bbf7d0;text-decoration:underline">0411 566 186</a>.</div>
+            <div class="enq-note" id="enqErr">Something went wrong sending that. Please call or text us on <a href="tel:0411566186" style="color:#fecaca;text-decoration:underline">0411 566 186</a>.</div>
+          </form>
+        </div>
+
+        <p style="text-align:center;color:#6b7280;font-size:13px;margin-top:18px">Prefer to talk? Call or text <a href="tel:0411566186" style="color:#9aa4b5;text-decoration:underline">0411 566 186</a> · ⭐ 4.9 from 55+ Google reviews</p>
       </div>
     </section>
-
-    <!-- FOOTER -->
-    <footer class="bg-background pt-20 pb-12 border-t border-border/50 overflow-hidden">
-      <div class="container">
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-12">
-          <div class="col-span-1 md:col-span-2">
-            <img src="/assets/images/45ead650-192d-44cb-8c3f-0ae51ecbbc4b.webp" alt="Premier Mobile Detailing Logo" width="200" height="50" class="h-16 w-auto mb-6" />
-            <p class="text-muted-foreground max-w-sm mb-6">Premium mobile car detailing, ceramic coating and paint protection serving Officer, South-East Melbourne and Victoria-wide.</p>
-          </div>
-          <div><h4 class="font-bold mb-4">Coatings &amp; Protection</h4><ul class="space-y-3 text-sm text-muted-foreground">
-            <li><a class="hover:text-primary transition-colors" href="/ceramic-coating-melbourne">Ceramic Coating</a></li>
-            <li><a class="hover:text-primary transition-colors" href="/ppf-melbourne">Paint Protection Film</a></li>
-            <li><a class="hover:text-primary transition-colors" href="/automotive-window-tinting-melbourne">Window Tinting</a></li>
-            <li><a class="hover:text-primary transition-colors" href="/warranties">Warranties</a></li></ul></div>
-          <div><h4 class="font-bold mb-4">Company</h4><ul class="space-y-3 text-sm text-muted-foreground">
-            <li><a class="hover:text-primary transition-colors" href="/gallery">Gallery</a></li>
-            <li><a class="hover:text-primary transition-colors" href="/about">About</a></li>
-            <li><a class="hover:text-primary transition-colors" href="/booking">Book Now</a></li>
-            <li><a class="hover:text-primary transition-colors" href="/sitemap">Sitemap</a></li></ul></div>
-        </div>
-        <div class="mt-16 pt-8 border-t border-border/50 text-center text-sm text-muted-foreground">
-          <p>© 2026 Premier Mobile Detailing. All rights reserved. · Officer / South-East Melbourne, VIC</p>
-        </div>
-      </div>
-    </footer>
   </div>
 
   <script>
-    // The ONE booking form -> GoHighLevel / LeadConnector inbound webhook.
+    // Stepped booking form -> GoHighLevel / LeadConnector inbound webhook.
     var LEAD_WEBHOOK = "https://services.leadconnectorhq.com/hooks/0G5r7THzw7gjg3OextOo/webhook-trigger/dOltIjaGRmcprw0mI8y6";
     (function () {
-      var f = document.getElementById('pmdEnquiry');
-      var btn = document.getElementById('enqBtn');
+      var form = document.getElementById('pmdEnquiry');
+      var steps = [].slice.call(form.querySelectorAll('.pmd-step'));
+      var TOTAL = steps.length;
+      var cur = 1;
+      var stepNum = document.getElementById('stepNum');
+      var progFill = document.getElementById('progFill');
+      var stepTitle = document.getElementById('stepTitle');
+      var stepSub = document.getElementById('stepSub');
+      var btnBack = document.getElementById('btnBack');
+      var btnBack2 = document.getElementById('btnBack2');
+      var btnNext = document.getElementById('btnNext');
+      var btnSubmit = document.getElementById('enqBtn');
+      var serviceInput = document.getElementById('service');
       var ok = document.getElementById('enqOk'), err = document.getElementById('enqErr');
-      f.addEventListener('submit', function (e) {
+      var review = document.getElementById('enqReview');
+      var TITLES = {
+        1: ['Choose your service', 'Pick what you’re after — not sure? Choose “Not sure yet”.'],
+        2: ['Your vehicle', 'What are we detailing, and where are we headed?'],
+        3: ['Your details', 'Last step — how do we reach you to confirm?']
+      };
+      function val(id){ var el = document.getElementById(id); return el ? el.value.trim() : ''; }
+      function show(n) {
+        cur = n;
+        steps.forEach(function (s) { s.hidden = (+s.getAttribute('data-step') !== n); });
+        var st = steps[n - 1];
+        st.style.animation = 'none'; void st.offsetWidth; st.style.animation = '';
+        stepNum.textContent = n;
+        progFill.style.width = (n / TOTAL * 100) + '%';
+        stepTitle.textContent = TITLES[n][0]; stepSub.textContent = TITLES[n][1];
+        btnBack.hidden = (n === 1);
+        btnBack2.hidden = (n === 1);
+        btnNext.hidden = (n === 1 || n === TOTAL);
+        btnSubmit.hidden = (n !== TOTAL);
+        if (n === 3) {
+          review.innerHTML = '<strong style="color:#cbd2dd">Your booking:</strong> ' +
+            (serviceInput.value || '—') +
+            (val('vehicle') ? ' &middot; ' + val('vehicle') : '') +
+            (val('suburb') ? ' &middot; ' + val('suburb') : '');
+        }
+      }
+      // package select -> set value, highlight, auto-advance
+      [].forEach.call(form.querySelectorAll('.pmd-pkg'), function (b) {
+        b.addEventListener('click', function () {
+          [].forEach.call(form.querySelectorAll('.pmd-pkg'), function (x) { x.classList.remove('sel'); });
+          b.classList.add('sel');
+          serviceInput.value = b.getAttribute('data-val');
+          setTimeout(function () { show(2); }, 240);
+        });
+      });
+      btnNext.addEventListener('click', function () { if (cur < TOTAL) show(cur + 1); });
+      btnBack.addEventListener('click', function () { if (cur > 1) show(cur - 1); });
+      btnBack2.addEventListener('click', function () { if (cur > 1) show(cur - 1); });
+
+      form.addEventListener('submit', function (e) {
         e.preventDefault();
         ok.classList.remove('enq-ok'); err.classList.remove('enq-err');
-        var data = Object.fromEntries(new FormData(f).entries());
-        if (data.botcheck) return;                 // honeypot tripped — silently drop
+        if (!val('name') || !val('mobile')) {
+          err.textContent = 'Please add your name and mobile so we can get back to you.';
+          err.classList.add('enq-err'); return;
+        }
+        var data = Object.fromEntries(new FormData(form).entries());
+        if (data.botcheck) return;
         delete data.botcheck;
-        // split the single Name into first/last so GHL maps to its standard fields
         var parts = (data.name || '').trim().split(/\s+/);
         data.first_name = parts.shift() || '';
         data.last_name = parts.join(' ');
         data.full_name = data.name || '';
-        data.phone = data.mobile || '';            // GHL standard "phone"
+        data.phone = data.mobile || '';
         data.lead_source = 'Website — Booking Form';
         data.page = location.href;
         data.submitted_at = new Date().toISOString();
-        // pre-formatted note: map this ONE field to a GHL "Add Note" action.
         data.notes =
           'New booking request\n' +
           'Name: ' + (data.name || '-') + '\n' +
@@ -160,22 +233,25 @@
           'Vehicle: ' + (data.vehicle || '-') + '\n' +
           'Service: ' + (data.service || '-') + '\n' +
           'Suburb: ' + (data.suburb || '-') +
-          (data.message ? '\n\nMessage:\n' + data.message : '') +
+          (data.message ? '\n\nComments / requests:\n' + data.message : '') +
           '\n\nSubmitted: ' + data.submitted_at + '\nPage: ' + data.page;
-        btn.disabled = true; btn.textContent = 'Sending...';
-        // no-cors + text/plain avoids a CORS preflight; GHL still parses the JSON body.
+        btnSubmit.disabled = true; btnSubmit.textContent = 'Sending...';
         fetch(LEAD_WEBHOOK, {
           method: 'POST', mode: 'no-cors',
           headers: { 'Content-Type': 'text/plain;charset=UTF-8' },
           body: JSON.stringify(data)
         }).then(function () {
-          f.reset(); ok.classList.add('enq-ok'); ok.scrollIntoView({ block: 'center', behavior: 'smooth' });
+          form.reset();
+          [].forEach.call(form.querySelectorAll('.pmd-pkg'), function (x) { x.classList.remove('sel'); });
+          serviceInput.value = '';
+          ok.classList.add('enq-ok'); ok.scrollIntoView({ block: 'center', behavior: 'smooth' });
         }).catch(function () {
           err.classList.add('enq-err');
         }).finally(function () {
-          btn.disabled = false; btn.textContent = 'Request My Booking';
+          btnSubmit.disabled = false; btnSubmit.textContent = 'Request My Booking';
         });
       });
+      show(1);
     })();
   </script>
   <script defer src="/assets/enhance.js"></script>
