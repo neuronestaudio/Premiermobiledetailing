@@ -34,6 +34,41 @@
     }
     if (document.body) splash(); else document.addEventListener('DOMContentLoaded', splash);
   })();
+  // ---- homepage hero: staggered line reveal + cursive subtext (survives SPA re-renders) ----
+  (function () {
+    if ((location.pathname.replace(/\/+$/, '') || '/') !== '/') return;
+    function apply() {
+      var root = document.getElementById('root'); if (!root) return;
+      var hero = root.querySelector('h1'); if (!hero) return;
+      if (!hero.querySelector('.pmd-line')) {
+        var groups = [[]];
+        Array.prototype.forEach.call(hero.childNodes, function (n) {
+          if (n.nodeName === 'BR') groups.push([]); else groups[groups.length - 1].push(n);
+        });
+        hero.textContent = '';
+        var spans = groups.map(function (g) {
+          var s = document.createElement('span'); s.className = 'pmd-line';
+          g.forEach(function (n) { s.appendChild(n); }); hero.appendChild(s); return s;
+        });
+        if (!RM && !window.__pmdHeroAnim) {
+          window.__pmdHeroAnim = true;
+          spans.forEach(function (s, i) {
+            s.animate([{ opacity: 0, transform: 'translateY(26px)' }, { opacity: 1, transform: 'translateY(0)' }],
+              { duration: 820, delay: i * 190, easing: 'cubic-bezier(.22,1,.36,1)', fill: 'both' });
+          });
+        }
+      }
+      var sub = hero.nextElementSibling;
+      while (sub && sub.tagName !== 'P') sub = sub.nextElementSibling;
+      if (sub && !sub.classList.contains('pmd-cursive')) sub.classList.add('pmd-cursive');
+    }
+    var r = document.getElementById('root');
+    if (r) new MutationObserver(apply).observe(r, { childList: true, subtree: true });
+    document.addEventListener('DOMContentLoaded', apply);
+    [150, 500, 1200, 2500].forEach(function (t) { setTimeout(apply, t); });
+    apply();
+  })();
+
   var SPOT = 'a.group > div, .rounded-2xl.bg-card, .bg-primary\\/10.border-primary';
   var MAG = 'a.bg-primary, button.bg-primary, a.bg-white, button.bg-white';
 

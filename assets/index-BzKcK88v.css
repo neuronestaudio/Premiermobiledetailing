@@ -207,3 +207,7 @@
   -webkit-text-fill-color:hsl(var(--primary)); color:hsl(var(--primary));
   background-image:none; animation:none;
 }
+
+/* === Homepage hero: staggered line reveal + cursive subtext === */
+#root h1 .pmd-line{ display:block; }
+.pmd-cursive{ font-family:'Playfair Display', Georgia, serif !important; font-style:italic !important; font-weight:700; letter-spacing:0; }
