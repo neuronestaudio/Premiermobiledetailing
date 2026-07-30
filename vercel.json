@@ -16,6 +16,8 @@
       "permanent": true
     },
     { "source": "/portfolio.html", "destination": "/", "permanent": true },
-    { "source": "/portfolio", "destination": "/", "permanent": true }
+    { "source": "/portfolio", "destination": "/", "permanent": true },
+    { "source": "/enquiry", "destination": "/booking", "permanent": false },
+    { "source": "/enquiry/:path*", "destination": "/booking", "permanent": false }
   ]
 }
