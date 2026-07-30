@@ -144,9 +144,8 @@
   </div>
 
   <script>
-    // Enquiry form submit — Web3Forms (no backend needed).
-    // ⚠️ REPLACE the access_key below with your own free key from https://web3forms.com (uses your email).
-    var WEB3FORMS_KEY = "REPLACE_WITH_YOUR_WEB3FORMS_ACCESS_KEY";
+    // Enquiry form -> GoHighLevel / LeadConnector inbound webhook.
+    var LEAD_WEBHOOK = "https://services.leadconnectorhq.com/hooks/0G5r7THzw7gjg3OextOo/webhook-trigger/dOltIjaGRmcprw0mI8y6";
     (function () {
       var f = document.getElementById('pmdEnquiry');
       var btn = document.getElementById('enqBtn');
@@ -154,24 +153,31 @@
       f.addEventListener('submit', function (e) {
         e.preventDefault();
         ok.classList.remove('enq-ok'); err.classList.remove('enq-err');
-        if (WEB3FORMS_KEY.indexOf('REPLACE_') === 0) {
-          // Not configured yet — show a helpful message instead of failing silently.
-          err.textContent = 'Form not connected yet — add your Web3Forms key. Meanwhile call 0411 566 186.';
-          err.classList.add('enq-err'); return;
-        }
-        btn.disabled = true; btn.textContent = 'Sending...';
         var data = Object.fromEntries(new FormData(f).entries());
-        data.access_key = WEB3FORMS_KEY;
-        data.subject = 'New website enquiry — ' + (data.name || '') + (data.car ? ' (' + data.car + ')' : '');
-        data.from_name = 'Premier Mobile Detailing website';
-        fetch('https://api.web3forms.com/submit', {
-          method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        if (data.botcheck) return;                 // honeypot tripped — silently drop
+        delete data.botcheck;
+        // split the single Name into first/last so GHL maps to its standard fields
+        var parts = (data.name || '').trim().split(/\s+/);
+        data.first_name = parts.shift() || '';
+        data.last_name = parts.join(' ');
+        data.full_name = data.name || '';
+        data.phone = data.mobile || '';            // GHL standard "phone"
+        data.lead_source = 'Website — Enquiry Form';
+        data.page = location.href;
+        data.submitted_at = new Date().toISOString();
+        btn.disabled = true; btn.textContent = 'Sending...';
+        // no-cors + text/plain avoids a CORS preflight; GHL still parses the JSON body.
+        fetch(LEAD_WEBHOOK, {
+          method: 'POST', mode: 'no-cors',
+          headers: { 'Content-Type': 'text/plain;charset=UTF-8' },
           body: JSON.stringify(data)
-        }).then(function (r) { return r.json(); }).then(function (j) {
-          if (j.success) { f.reset(); ok.classList.add('enq-ok'); ok.scrollIntoView({ block: 'center', behavior: 'smooth' }); }
-          else { err.classList.add('enq-err'); }
-        }).catch(function () { err.classList.add('enq-err'); })
-          .finally(function () { btn.disabled = false; btn.textContent = 'Get My Quote'; });
+        }).then(function () {
+          f.reset(); ok.classList.add('enq-ok'); ok.scrollIntoView({ block: 'center', behavior: 'smooth' });
+        }).catch(function () {
+          err.classList.add('enq-err');
+        }).finally(function () {
+          btn.disabled = false; btn.textContent = 'Get My Quote';
+        });
       });
     })();
   </script>
