@@ -165,6 +165,19 @@
         data.lead_source = 'Website — Enquiry Form';
         data.page = location.href;
         data.submitted_at = new Date().toISOString();
+        // pre-formatted note: map this single field to a GHL "Add Note" action —
+        // no custom fields needed, everything lands on the contact/opportunity.
+        data.notes =
+          'New website enquiry\n' +
+          'Name: ' + (data.name || '-') + '\n' +
+          'Mobile: ' + (data.mobile || '-') + '\n' +
+          'Vehicle: ' + (data.car || '-') + '\n' +
+          'Postcode: ' + (data.postcode || '-') + '\n' +
+          'Service: ' + (data.service || '-') + '\n' +
+          'Budget: ' + (data.budget || '-') + '\n' +
+          'Heard via: ' + (data.source || '-') +
+          (data.message ? '\n\nMessage:\n' + data.message : '') +
+          '\n\nSubmitted: ' + data.submitted_at + '\nPage: ' + data.page;
         btn.disabled = true; btn.textContent = 'Sending...';
         // no-cors + text/plain avoids a CORS preflight; GHL still parses the JSON body.
         fetch(LEAD_WEBHOOK, {
