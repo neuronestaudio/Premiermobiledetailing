@@ -393,3 +393,14 @@
   -webkit-text-fill-color:transparent !important; color:transparent !important;
   margin-top:6px !important;
 }
+
+/* ---- Header trim (CSS = applies with render, no resize flash) ---- */
+/* Remove Areas nav link */
+#root nav a[href="/#areas"] { display:none !important; }
+/* Remove phone links (mobile icon + desktop pill) */
+#root nav a[href^="tel:"] { display:none !important; }
+/* Remove Email/Get In Touch buttons (email = friction) */
+#root nav button[aria-label="Email us"] { display:none !important; }
+#root nav button[class^="justify-center"] { display:none !important; }
+/* Belt-and-suspenders: never show an injected Ceramic Coating link in the top nav */
+#root nav a[href="/ceramic-coating-melbourne"] { display:none !important; }

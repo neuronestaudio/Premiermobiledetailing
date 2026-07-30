@@ -59,12 +59,8 @@
       if (sub && !sub.classList.contains('pmd-subhead')) {
         sub.classList.remove('pmd-cursive'); sub.classList.add('pmd-subhead');
         sub.textContent = 'Ceramic coating & detailing — at your door.';
-        if (sub.parentNode && !sub.parentNode.querySelector('.pmd-trust')) {
-          var tr = document.createElement('div'); tr.className = 'pmd-trust';
-          tr.innerHTML = '<span>+30 Years Combined Experience</span>';
-          sub.parentNode.insertBefore(tr, sub.nextSibling);
-        }
       }
+      Array.prototype.forEach.call(root.querySelectorAll('.pmd-trust'), function (n) { n.remove(); });
       if (hero.parentNode) Array.prototype.forEach.call(hero.parentNode.querySelectorAll('a, button'), function (el) {
         if (el.textContent.trim().toLowerCase() === 'start your quote') el.style.display = 'none';
       });
@@ -279,20 +275,11 @@
   }
 
   // ---- inject Warranties + TDS links into the existing nav & footer (idempotent) ----
-  var EXTRA = [{ t: 'Ceramic Coating', h: '/ceramic-coating-melbourne' }];
   function injectNavLinks() {
+    // Top nav stays as Services / Gallery / About (no injected Ceramic Coating).
+    // Remove it if a stale render left one behind.
     var nav = document.querySelector('nav');
-    if (nav && !nav.querySelector('a[href="/ceramic-coating-melbourne"]')) {
-      var links = [...nav.querySelectorAll('a')];
-      var about = links.find(function (a) { return (a.getAttribute('href') || '').replace(/^https?:\/\/[^/]+/, '') === '/about'; });
-      if (about) {
-        var ref = about;
-        EXTRA.forEach(function (o) {
-          var a = document.createElement('a'); a.href = o.h; a.textContent = o.t; a.className = about.className;
-          ref.after(a); ref = a;
-        });
-      }
-    }
+    if (nav) [].forEach.call(nav.querySelectorAll('a[href="/ceramic-coating-melbourne"]'), function (a) { a.remove(); });
     document.querySelectorAll('footer ul').forEach(function (ul) {
       var hasAbout = [...ul.querySelectorAll('a')].some(function (a) { return /\/about$/.test(a.getAttribute('href') || ''); });
       if (hasAbout && !ul.querySelector('a[href="/ceramic-coating-melbourne"]')) {
@@ -307,13 +294,12 @@
   }
 
   function trimNav() {
+    // Hiding of Areas / phone / Get In Touch is handled in CSS (flash-free).
+    // Here we only relabel the quote CTA to "Book Now".
     var nav = document.querySelector('nav'); if (!nav) return;
-    [].forEach.call(nav.querySelectorAll('a, button'), function (el) {
-      var href = (el.getAttribute('href') || '');
+    [].forEach.call(nav.querySelectorAll('button'), function (el) {
       var txt = el.textContent.trim().toLowerCase();
-      if (href === '/#services' || href === '/#areas' || txt === 'services' || txt === 'areas' || txt === 'get in touch' || href.indexOf('tel:') === 0) {
-        el.style.display = 'none';
-      } else if (txt === 'start your quote') {
+      if (txt === 'start your quote' || txt === 'quote' || txt === 'get a quote') {
         el.textContent = 'Book Now';
       }
     });
@@ -324,6 +310,7 @@
   if (r) mo.observe(r, { childList: true, subtree: true });
   document.addEventListener('DOMContentLoaded', boot);
   window.addEventListener('load', function () { setTimeout(boot, 400); });
+  window.addEventListener('resize', trimNav);
   [800, 1600, 3000].forEach(function (t) { setTimeout(injectNavLinks, t); });
   setTimeout(init, 1600);
 })();
