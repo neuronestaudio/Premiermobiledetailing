@@ -84,8 +84,9 @@
       if (!sec || sec.contains(card)) return;
       var inner = sec.querySelector('.container') || sec;
       var wrap = card.parentElement;
-      card.classList.remove('mt-16'); card.classList.add('max-w-4xl', 'mx-auto');
-      card.style.marginTop = '56px';
+      card.classList.remove('mt-16', 'rounded-xl', 'shadow-2xl', 'overflow-hidden');
+      card.classList.add('max-w-3xl', 'mx-auto', 'pmd-statrow');
+      card.style.marginTop = '40px';
       inner.appendChild(card);
       if (wrap && !wrap.querySelector('*')) wrap.style.display = 'none';
     }
@@ -94,6 +95,30 @@
     document.addEventListener('DOMContentLoaded', fold);
     [200, 700, 1500, 3000].forEach(function (t) { setTimeout(fold, t); });
     fold();
+  })();
+
+  // ---- homepage: glass comparison cards + strip carbon mesh from the FAQ ----
+  (function () {
+    if ((location.pathname.replace(/\/+$/, '') || '/') !== '/') return;
+    function tweak() {
+      var root = document.getElementById('root'); if (!root) return;
+      var hs = root.querySelectorAll('h2');
+      for (var i = 0; i < hs.length; i++) {
+        var t = hs[i].textContent;
+        if (/car washes|created equal/i.test(t)) {
+          var sec = hs[i].closest('section');
+          if (sec) Array.prototype.forEach.call(sec.querySelectorAll('.rounded-2xl'), function (c) {
+            if (!c.classList.contains('pmd-glass')) { c.classList.add('pmd-glass'); if (c.className.indexOf('primary') > -1) c.classList.add('pmd-glass-blue'); }
+          });
+        }
+        if (/common questions/i.test(t)) { var s = hs[i].closest('section'); if (s) s.classList.add('pmd-nomesh'); }
+      }
+    }
+    var r = document.getElementById('root');
+    if (r) new MutationObserver(tweak).observe(r, { childList: true, subtree: true });
+    document.addEventListener('DOMContentLoaded', tweak);
+    [200, 700, 1500, 3000].forEach(function (t) { setTimeout(tweak, t); });
+    tweak();
   })();
 
   var SPOT = 'a.group > div, .rounded-2xl.bg-card, .bg-primary\\/10.border-primary';

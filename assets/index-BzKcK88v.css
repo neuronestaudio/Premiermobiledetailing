@@ -229,17 +229,15 @@
 /* === Title shine sweep (solid base + subtle periodic glint, clipped to text) === */
 @keyframes pmdTitleShine { 0%{ background-position:190% 0, 0 0; } 34%,100%{ background-position:-90% 0, 0 0; } }
 #root h1, #root h2{
-  background-image:linear-gradient(100deg, transparent 46%, rgba(255,255,255,.55) 50%, transparent 54%), linear-gradient(#eef2f9,#eef2f9) !important;
-  background-size:260% 100%, 100% 100% !important;
-  background-repeat:no-repeat, no-repeat !important;
-  background-position:190% 0, 0 0 !important;
+  background-image:linear-gradient(#fff,#fff) !important;
+  background-repeat:no-repeat !important; background-size:100% 100% !important; background-position:0 0 !important;
   -webkit-background-clip:text !important; background-clip:text !important;
   -webkit-text-fill-color:transparent !important; color:transparent !important;
-  animation:pmdTitleShine 6.5s ease-in-out infinite !important;
+  animation:none !important;
 }
 #root h1 span.text-primary, #root h2 span.text-primary,
 #root h1 span.italic, #root h2 span.italic{
-  background-image:linear-gradient(100deg, transparent 46%, rgba(255,255,255,.6) 50%, transparent 54%), linear-gradient(hsl(var(--primary)),hsl(var(--primary))) !important;
+  background-image:linear-gradient(100deg, transparent 44%, rgba(255,255,255,.7) 50%, transparent 56%), linear-gradient(hsl(var(--primary)),hsl(var(--primary))) !important;
   background-size:260% 100%, 100% 100% !important;
   background-repeat:no-repeat, no-repeat !important;
   background-position:190% 0, 0 0 !important;
@@ -248,6 +246,23 @@
   animation:pmdTitleShine 6.5s ease-in-out infinite !important;
 }
 @media (prefers-reduced-motion:reduce){
-  #root h1, #root h2, #root h1 span, #root h2 span{ animation:none !important; background-image:none !important; -webkit-text-fill-color:currentColor !important; }
-  #root h1 span.text-primary, #root h2 span.text-primary, #root h1 span.italic, #root h2 span.italic{ -webkit-text-fill-color:hsl(var(--primary)) !important; }
+  #root h1 span.text-primary, #root h2 span.text-primary, #root h1 span.italic, #root h2 span.italic{ animation:none !important; background-image:linear-gradient(hsl(var(--primary)),hsl(var(--primary))) !important; }
 }
+
+/* === Glassmorphism + outline on comparison cards === */
+#root .pmd-glass{
+  background:rgba(17,24,42,.55) !important;
+  -webkit-backdrop-filter:blur(16px) saturate(1.1); backdrop-filter:blur(16px) saturate(1.1);
+  border:1px solid rgba(255,255,255,.14) !important;
+  box-shadow:0 18px 50px -12px rgba(0,0,0,.6), inset 0 1px 0 rgba(255,255,255,.09) !important;
+}
+#root .pmd-glass-blue{
+  background:rgba(22,38,84,.5) !important;
+  border:1px solid rgba(59,120,255,.7) !important;
+  box-shadow:0 20px 56px -10px rgba(37,99,235,.45), inset 0 1px 0 rgba(255,255,255,.12) !important;
+}
+
+/* === Clean borderless stat row (folded into reviews) + FAQ without carbon mesh === */
+#root .pmd-statrow{ background:transparent !important; box-shadow:none !important; border-radius:0 !important; overflow:visible !important; }
+#root .pmd-statrow > *{ background:transparent !important; }
+#root section.pmd-nomesh::after{ display:none !important; background:none !important; content:none !important; }
