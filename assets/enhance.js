@@ -34,6 +34,38 @@
     }
     if (document.body) splash(); else document.addEventListener('DOMContentLoaded', splash);
   })();
+
+  // ---- About page: image defaults to Daniel & Andy (hero photo), hover reveals the van + Mercedes ----
+  (function () {
+    if ((location.pathname.replace(/\/+$/, '') || '/') !== '/about') return;
+    var HERO = '/assets/images/57982f66-2a3a-44b2-8853-af37ac4c757d.webp';
+    var VAN_ID = '4d675fa6-7fb4-4331-bae5-291ba87f1cde'; // the van + Mercedes photo
+    function apply() {
+      var root = document.getElementById('root'); if (!root) return;
+      var imgs = root.querySelectorAll('img');
+      for (var i = 0; i < imgs.length; i++) {
+        var im = imgs[i];
+        if (im.src.indexOf(VAN_ID) === -1) continue;
+        var box = im.closest('.rounded-3xl') || im.parentElement;
+        if (!box || box.querySelector('.pmd-about-swap')) return;
+        if (getComputedStyle(box).position === 'static') box.style.position = 'relative';
+        var ov = document.createElement('img');
+        ov.className = 'pmd-about-swap'; ov.src = HERO;
+        ov.alt = 'Daniel & Andy — Premier Mobile Detailing';
+        ov.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 72%;opacity:1;transition:opacity .55s ease;z-index:3;pointer-events:none';
+        box.appendChild(ov);
+        box.addEventListener('mouseenter', function () { ov.style.opacity = '0'; });
+        box.addEventListener('mouseleave', function () { ov.style.opacity = '1'; });
+        return;
+      }
+    }
+    var r = document.getElementById('root');
+    if (r) new MutationObserver(apply).observe(r, { childList: true, subtree: true });
+    document.addEventListener('DOMContentLoaded', apply);
+    [200, 700, 1500, 3000].forEach(function (t) { setTimeout(apply, t); });
+    apply();
+  })();
+
   // ---- homepage hero: A/B variant, scrub reveal, cursive subhead, cleanup ----
   (function () {
     if ((location.pathname.replace(/\/+$/, '') || '/') !== '/') return;
