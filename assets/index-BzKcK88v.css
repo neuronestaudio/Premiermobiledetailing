@@ -322,3 +322,34 @@
   #root nav a.flex.flex-col{ margin-left:0 !important; }
   #root nav a.flex.flex-col img.md\:block, #root nav a.flex.flex-col img{ height:34px !important; }
 }
+
+/* === Service panels v2 — reference match (angle, stamp, fade, bg streaks) === */
+#root section.pmd-svc-section{
+  position:relative; overflow:hidden;
+  background:radial-gradient(1100px 640px at 50% 42%, rgba(37,99,235,.10), transparent 72%), #080b16 !important;
+}
+#root section.pmd-svc-section::before, #root section.pmd-svc-section::after{
+  content:""; position:absolute; width:460px; height:1100px; pointer-events:none; z-index:0; opacity:.5;
+  background:repeating-linear-gradient(90deg, transparent 0 40px, rgba(70,130,255,.13) 40px 56px);
+  transform:rotate(22deg);
+}
+#root section.pmd-svc-section::before{ top:-280px; left:-160px; }
+#root section.pmd-svc-section::after{ bottom:-280px; right:-160px; }
+#root section.pmd-svc-section > .container{ position:relative; z-index:1; }
+
+.pmd-svc{ transform:skewX(-10deg) !important; border:1px solid rgba(70,130,255,.4) !important; background:linear-gradient(100deg, rgba(13,20,38,.5), rgba(13,20,38,.15)) !important; }
+.pmd-svc:hover{ transform:skewX(-10deg) translateX(9px) !important; border-color:rgba(80,140,255,.95) !important; }
+.pmd-svc > *{ transform:skewX(10deg) !important; }
+.pmd-svc-img::after{ background:linear-gradient(90deg, rgba(8,11,22,.1) 0%, rgba(8,11,22,.5) 42%, rgba(13,20,38,.94) 70%, #0d1426 100%) !important; }
+.pmd-svc-stamp{
+  position:absolute; z-index:4; left:28px; top:36px; width:72px;
+  background:rgba(6,10,20,.72); border:1px solid rgba(70,130,255,.55); border-radius:5px; overflow:hidden;
+  text-align:center; box-shadow:0 6px 22px rgba(0,0,0,.5);
+}
+.pmd-stamp-bars{ display:flex; gap:3px; justify-content:center; align-items:center; height:24px; background:linear-gradient(#3b78ff,#1e50d6); }
+.pmd-stamp-bars i{ width:8px; height:13px; background:rgba(255,255,255,.92); transform:skewX(-20deg); display:block; }
+.pmd-svc-num{ display:block; font-family:'Bebas Neue', Impact, sans-serif; font-size:36px; line-height:1; color:#fff; padding:7px 0 9px; }
+@media (max-width:860px){
+  .pmd-svc{ transform:none !important; } .pmd-svc:hover{ transform:translateX(0) !important; } .pmd-svc > *{ transform:none !important; }
+  .pmd-svc-stamp{ left:16px; top:16px; }
+}

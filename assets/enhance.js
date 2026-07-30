@@ -120,11 +120,13 @@
         var num = '0' + (idx + 1);
         var el = document.createElement('a'); el.className = 'pmd-svc' + (idx === 0 ? ' pmd-svc-pop' : ''); el.href = a.getAttribute('href') || '#';
         el.innerHTML =
-          '<div class="pmd-svc-img" style="background-image:url(\'' + src + '\')"><span class="pmd-svc-badge"><span class="pmd-stripes"><i></i><i></i><i></i></span><span class="pmd-num">' + num + '</span></span></div>' +
+          '<div class="pmd-svc-img" style="background-image:url(\'' + src + '\')"></div>' +
+          '<div class="pmd-svc-stamp"><span class="pmd-stamp-bars"><i></i><i></i><i></i><i></i></span><span class="pmd-svc-num">' + num + '</span></div>' +
           '<div class="pmd-svc-mid"><div class="pmd-svc-cat">' + cat + '</div><div class="pmd-svc-title">' + title + '</div></div>' +
           '<div class="pmd-svc-right"><div class="pmd-svc-price">' + price + '</div><div class="pmd-svc-more">Learn More &rarr;</div></div>';
         wrap.appendChild(el);
       });
+      sec.classList.add('pmd-svc-section');
       if (grid) { grid.style.display = 'none'; grid.parentNode.insertBefore(wrap, grid.nextSibling); }
       else { (sec.querySelector('.container') || sec).appendChild(wrap); }
     }
