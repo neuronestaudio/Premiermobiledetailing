@@ -57,7 +57,7 @@
           <div class="max-w-xl pt-6">
             <p class="text-primary font-semibold tracking-wider uppercase text-sm mb-4">Book Now</p>
             <h1 class="text-5xl md:text-6xl font-extrabold tracking-tight mb-6 text-white drop-shadow-xl">Book Your <br /><span class="text-primary italic">Detail.</span></h1>
-            <p class="text-lg text-muted-foreground mb-8">Tell us about your car and what you're after — ceramic coating, paint correction, a full detail, PPF or tinting. We come to you. Pop in your preferred day and we'll call or text to lock in a time that suits.</p>
+            <p class="text-lg text-muted-foreground mb-8">Tell us about your car and what you're after — ceramic coating, paint correction, a full detail, PPF or tinting. We come to you. Fill it out and we'll call or text you straight back with a price and a time that suits.</p>
             <div class="space-y-3">
               <a href="tel:0411566186" class="flex items-center gap-3 text-white hover:text-primary transition-colors"><span class="text-primary">📞</span> 0411 566 186</a>
               <p class="flex items-center gap-3 text-muted-foreground"><span class="text-primary">📍</span> Mobile across Officer &amp; South-East Melbourne</p>
@@ -91,7 +91,6 @@
                   </select>
                 </div>
               </div>
-              <div style="margin-top:16px"><label class="enq-label" for="preferred_day">Preferred day / time</label><input class="enq-field" id="preferred_day" name="preferred_day" type="text" placeholder="e.g. this Saturday morning, or weekday arvos" /></div>
               <div style="margin-top:16px"><label class="enq-label" for="message">Anything else?</label><textarea class="enq-field" id="message" name="message" placeholder="Tell us about the car's condition and what you're after..."></textarea></div>
               <!-- honeypot (spam trap) -->
               <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off" />
@@ -160,8 +159,7 @@
           'Email: ' + (data.email || '-') + '\n' +
           'Vehicle: ' + (data.vehicle || '-') + '\n' +
           'Service: ' + (data.service || '-') + '\n' +
-          'Suburb: ' + (data.suburb || '-') + '\n' +
-          'Preferred day: ' + (data.preferred_day || '-') +
+          'Suburb: ' + (data.suburb || '-') +
           (data.message ? '\n\nMessage:\n' + data.message : '') +
           '\n\nSubmitted: ' + data.submitted_at + '\nPage: ' + data.page;
         btn.disabled = true; btn.textContent = 'Sending...';
