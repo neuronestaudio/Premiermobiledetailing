@@ -69,6 +69,33 @@
     apply();
   })();
 
+  // ---- homepage: fold the stats bar into the "What Our Clients Say" section ----
+  (function () {
+    if ((location.pathname.replace(/\/+$/, '') || '/') !== '/') return;
+    function fold() {
+      var root = document.getElementById('root'); if (!root) return;
+      var lab = null, divs = root.querySelectorAll('div');
+      for (var i = 0; i < divs.length; i++) { if (!divs[i].children.length && divs[i].textContent.trim() === 'Cars Detailed') { lab = divs[i]; break; } }
+      if (!lab) return;
+      var card = lab.closest('.rounded-xl'); if (!card) return;
+      var revH = null, h2s = root.querySelectorAll('h2');
+      for (var j = 0; j < h2s.length; j++) { if (/clients/i.test(h2s[j].textContent)) { revH = h2s[j]; break; } }
+      var sec = revH ? revH.closest('section') : null;
+      if (!sec || sec.contains(card)) return;
+      var inner = sec.querySelector('.container') || sec;
+      var wrap = card.parentElement;
+      card.classList.remove('mt-16'); card.classList.add('max-w-4xl', 'mx-auto');
+      card.style.marginTop = '56px';
+      inner.appendChild(card);
+      if (wrap && !wrap.querySelector('*')) wrap.style.display = 'none';
+    }
+    var r = document.getElementById('root');
+    if (r) new MutationObserver(fold).observe(r, { childList: true, subtree: true });
+    document.addEventListener('DOMContentLoaded', fold);
+    [200, 700, 1500, 3000].forEach(function (t) { setTimeout(fold, t); });
+    fold();
+  })();
+
   var SPOT = 'a.group > div, .rounded-2xl.bg-card, .bg-primary\\/10.border-primary';
   var MAG = 'a.bg-primary, button.bg-primary, a.bg-white, button.bg-white';
 
