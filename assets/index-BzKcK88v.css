@@ -211,3 +211,17 @@
 /* === Homepage hero: staggered line reveal + cursive subtext === */
 #root h1 .pmd-line{ display:block; }
 .pmd-cursive{ font-family:'Playfair Display', Georgia, serif !important; font-style:italic !important; font-weight:700; letter-spacing:0; }
+
+/* === Solid headings — remove metallic chrome so white & blue match (Bebas, solid) === */
+#root h1, #root h2{
+  background-image:none !important;
+  -webkit-text-fill-color:currentColor !important;
+  color:#fff !important;
+  animation:none !important;
+}
+#root h1 span.text-primary, #root h2 span.text-primary,
+#root h1 span.italic, #root h2 span.italic{
+  color:hsl(var(--primary)) !important;
+  -webkit-text-fill-color:hsl(var(--primary)) !important;
+  background-image:none !important;
+}
