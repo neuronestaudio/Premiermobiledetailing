@@ -404,3 +404,38 @@
 #root nav button[class^="justify-center"] { display:none !important; }
 /* Belt-and-suspenders: never show an injected Ceramic Coating link in the top nav */
 #root nav a[href="/ceramic-coating-melbourne"] { display:none !important; }
+
+/* ---- Hero variant C: NLP-style metallic shine title + uppercase kicker ---- */
+#root h1 .pmd-hero-mono {
+  font-family: 'Bebas Neue', sans-serif !important;
+  font-weight: 400 !important;
+  letter-spacing: -0.02em;
+  line-height: 0.95;
+  font-size: clamp(48px, 8vw, 96px) !important;
+  display: inline-block;
+  background: linear-gradient(90deg,
+    #bfc2c7 0%, #fff 5%, #fafbfc 15%, #cfd2d6 30%, #fff 65%,
+    #bfc2c7 80%, #f8f9fa 90%, #fff 95%, #bfc2c7 100%) !important;
+  background-size: 200% 100% !important;
+  -webkit-background-clip: text !important; background-clip: text !important;
+  -webkit-text-fill-color: transparent !important; color: transparent !important;
+  animation: pmdShineSweep 6s ease-in-out infinite;
+  text-shadow: none !important;
+}
+@keyframes pmdShineSweep {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+@media (prefers-reduced-motion: reduce) {
+  #root h1 .pmd-hero-mono { animation: none; background-position: 50% 0; }
+}
+#root p.pmd-hero-kicker {
+  font-family: 'DM Sans', system-ui, sans-serif !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.12em !important;
+  font-size: clamp(15px, 2vw, 18px) !important;
+  font-weight: 400 !important;
+  color: rgba(255, 255, 255, 0.6) !important;
+  font-style: normal !important;
+  margin-top: 20px !important;
+}
