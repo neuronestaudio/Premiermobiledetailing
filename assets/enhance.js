@@ -5,6 +5,21 @@
   if (window.__pmdEnhanced) return; window.__pmdEnhanced = true;
   var RM = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  // ---- Route EVERY booking/quote CTA to the single /booking form (kills the Vibe popups) ----
+  (function () {
+    var CTA = /^(book now|book your detail( now)?|start your quote|get a quote|get my quote|request (a )?quote|get started|enquire( now)?|get in touch)$/i;
+    document.addEventListener('click', function (e) {
+      if ((location.pathname.replace(/\/+$/, '') || '/') === '/booking') return; // on the form page: leave clicks alone
+      var el = e.target.closest && e.target.closest('a, button'); if (!el) return;
+      if (el.closest('form')) return;                          // never hijack a real submit button
+      var href = (el.getAttribute && el.getAttribute('href')) || '';
+      if (href.indexOf('tel:') === 0 || href.indexOf('mailto:') === 0) return;
+      if (!CTA.test((el.textContent || '').replace(/\s+/g, ' ').trim())) return;
+      e.preventDefault(); e.stopPropagation();                 // capture phase: beat React's popup handler
+      location.assign('/booking');
+    }, true);
+  })();
+
   // ---- About page: PD logo splash intro ----
   (function () {
     var path = (location.pathname.replace(/\/+$/, '') || '/');
