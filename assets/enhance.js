@@ -56,6 +56,10 @@
         box.appendChild(ov);
         box.addEventListener('mouseenter', function () { ov.style.opacity = '0'; });
         box.addEventListener('mouseleave', function () { ov.style.opacity = '1'; });
+        var badge = document.createElement('div');
+        badge.className = 'pmd-about-badge';
+        badge.innerHTML = '<span class="pmd-about-badge-num">30<i>+</i></span><span class="pmd-about-badge-label">Years Combined<br>Experience</span>';
+        box.appendChild(badge);
         return;
       }
     }

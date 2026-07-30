@@ -439,3 +439,36 @@
   font-style: normal !important;
   margin-top: 20px !important;
 }
+
+/* ---- About page: floating "+30 Years Combined Experience" glass stat card ---- */
+.pmd-about-badge {
+  position: absolute; left: 18px; bottom: 18px; z-index: 4;
+  display: flex; align-items: center; gap: 13px;
+  padding: 13px 18px;
+  background: rgba(9, 13, 24, 0.60);
+  -webkit-backdrop-filter: blur(14px) saturate(160%); backdrop-filter: blur(14px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  border-radius: 16px;
+  box-shadow: 0 14px 44px rgba(0, 0, 0, 0.48);
+}
+.pmd-about-badge-num {
+  font-family: 'Bebas Neue', sans-serif; font-weight: 400;
+  font-size: 48px; line-height: 0.86; letter-spacing: 0.01em;
+  background: linear-gradient(102deg, #6aa0ff, #2f6bff, #1a52e6);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent; color: transparent;
+  display: inline-flex; align-items: flex-start;
+}
+.pmd-about-badge-num i { font-style: normal; font-size: 30px; line-height: 1; margin-left: 1px; }
+.pmd-about-badge-label {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  text-transform: uppercase; letter-spacing: 0.14em;
+  font-size: 11px; font-weight: 600; line-height: 1.35;
+  color: rgba(255, 255, 255, 0.92);
+}
+@media (max-width: 640px) {
+  .pmd-about-badge { left: 12px; bottom: 12px; padding: 10px 14px; gap: 10px; }
+  .pmd-about-badge-num { font-size: 38px; }
+  .pmd-about-badge-num i { font-size: 24px; }
+  .pmd-about-badge-label { font-size: 10px; }
+}
