@@ -353,3 +353,17 @@
   .pmd-svc{ transform:none !important; } .pmd-svc:hover{ transform:translateX(0) !important; } .pmd-svc > *{ transform:none !important; }
   .pmd-svc-stamp{ left:16px; top:16px; }
 }
+
+/* === NLP-style hero subheading + credibility badges === */
+.pmd-subhead{
+  text-transform:uppercase !important; letter-spacing:.16em !important;
+  font-size:14px !important; line-height:1.6 !important; font-weight:600 !important;
+  color:rgba(255,255,255,.6) !important; font-family:inherit !important; font-style:normal !important;
+}
+.pmd-trust{ display:flex; flex-wrap:wrap; gap:12px 14px; margin:20px 0 4px; }
+.pmd-trust span{
+  display:inline-flex; align-items:center; gap:8px; font-size:13px; font-weight:600; color:rgba(255,255,255,.82);
+  padding:8px 16px; border:1px solid rgba(255,255,255,.15); border-radius:9999px; background:rgba(255,255,255,.045);
+  backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); white-space:nowrap;
+}
+.pmd-trust span::before{ content:"✦"; color:#3f7dff; font-size:12px; }

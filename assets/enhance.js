@@ -60,7 +60,16 @@
       }
       var sub = hero.nextElementSibling;
       while (sub && sub.tagName !== 'P') sub = sub.nextElementSibling;
-      if (sub && !sub.classList.contains('pmd-cursive')) sub.classList.add('pmd-cursive');
+      if (sub && !sub.classList.contains('pmd-subhead')) {
+        sub.classList.remove('pmd-cursive');
+        sub.classList.add('pmd-subhead');
+        sub.textContent = 'Ceramic Coating · Paint Correction · PPF · Window Tinting — South-East Melbourne';
+        if (sub.parentNode && !sub.parentNode.querySelector('.pmd-trust')) {
+          var tr = document.createElement('div'); tr.className = 'pmd-trust';
+          tr.innerHTML = '<span>+30 Years Combined Experience</span><span>Ceramic Coating Specialist</span>';
+          sub.parentNode.insertBefore(tr, sub.nextSibling);
+        }
+      }
     }
     var r = document.getElementById('root');
     if (r) new MutationObserver(apply).observe(r, { childList: true, subtree: true });
