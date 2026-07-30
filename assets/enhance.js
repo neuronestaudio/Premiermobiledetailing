@@ -97,6 +97,44 @@
     fold();
   })();
 
+  // ---- homepage: rebuild the services section as angled premium panels ----
+  (function () {
+    if ((location.pathname.replace(/\/+$/, '') || '/') !== '/') return;
+    function build() {
+      var root = document.getElementById('root'); if (!root) return;
+      var secH = null, hs = root.querySelectorAll('h2');
+      for (var i = 0; i < hs.length; i++) { if (/right service/i.test(hs[i].textContent)) { secH = hs[i]; break; } }
+      var sec = secH ? secH.closest('section') : null; if (!sec) return;
+      var links = [].slice.call(sec.querySelectorAll('a[href*="/services/"]')).filter(function (a) { return a.querySelector('img'); });
+      if (links.length < 3) return;
+      var grid = links[0].closest('.grid');
+      if (sec.querySelector('.pmd-svc-wrap')) { if (grid) grid.style.display = 'none'; return; }
+      var wrap = document.createElement('div'); wrap.className = 'pmd-svc-wrap';
+      links.forEach(function (a, idx) {
+        var img = a.querySelector('img'); var src = img ? (img.currentSrc || img.src) : '';
+        var title = (a.querySelector('h3') || {}).textContent || '';
+        var txt = a.textContent.replace(/\s+/g, ' ');
+        var pm = txt.match(/From\s*\$[\d,]+/i); var price = pm ? pm[0] : '';
+        var cat = '', ds = a.querySelectorAll('div');
+        for (var j = 0; j < ds.length; j++) { var t = ds[j].textContent.trim(); if (/^0[1-9]\b/.test(t) && ds[j].children.length === 0) { cat = t.replace(/^0[1-9]\s*/, ''); break; } }
+        var num = '0' + (idx + 1);
+        var el = document.createElement('a'); el.className = 'pmd-svc' + (idx === 0 ? ' pmd-svc-pop' : ''); el.href = a.getAttribute('href') || '#';
+        el.innerHTML =
+          '<div class="pmd-svc-img" style="background-image:url(\'' + src + '\')"><span class="pmd-svc-badge"><span class="pmd-stripes"><i></i><i></i><i></i></span><span class="pmd-num">' + num + '</span></span></div>' +
+          '<div class="pmd-svc-mid"><div class="pmd-svc-cat">' + cat + '</div><div class="pmd-svc-title">' + title + '</div></div>' +
+          '<div class="pmd-svc-right"><div class="pmd-svc-price">' + price + '</div><div class="pmd-svc-more">Learn More &rarr;</div></div>';
+        wrap.appendChild(el);
+      });
+      if (grid) { grid.style.display = 'none'; grid.parentNode.insertBefore(wrap, grid.nextSibling); }
+      else { (sec.querySelector('.container') || sec).appendChild(wrap); }
+    }
+    var r = document.getElementById('root');
+    if (r) new MutationObserver(build).observe(r, { childList: true, subtree: true });
+    document.addEventListener('DOMContentLoaded', build);
+    [300, 900, 1800, 3200].forEach(function (t) { setTimeout(build, t); });
+    build();
+  })();
+
   // ---- homepage: glass comparison cards + strip carbon mesh from the FAQ ----
   (function () {
     if ((location.pathname.replace(/\/+$/, '') || '/') !== '/') return;

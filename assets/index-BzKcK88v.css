@@ -273,3 +273,37 @@
 #root button.border-white\/20, #root a.border-white\/20,
 #root a.border.bg-background, #root button.border.bg-background,
 .enq-btn{ border-radius:9999px !important; }
+
+/* === Angled premium service panels (homepage) === */
+.pmd-svc-wrap{ display:flex; flex-direction:column; gap:16px; margin-top:8px; }
+.pmd-svc{
+  position:relative; display:grid; grid-template-columns:300px 1fr auto; align-items:stretch;
+  min-height:150px; text-decoration:none; isolation:isolate;
+  transform:skewX(-6deg);
+  background:linear-gradient(100deg, rgba(13,20,38,.55), rgba(13,20,38,.22));
+  border:1px solid rgba(59,120,255,.32); border-radius:6px; overflow:hidden;
+  transition:transform .45s cubic-bezier(.22,1,.36,1), box-shadow .45s, border-color .4s;
+}
+.pmd-svc:hover{ transform:skewX(-6deg) translateX(8px); border-color:rgba(70,130,255,.9); box-shadow:0 20px 54px -14px rgba(37,99,235,.5); }
+.pmd-svc > *{ transform:skewX(6deg); }
+.pmd-svc-img{ position:relative; background-size:cover; background-position:center; }
+.pmd-svc-img::after{ content:""; position:absolute; inset:0; background:linear-gradient(90deg, rgba(8,11,22,.35), rgba(8,11,22,.75) 78%, #0d1426); }
+.pmd-svc-badge{ position:absolute; z-index:2; top:16px; left:30px; display:flex; flex-direction:column; align-items:flex-start; }
+.pmd-svc-num{ font-family:'Bebas Neue', Impact, sans-serif; font-size:40px; line-height:.9; color:#fff; letter-spacing:.02em; }
+.pmd-stripes{ display:flex; gap:3px; margin-bottom:7px; }
+.pmd-stripes i{ width:11px; height:5px; background:#2f6bff; transform:skewX(-22deg); }
+.pmd-svc-mid{ display:flex; flex-direction:column; justify-content:center; padding:0 34px; }
+.pmd-svc-cat{ color:#4485ff; font-size:12px; font-weight:800; letter-spacing:.13em; text-transform:uppercase; margin-bottom:9px; }
+.pmd-svc-title{ color:#fff; font-size:22px; font-weight:800; line-height:1.15; }
+.pmd-svc-right{ display:flex; flex-direction:column; justify-content:center; align-items:flex-start; padding:0 42px 0 32px; border-left:1px solid rgba(255,255,255,.10); }
+.pmd-svc-price{ color:#fff; font-size:21px; font-weight:800; margin-bottom:9px; white-space:nowrap; }
+.pmd-svc-more{ color:#4485ff; font-size:14px; font-weight:800; transition:transform .35s; }
+.pmd-svc:hover .pmd-svc-more{ transform:translateX(4px); }
+@media (max-width:860px){
+  .pmd-svc{ grid-template-columns:1fr; transform:none; min-height:0; }
+  .pmd-svc:hover{ transform:translateX(0); }
+  .pmd-svc > *{ transform:none; }
+  .pmd-svc-img{ min-height:170px; }
+  .pmd-svc-right{ border-left:0; border-top:1px solid rgba(255,255,255,.10); padding:18px 34px; flex-direction:row; gap:20px; align-items:center; }
+  .pmd-svc-price,.pmd-svc-more{ margin:0; }
+}
