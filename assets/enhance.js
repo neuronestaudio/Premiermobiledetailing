@@ -275,7 +275,17 @@
     });
   }
 
-  function boot() { init(); injectNavLinks(); }
+  function trimNav() {
+    var nav = document.querySelector('nav'); if (!nav) return;
+    [].forEach.call(nav.querySelectorAll('a, button'), function (el) {
+      var href = (el.getAttribute('href') || '');
+      var txt = el.textContent.trim().toLowerCase();
+      if (href === '/#services' || href === '/#areas' || txt === 'services' || txt === 'areas' || txt === 'get in touch' || href.indexOf('tel:') === 0) {
+        el.style.display = 'none';
+      }
+    });
+  }
+  function boot() { init(); injectNavLinks(); trimNav(); }
   var mo = new MutationObserver(function () { boot(); if (done) mo.disconnect(); });
   var r = document.getElementById('root');
   if (r) mo.observe(r, { childList: true, subtree: true });

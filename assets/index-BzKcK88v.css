@@ -307,3 +307,18 @@
   .pmd-svc-right{ border-left:0; border-top:1px solid rgba(255,255,255,.10); padding:18px 34px; flex-direction:row; gap:20px; align-items:center; }
   .pmd-svc-price,.pmd-svc-more{ margin:0; }
 }
+
+/* === NLP-style floating pill nav (desktop) === */
+@media (min-width:768px){
+  #root nav{ background:transparent !important; border-bottom:0 !important; box-shadow:none !important; top:16px !important; }
+  #root nav > div{
+    max-width:1120px; height:64px !important;
+    background:rgba(11,16,28,.72) !important;
+    -webkit-backdrop-filter:blur(16px) saturate(1.1); backdrop-filter:blur(16px) saturate(1.1);
+    border:1px solid rgba(255,255,255,.10) !important; border-radius:9999px !important;
+    padding-left:28px !important; padding-right:12px !important;
+    box-shadow:0 16px 48px -16px rgba(0,0,0,.7);
+  }
+  #root nav a.flex.flex-col{ margin-left:0 !important; }
+  #root nav a.flex.flex-col img.md\:block, #root nav a.flex.flex-col img{ height:34px !important; }
+}
