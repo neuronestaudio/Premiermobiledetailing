@@ -90,6 +90,8 @@
           Array.prototype.forEach.call(hero.childNodes, function (n) { if (n.nodeName === 'BR') groups.push([]); else groups[groups.length - 1].push(n); });
           hero.textContent = '';
           var spans = groups.map(function (g) { var s = document.createElement('span'); s.className = 'pmd-line'; g.forEach(function (n) { s.appendChild(n); }); hero.appendChild(s); return s; });
+          spans.forEach(function (s) { s.classList.add('pmd-shine'); });
+          Array.prototype.forEach.call(hero.querySelectorAll('span.text-primary, .italic'), function (el) { el.classList.add('pmd-shine-blue'); });
           if (!RM && !window.__pmdHeroAnim) {
             window.__pmdHeroAnim = true;
             spans.forEach(function (s, i) { s.animate([{ opacity: 0, clipPath: 'inset(0 100% 0 0)', filter: 'blur(3px)' }, { opacity: 1, clipPath: 'inset(0 0 0 0)', filter: 'blur(0)' }], { duration: 950, delay: i * 240, easing: 'cubic-bezier(.5,0,.15,1)', fill: 'both' }); });
@@ -325,10 +327,24 @@
 
   // ---- inject Warranties + TDS links into the existing nav & footer (idempotent) ----
   function injectNavLinks() {
-    // Top nav stays as Services / Gallery / About (no injected Ceramic Coating).
-    // Remove it if a stale render left one behind.
     var nav = document.querySelector('nav');
-    if (nav) [].forEach.call(nav.querySelectorAll('a[href="/ceramic-coating-melbourne"]'), function (a) { a.remove(); });
+    if (nav) {
+      // clean up any stale Ceramic Coating injection from an earlier build
+      [].forEach.call(nav.querySelectorAll('a[href="/ceramic-coating-melbourne"]'), function (a) { a.remove(); });
+      // add Warranties right after the About link so the header reads
+      // Services / Gallery / About / Warranties (idempotent)
+      if (!nav.querySelector('a[href="/warranties"]')) {
+        var links = [].slice.call(nav.querySelectorAll('a')), about = null;
+        for (var i = 0; i < links.length; i++) {
+          if ((links[i].getAttribute('href') || '').replace(/^https?:\/\/[^/]+/, '') === '/about') { about = links[i]; break; }
+        }
+        if (about) {
+          var w = document.createElement('a');
+          w.href = '/warranties'; w.textContent = 'Warranties'; w.className = about.className;
+          about.after(w);
+        }
+      }
+    }
     document.querySelectorAll('footer ul').forEach(function (ul) {
       var hasAbout = [...ul.querySelectorAll('a')].some(function (a) { return /\/about$/.test(a.getAttribute('href') || ''); });
       if (hasAbout && !ul.querySelector('a[href="/ceramic-coating-melbourne"]')) {
@@ -354,12 +370,14 @@
     });
   }
   function boot() { init(); injectNavLinks(); trimNav(); }
-  var mo = new MutationObserver(function () { boot(); if (done) mo.disconnect(); });
+  // Keep observing: init() is guarded by `done`, but nav injection/relabel must
+  // survive later re-renders and client-side navigation (idempotent + cheap).
+  var mo = new MutationObserver(function () { boot(); });
   var r = document.getElementById('root');
   if (r) mo.observe(r, { childList: true, subtree: true });
   document.addEventListener('DOMContentLoaded', boot);
   window.addEventListener('load', function () { setTimeout(boot, 400); });
-  window.addEventListener('resize', trimNav);
+  window.addEventListener('resize', function () { injectNavLinks(); trimNav(); });
   [800, 1600, 3000].forEach(function (t) { setTimeout(injectNavLinks, t); });
   setTimeout(init, 1600);
 })();
