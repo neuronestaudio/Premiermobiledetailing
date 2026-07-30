@@ -21,16 +21,25 @@
 
     /* ---- stepped booking card ---- */
     .pmd-book-wrap{max-width:720px;margin:0 auto;padding:0 20px}
-    .pmd-book-card{background:#0b1020;border:1px solid rgba(255,255,255,.10);border-radius:22px;padding:30px 30px 34px;
+    .pmd-book-card{background:#0b1020;border:1px solid rgba(255,255,255,.10);border-radius:22px;padding:26px 30px 34px;
       box-shadow:0 40px 90px -40px rgba(0,0,0,.9)}
-    @media (max-width:640px){.pmd-book-card{padding:22px 18px 26px;border-radius:18px}}
-    .pmd-book-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
-    .pmd-back{background:transparent;border:0;color:#9aa4b5;font:600 14px/1 inherit;cursor:pointer;display:inline-flex;align-items:center;gap:7px;padding:6px 2px;transition:color .2s}
+    @media (max-width:640px){.pmd-book-card{padding:20px 16px 26px;border-radius:18px}}
+
+    /* step indicator (4 circles like Glossed Out) */
+    .pmd-steps{display:flex;align-items:flex-start;justify-content:space-between;position:relative;margin:2px 0 24px;padding:0 8px}
+    .pmd-steps::before{content:'';position:absolute;top:16px;left:26px;right:26px;height:2px;background:rgba(255,255,255,.12);z-index:0}
+    .pmd-stp{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:8px;flex:1}
+    .pmd-stp-dot{width:34px;height:34px;border-radius:9999px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;
+      background:#0F1524;border:2px solid rgba(255,255,255,.18);color:#8b95a7;transition:background .3s, border-color .3s, color .3s, box-shadow .3s}
+    .pmd-stp-lbl{font-size:11.5px;color:#6b7280;font-weight:600;text-align:center;letter-spacing:.02em;transition:color .3s}
+    .pmd-stp.done .pmd-stp-dot{background:#2f6bff;border-color:#2f6bff;color:#fff}
+    .pmd-stp.done .pmd-stp-lbl{color:#aab4c5}
+    .pmd-stp.active .pmd-stp-dot{background:#2f6bff;border-color:#2f6bff;color:#fff;box-shadow:0 0 0 4px rgba(47,107,255,.28)}
+    .pmd-stp.active .pmd-stp-lbl{color:#fff}
+
+    .pmd-back{background:transparent;border:0;color:#9aa4b5;font:600 14px/1 inherit;cursor:pointer;display:inline-flex;align-items:center;gap:7px;padding:4px 2px 12px;transition:color .2s}
     .pmd-back:hover{color:#fff}
-    .pmd-steplbl{font:700 12px/1 inherit;letter-spacing:.14em;color:#2f6bff;text-transform:uppercase}
-    .pmd-prog{height:5px;border-radius:9999px;background:rgba(255,255,255,.08);overflow:hidden;margin-bottom:22px}
-    .pmd-prog-fill{height:100%;border-radius:9999px;background:linear-gradient(90deg,#6aa0ff,#2f6bff);width:25%;transition:width .4s cubic-bezier(.5,0,.15,1)}
-    .pmd-h{font-size:26px;font-weight:800;letter-spacing:-.01em;margin:0 0 4px}
+    .pmd-h{font-size:25px;font-weight:800;letter-spacing:-.01em;margin:0 0 4px}
     .pmd-sub{color:#9aa4b5;font-size:14px;margin:0 0 22px}
     @keyframes pmdStepIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
     .pmd-step{animation:pmdStepIn .34s ease both}
@@ -93,17 +102,20 @@
 
       <div class="pmd-book-wrap">
         <div style="text-align:center;margin-bottom:26px">
-          <p class="text-primary font-semibold tracking-wider uppercase text-sm mb-3">Book Now</p>
+          <p class="text-primary font-semibold tracking-wider uppercase text-sm mb-3" style="letter-spacing:.18em">Premium Mobile Detailing</p>
           <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight text-white drop-shadow-xl" style="margin:0">Book Your <span class="text-primary italic">Detail.</span></h1>
           <p class="text-muted-foreground" style="margin-top:12px">Takes under a minute — we'll call or text back to confirm a time.</p>
         </div>
 
         <div class="pmd-book-card">
-          <div class="pmd-book-top">
-            <button type="button" class="pmd-back" id="btnBack" hidden>&larr; Back</button>
-            <div class="pmd-steplbl">Step <span id="stepNum">1</span> of 4</div>
+          <button type="button" class="pmd-back" id="btnBack" hidden>&larr; Back</button>
+          <!-- 4-step indicator -->
+          <div class="pmd-steps" id="pmdSteps">
+            <div class="pmd-stp" data-s="1"><div class="pmd-stp-dot">1</div><div class="pmd-stp-lbl">Service</div></div>
+            <div class="pmd-stp" data-s="2"><div class="pmd-stp-dot">2</div><div class="pmd-stp-lbl">Location</div></div>
+            <div class="pmd-stp" data-s="3"><div class="pmd-stp-dot">3</div><div class="pmd-stp-lbl">Vehicle</div></div>
+            <div class="pmd-stp" data-s="4"><div class="pmd-stp-dot">4</div><div class="pmd-stp-lbl">Details</div></div>
           </div>
-          <div class="pmd-prog"><div class="pmd-prog-fill" id="progFill"></div></div>
           <h2 class="pmd-h" id="stepTitle">Choose your service</h2>
           <p class="pmd-sub" id="stepSub">Pick what you're after — not sure? Choose “Not sure yet”.</p>
 
@@ -124,7 +136,7 @@
             <!-- STEP 2 — location -->
             <div class="pmd-step" data-step="2" hidden>
               <div class="pmd-grid2">
-                <button type="button" class="pmd-card pmd-loc" data-val="Onsite — Vehicle Drop Off"><span class="pmd-card-ic">🏠</span><span class="pmd-card-t">Onsite — Vehicle Drop Off</span><span class="pmd-card-d">Drop your car off to us</span><span class="pmd-card-tick">&#10003;</span></button>
+                <button type="button" class="pmd-card pmd-loc" data-val="Studio — Vehicle Drop Off"><span class="pmd-card-ic">🏢</span><span class="pmd-card-t">Studio — Vehicle Drop Off</span><span class="pmd-card-d">Drop your car to our studio</span><span class="pmd-card-tick">&#10003;</span></button>
                 <button type="button" class="pmd-card pmd-loc" data-val="Mobile Service — At Your Door"><span class="pmd-card-ic">🚐</span><span class="pmd-card-t">Mobile Service — At Your Door</span><span class="pmd-card-d">We come to you</span><span class="pmd-card-tick">&#10003;</span></button>
               </div>
               <div id="postcodeWrap" hidden style="margin-top:18px">
@@ -178,8 +190,7 @@
       var steps = [].slice.call(form.querySelectorAll('.pmd-step'));
       var TOTAL = steps.length;
       var cur = 1;
-      var stepNum = document.getElementById('stepNum');
-      var progFill = document.getElementById('progFill');
+      var dots = [].slice.call(document.querySelectorAll('.pmd-stp'));
       var stepTitle = document.getElementById('stepTitle');
       var stepSub = document.getElementById('stepSub');
       var btnBack = document.getElementById('btnBack');
@@ -195,7 +206,7 @@
       var review = document.getElementById('enqReview');
       var TITLES = {
         1: ['Choose your service', 'Pick what you’re after — not sure? Choose “Not sure yet”.'],
-        2: ['How would you like it done?', 'Drop your car to us, or we come to you.'],
+        2: ['How would you like it done?', 'Drop your car to our studio, or we come to you.'],
         3: ['Your vehicle', 'What are we detailing? Add anything we should know.'],
         4: ['Your details', 'Last step — how do we reach you to confirm?']
       };
@@ -206,8 +217,11 @@
         steps.forEach(function (s) { s.hidden = (+s.getAttribute('data-step') !== n); });
         var st = steps[n - 1];
         st.style.animation = 'none'; void st.offsetWidth; st.style.animation = '';
-        stepNum.textContent = n;
-        progFill.style.width = (n / TOTAL * 100) + '%';
+        dots.forEach(function (d) {
+          var s = +d.getAttribute('data-s');
+          d.classList.toggle('done', s < n);
+          d.classList.toggle('active', s === n);
+        });
         stepTitle.textContent = TITLES[n][0]; stepSub.textContent = TITLES[n][1];
         btnBack.hidden = (n === 1);
         btnBack2.hidden = (n === 1);
@@ -230,15 +244,20 @@
           setTimeout(function () { show(2); }, 240);
         });
       });
-      // location select -> set value, highlight, reveal postcode if mobile
+      // location select -> set value, highlight; Mobile reveals postcode, Studio auto-advances
       [].forEach.call(form.querySelectorAll('.pmd-loc'), function (b) {
         b.addEventListener('click', function () {
           [].forEach.call(form.querySelectorAll('.pmd-loc'), function (x) { x.classList.remove('sel'); });
           b.classList.add('sel');
           locInput.value = b.getAttribute('data-val');
           locErr.hidden = true;
-          if (isMobile()) { postcodeWrap.hidden = false; setTimeout(function () { postcode.focus(); }, 60); }
-          else { postcodeWrap.hidden = true; postcode.value = ''; }
+          if (isMobile()) {
+            postcodeWrap.hidden = false;
+            setTimeout(function () { postcode.focus(); }, 60);
+          } else {
+            postcodeWrap.hidden = true; postcode.value = '';
+            setTimeout(function () { show(3); }, 240);   // Studio: no postcode needed, flow straight on
+          }
         });
       });
       function canAdvance(n) {
