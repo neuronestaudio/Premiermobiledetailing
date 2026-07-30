@@ -15,7 +15,6 @@
       padding:12px 14px;color:#fff;font-size:15px;font-family:inherit;transition:border-color .2s, box-shadow .2s;outline:none}
     .enq-field::placeholder{color:#6b7280}
     .enq-field:focus{border-color:#2563eb;box-shadow:0 0 0 3px rgba(37,99,235,.25)}
-    select.enq-field{appearance:none;-webkit-appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:40px}
     textarea.enq-field{resize:vertical;min-height:110px}
     .enq-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
     @media (max-width:640px){.enq-row{grid-template-columns:1fr}}
@@ -30,24 +29,28 @@
     .pmd-back:hover{color:#fff}
     .pmd-steplbl{font:700 12px/1 inherit;letter-spacing:.14em;color:#2f6bff;text-transform:uppercase}
     .pmd-prog{height:5px;border-radius:9999px;background:rgba(255,255,255,.08);overflow:hidden;margin-bottom:22px}
-    .pmd-prog-fill{height:100%;border-radius:9999px;background:linear-gradient(90deg,#6aa0ff,#2f6bff);width:33%;transition:width .4s cubic-bezier(.5,0,.15,1)}
+    .pmd-prog-fill{height:100%;border-radius:9999px;background:linear-gradient(90deg,#6aa0ff,#2f6bff);width:25%;transition:width .4s cubic-bezier(.5,0,.15,1)}
     .pmd-h{font-size:26px;font-weight:800;letter-spacing:-.01em;margin:0 0 4px}
     .pmd-sub{color:#9aa4b5;font-size:14px;margin:0 0 22px}
     @keyframes pmdStepIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
     .pmd-step{animation:pmdStepIn .34s ease both}
     .pmd-step[hidden]{display:none}
 
-    .pmd-pkg-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-    @media (max-width:560px){.pmd-pkg-grid{grid-template-columns:1fr}}
-    .pmd-pkg{position:relative;text-align:left;background:#0F1524;border:1.5px solid rgba(255,255,255,.10);border-radius:14px;
+    /* selectable cards (packages + location) */
+    .pmd-grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    @media (max-width:560px){.pmd-grid2{grid-template-columns:1fr}}
+    .pmd-card{position:relative;text-align:left;background:#0F1524;border:1.5px solid rgba(255,255,255,.10);border-radius:14px;
       padding:15px 16px;cursor:pointer;color:#fff;font-family:inherit;transition:transform .15s, border-color .2s, background .2s, box-shadow .3s}
-    .pmd-pkg:hover{transform:translateY(-3px);border-color:rgba(47,107,255,.55);box-shadow:0 16px 34px -18px rgba(47,107,255,.7)}
-    .pmd-pkg.sel{border-color:#2f6bff;background:#101b33;box-shadow:0 0 0 3px rgba(47,107,255,.25)}
-    .pmd-pkg-t{display:block;font-weight:700;font-size:15px;margin-bottom:3px}
-    .pmd-pkg-d{display:block;font-size:12.5px;color:#9aa4b5;line-height:1.35}
-    .pmd-pkg-tick{position:absolute;top:12px;right:12px;width:20px;height:20px;border-radius:9999px;background:#2f6bff;color:#fff;
+    .pmd-card:hover{transform:translateY(-3px);border-color:rgba(47,107,255,.55);box-shadow:0 16px 34px -18px rgba(47,107,255,.7)}
+    .pmd-card.sel{border-color:#2f6bff;background:#101b33;box-shadow:0 0 0 3px rgba(47,107,255,.25)}
+    .pmd-card-t{display:block;font-weight:700;font-size:15px;margin-bottom:3px}
+    .pmd-card-d{display:block;font-size:12.5px;color:#9aa4b5;line-height:1.35}
+    .pmd-card-ic{display:block;font-size:24px;margin-bottom:8px}
+    .pmd-card-tick{position:absolute;top:12px;right:12px;width:20px;height:20px;border-radius:9999px;background:#2f6bff;color:#fff;
       display:none;align-items:center;justify-content:center;font-size:12px}
-    .pmd-pkg.sel .pmd-pkg-tick{display:flex}
+    .pmd-card.sel .pmd-card-tick{display:flex}
+    .pmd-loc-hint{font-size:12.5px;color:#9aa4b5;margin:8px 0 0}
+    .pmd-inline-err{color:#fecaca;font-size:13px;margin-top:14px}
 
     .pmd-nav{display:flex;gap:12px;margin-top:24px}
     .enq-btn{flex:1;background:#2563eb;color:#fff;border:0;border-radius:10px;padding:15px;font-size:16px;font-weight:700;cursor:pointer;
@@ -89,41 +92,54 @@
         <div style="text-align:center;margin-bottom:26px">
           <p class="text-primary font-semibold tracking-wider uppercase text-sm mb-3">Book Now</p>
           <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight text-white drop-shadow-xl" style="margin:0">Book Your <span class="text-primary italic">Detail.</span></h1>
-          <p class="text-muted-foreground" style="margin-top:12px">We come to you across Officer &amp; South-East Melbourne. Takes under a minute — we'll call or text back to confirm a time.</p>
+          <p class="text-muted-foreground" style="margin-top:12px">Takes under a minute — we'll call or text back to confirm a time.</p>
         </div>
 
         <div class="pmd-book-card">
           <div class="pmd-book-top">
             <button type="button" class="pmd-back" id="btnBack" hidden>&larr; Back</button>
-            <div class="pmd-steplbl">Step <span id="stepNum">1</span> of 3</div>
+            <div class="pmd-steplbl">Step <span id="stepNum">1</span> of 4</div>
           </div>
           <div class="pmd-prog"><div class="pmd-prog-fill" id="progFill"></div></div>
           <h2 class="pmd-h" id="stepTitle">Choose your service</h2>
-          <p class="pmd-sub" id="stepSub">Pick what you're after — not sure? Choose “Help me choose”.</p>
+          <p class="pmd-sub" id="stepSub">Pick what you're after — not sure? Choose “Not sure yet”.</p>
 
           <form id="pmdEnquiry">
-            <!-- STEP 1 — package -->
+            <!-- STEP 1 — service/package -->
             <div class="pmd-step" data-step="1">
-              <div class="pmd-pkg-grid">
-                <button type="button" class="pmd-pkg" data-val="Mini Detail"><span class="pmd-pkg-t">Mini Detail</span><span class="pmd-pkg-d">Wash, vac &amp; quick interior/exterior clean</span><span class="pmd-pkg-tick">&#10003;</span></button>
-                <button type="button" class="pmd-pkg" data-val="Deluxe Detail"><span class="pmd-pkg-t">Deluxe Detail</span><span class="pmd-pkg-d">Complete interior &amp; exterior detail</span><span class="pmd-pkg-tick">&#10003;</span></button>
-                <button type="button" class="pmd-pkg" data-val="Full Detail"><span class="pmd-pkg-t">Full Detail</span><span class="pmd-pkg-d">Full detail + machine polish</span><span class="pmd-pkg-tick">&#10003;</span></button>
-                <button type="button" class="pmd-pkg" data-val="Paint Enhancement"><span class="pmd-pkg-t">Paint Enhancement</span><span class="pmd-pkg-d">One-step gloss &amp; shine boost</span><span class="pmd-pkg-tick">&#10003;</span></button>
-                <button type="button" class="pmd-pkg" data-val="Paint Correction"><span class="pmd-pkg-t">Paint Correction</span><span class="pmd-pkg-d">Multi-step swirl &amp; scratch removal</span><span class="pmd-pkg-tick">&#10003;</span></button>
-                <button type="button" class="pmd-pkg" data-val="Ceramic Coating"><span class="pmd-pkg-t">Ceramic Coating</span><span class="pmd-pkg-d">Long-lasting paint protection</span><span class="pmd-pkg-tick">&#10003;</span></button>
-                <button type="button" class="pmd-pkg" data-val="Not sure — need advice"><span class="pmd-pkg-t">Not sure yet</span><span class="pmd-pkg-d">Help me pick the right service</span><span class="pmd-pkg-tick">&#10003;</span></button>
+              <div class="pmd-grid2">
+                <button type="button" class="pmd-card pmd-pkg" data-val="Mini Detail"><span class="pmd-card-t">Mini Detail</span><span class="pmd-card-d">Wash, vac &amp; quick interior/exterior clean</span><span class="pmd-card-tick">&#10003;</span></button>
+                <button type="button" class="pmd-card pmd-pkg" data-val="Deluxe Detail"><span class="pmd-card-t">Deluxe Detail</span><span class="pmd-card-d">Complete interior &amp; exterior detail</span><span class="pmd-card-tick">&#10003;</span></button>
+                <button type="button" class="pmd-card pmd-pkg" data-val="Full Detail"><span class="pmd-card-t">Full Detail</span><span class="pmd-card-d">Full detail + machine polish</span><span class="pmd-card-tick">&#10003;</span></button>
+                <button type="button" class="pmd-card pmd-pkg" data-val="Paint Enhancement"><span class="pmd-card-t">Paint Enhancement</span><span class="pmd-card-d">One-step gloss &amp; shine boost</span><span class="pmd-card-tick">&#10003;</span></button>
+                <button type="button" class="pmd-card pmd-pkg" data-val="Paint Correction"><span class="pmd-card-t">Paint Correction</span><span class="pmd-card-d">Multi-step swirl &amp; scratch removal</span><span class="pmd-card-tick">&#10003;</span></button>
+                <button type="button" class="pmd-card pmd-pkg" data-val="Ceramic Coating"><span class="pmd-card-t">Ceramic Coating</span><span class="pmd-card-d">Long-lasting paint protection</span><span class="pmd-card-tick">&#10003;</span></button>
+                <button type="button" class="pmd-card pmd-pkg" data-val="Not sure — need advice"><span class="pmd-card-t">Not sure yet</span><span class="pmd-card-d">Help me pick the right service</span><span class="pmd-card-tick">&#10003;</span></button>
               </div>
             </div>
 
-            <!-- STEP 2 — vehicle -->
+            <!-- STEP 2 — location -->
             <div class="pmd-step" data-step="2" hidden>
+              <div class="pmd-grid2">
+                <button type="button" class="pmd-card pmd-loc" data-val="Onsite — Vehicle Drop Off"><span class="pmd-card-ic">🏠</span><span class="pmd-card-t">Onsite — Vehicle Drop Off</span><span class="pmd-card-d">Drop your car off to us</span><span class="pmd-card-tick">&#10003;</span></button>
+                <button type="button" class="pmd-card pmd-loc" data-val="Mobile Service — At Your Door"><span class="pmd-card-ic">🚐</span><span class="pmd-card-t">Mobile Service — At Your Door</span><span class="pmd-card-d">We come to you</span><span class="pmd-card-tick">&#10003;</span></button>
+              </div>
+              <div id="postcodeWrap" hidden style="margin-top:18px">
+                <label class="enq-label" for="postcode">Postcode <span style="color:#f87171">*</span></label>
+                <input class="enq-field" id="postcode" name="postcode" type="text" inputmode="numeric" maxlength="4" placeholder="e.g. 3809" />
+                <p class="pmd-loc-hint">We come to you across Officer &amp; South-East Melbourne (Victoria-wide for larger jobs). Your postcode lets us confirm we can reach you.</p>
+              </div>
+              <div id="locErr" class="pmd-inline-err" hidden></div>
+            </div>
+
+            <!-- STEP 3 — vehicle -->
+            <div class="pmd-step" data-step="3" hidden>
               <div style="margin-bottom:16px"><label class="enq-label" for="vehicle">Vehicle</label><input class="enq-field" id="vehicle" name="vehicle" type="text" placeholder="e.g. 2022 Audi RS5 (make, model, year)" /></div>
-              <div style="margin-bottom:16px"><label class="enq-label" for="suburb">Suburb</label><input class="enq-field" id="suburb" name="suburb" type="text" placeholder="e.g. Officer" /></div>
               <div><label class="enq-label" for="message">Any other comments / special requests?</label><textarea class="enq-field" id="message" name="message" placeholder="Special requests, paint condition, access notes — anything we should know..."></textarea></div>
             </div>
 
-            <!-- STEP 3 — contact -->
-            <div class="pmd-step" data-step="3" hidden>
+            <!-- STEP 4 — contact -->
+            <div class="pmd-step" data-step="4" hidden>
               <div class="enq-row">
                 <div><label class="enq-label" for="name">Name *</label><input class="enq-field" id="name" name="name" type="text" placeholder="Your name" /></div>
                 <div><label class="enq-label" for="mobile">Mobile *</label><input class="enq-field" id="mobile" name="mobile" type="tel" placeholder="04__ ___ ___" /></div>
@@ -133,6 +149,7 @@
             </div>
 
             <input type="hidden" name="service" id="service" />
+            <input type="hidden" name="service_location" id="service_location" />
             <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off" />
 
             <div class="pmd-nav">
@@ -167,14 +184,20 @@
       var btnNext = document.getElementById('btnNext');
       var btnSubmit = document.getElementById('enqBtn');
       var serviceInput = document.getElementById('service');
+      var locInput = document.getElementById('service_location');
+      var postcodeWrap = document.getElementById('postcodeWrap');
+      var postcode = document.getElementById('postcode');
+      var locErr = document.getElementById('locErr');
       var ok = document.getElementById('enqOk'), err = document.getElementById('enqErr');
       var review = document.getElementById('enqReview');
       var TITLES = {
         1: ['Choose your service', 'Pick what you’re after — not sure? Choose “Not sure yet”.'],
-        2: ['Your vehicle', 'What are we detailing, and where are we headed?'],
-        3: ['Your details', 'Last step — how do we reach you to confirm?']
+        2: ['How would you like it done?', 'Drop your car to us, or we come to you.'],
+        3: ['Your vehicle', 'What are we detailing? Add anything we should know.'],
+        4: ['Your details', 'Last step — how do we reach you to confirm?']
       };
       function val(id){ var el = document.getElementById(id); return el ? el.value.trim() : ''; }
+      var isMobile = function () { return /mobile/i.test(locInput.value); };
       function show(n) {
         cur = n;
         steps.forEach(function (s) { s.hidden = (+s.getAttribute('data-step') !== n); });
@@ -187,11 +210,12 @@
         btnBack2.hidden = (n === 1);
         btnNext.hidden = (n === 1 || n === TOTAL);
         btnSubmit.hidden = (n !== TOTAL);
-        if (n === 3) {
+        if (n === 4) {
           review.innerHTML = '<strong style="color:#cbd2dd">Your booking:</strong> ' +
             (serviceInput.value || '—') +
-            (val('vehicle') ? ' &middot; ' + val('vehicle') : '') +
-            (val('suburb') ? ' &middot; ' + val('suburb') : '');
+            (locInput.value ? ' &middot; ' + locInput.value : '') +
+            (isMobile() && val('postcode') ? ' (' + val('postcode') + ')' : '') +
+            (val('vehicle') ? ' &middot; ' + val('vehicle') : '');
         }
       }
       // package select -> set value, highlight, auto-advance
@@ -203,7 +227,25 @@
           setTimeout(function () { show(2); }, 240);
         });
       });
-      btnNext.addEventListener('click', function () { if (cur < TOTAL) show(cur + 1); });
+      // location select -> set value, highlight, reveal postcode if mobile
+      [].forEach.call(form.querySelectorAll('.pmd-loc'), function (b) {
+        b.addEventListener('click', function () {
+          [].forEach.call(form.querySelectorAll('.pmd-loc'), function (x) { x.classList.remove('sel'); });
+          b.classList.add('sel');
+          locInput.value = b.getAttribute('data-val');
+          locErr.hidden = true;
+          if (isMobile()) { postcodeWrap.hidden = false; setTimeout(function () { postcode.focus(); }, 60); }
+          else { postcodeWrap.hidden = true; postcode.value = ''; }
+        });
+      });
+      function canAdvance(n) {
+        if (n === 2) {
+          if (!locInput.value) { locErr.textContent = 'Please choose an option to continue.'; locErr.hidden = false; return false; }
+          if (isMobile() && !val('postcode')) { locErr.textContent = 'Please enter your postcode so we can confirm we service your area.'; locErr.hidden = false; postcode.focus(); return false; }
+        }
+        return true;
+      }
+      btnNext.addEventListener('click', function () { if (canAdvance(cur) && cur < TOTAL) show(cur + 1); });
       btnBack.addEventListener('click', function () { if (cur > 1) show(cur - 1); });
       btnBack2.addEventListener('click', function () { if (cur > 1) show(cur - 1); });
 
@@ -230,9 +272,10 @@
           'Name: ' + (data.name || '-') + '\n' +
           'Mobile: ' + (data.mobile || '-') + '\n' +
           'Email: ' + (data.email || '-') + '\n' +
-          'Vehicle: ' + (data.vehicle || '-') + '\n' +
           'Service: ' + (data.service || '-') + '\n' +
-          'Suburb: ' + (data.suburb || '-') +
+          'How: ' + (data.service_location || '-') +
+          (data.postcode ? '\nPostcode: ' + data.postcode : '') +
+          '\nVehicle: ' + (data.vehicle || '-') +
           (data.message ? '\n\nComments / requests:\n' + data.message : '') +
           '\n\nSubmitted: ' + data.submitted_at + '\nPage: ' + data.page;
         btnSubmit.disabled = true; btnSubmit.textContent = 'Sending...';
@@ -242,8 +285,8 @@
           body: JSON.stringify(data)
         }).then(function () {
           form.reset();
-          [].forEach.call(form.querySelectorAll('.pmd-pkg'), function (x) { x.classList.remove('sel'); });
-          serviceInput.value = '';
+          [].forEach.call(form.querySelectorAll('.pmd-card'), function (x) { x.classList.remove('sel'); });
+          serviceInput.value = ''; locInput.value = ''; postcodeWrap.hidden = true;
           ok.classList.add('enq-ok'); ok.scrollIntoView({ block: 'center', behavior: 'smooth' });
         }).catch(function () {
           err.classList.add('enq-err');
