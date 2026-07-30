@@ -367,3 +367,29 @@
   backdrop-filter:blur(6px); -webkit-backdrop-filter:blur(6px); white-space:nowrap;
 }
 .pmd-trust span::before{ content:"✦"; color:#3f7dff; font-size:12px; }
+
+/* === Allura cursive (Glossed Out font) + blue gradient fill (no white shine) === */
+@font-face{ font-family:'Allura'; font-style:normal; font-weight:400; font-display:swap; src:url('/assets/fonts/allura-400.woff2') format('woff2'); }
+
+/* Blue text -> clean blue gradient fill, no white shine/fade */
+#root h1 span.text-primary, #root h2 span.text-primary, #root h1 span.italic, #root h2 span.italic,
+#root p.text-primary, .pmd-svc-cat, .pmd-svc-more{
+  background:linear-gradient(102deg, #6aa0ff 0%, #2f6bff 55%, #1a52e6 100%) !important;
+  background-size:100% 100% !important;
+  -webkit-background-clip:text !important; background-clip:text !important;
+  -webkit-text-fill-color:transparent !important; color:transparent !important;
+  animation:none !important;
+}
+
+/* Cursive subheading in Allura (blue gradient) */
+.pmd-subhead, .pmd-cursive{
+  font-family:'Allura', cursive !important; font-style:normal !important;
+  text-transform:none !important; letter-spacing:0 !important;
+  font-size:36px !important; line-height:1.05 !important; font-weight:400 !important;
+}
+.pmd-subhead{
+  background:linear-gradient(102deg, #6aa0ff, #2f6bff) !important;
+  -webkit-background-clip:text !important; background-clip:text !important;
+  -webkit-text-fill-color:transparent !important; color:transparent !important;
+  margin-top:6px !important;
+}

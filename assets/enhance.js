@@ -53,8 +53,10 @@
         if (!RM && !window.__pmdHeroAnim) {
           window.__pmdHeroAnim = true;
           spans.forEach(function (s, i) {
-            s.animate([{ opacity: 0, transform: 'translateY(26px)' }, { opacity: 1, transform: 'translateY(0)' }],
-              { duration: 820, delay: i * 190, easing: 'cubic-bezier(.22,1,.36,1)', fill: 'both' });
+            s.animate([
+              { opacity: 0, clipPath: 'inset(0 100% 0 0)', filter: 'blur(3px)' },
+              { opacity: 1, clipPath: 'inset(0 0 0 0)', filter: 'blur(0)' }
+            ], { duration: 950, delay: i * 240, easing: 'cubic-bezier(.5,0,.15,1)', fill: 'both' });
           });
         }
       }
@@ -63,7 +65,7 @@
       if (sub && !sub.classList.contains('pmd-subhead')) {
         sub.classList.remove('pmd-cursive');
         sub.classList.add('pmd-subhead');
-        sub.textContent = 'Ceramic Coating · Paint Correction · PPF · Window Tinting — South-East Melbourne';
+        sub.textContent = 'Ceramic coating & detailing — at your door.';
         if (sub.parentNode && !sub.parentNode.querySelector('.pmd-trust')) {
           var tr = document.createElement('div'); tr.className = 'pmd-trust';
           tr.innerHTML = '<span>+30 Years Combined Experience</span><span>Ceramic Coating Specialist</span>';
