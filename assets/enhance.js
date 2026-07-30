@@ -34,42 +34,48 @@
     }
     if (document.body) splash(); else document.addEventListener('DOMContentLoaded', splash);
   })();
-  // ---- homepage hero: staggered line reveal + cursive subtext (survives SPA re-renders) ----
+  // ---- homepage hero: A/B variant, scrub reveal, cursive subhead, cleanup ----
   (function () {
     if ((location.pathname.replace(/\/+$/, '') || '/') !== '/') return;
+    var V = (function () { try { var u = new URLSearchParams(location.search).get('hero'); if (u) localStorage.setItem('pmdHero', u.toUpperCase()); return (localStorage.getItem('pmdHero') || 'A').toUpperCase(); } catch (e) { return 'A'; } })();
+    var B_HTML = 'Premier Mobile <br><span class="text-primary">Detailing.</span>';
+    var STRIP = ['ceramic coating', 'paint correction', 'full detail'];
     function apply() {
       var root = document.getElementById('root'); if (!root) return;
       var hero = root.querySelector('h1'); if (!hero) return;
+      if (V === 'B' && hero.textContent.indexOf('Premier Mobile') === -1) hero.innerHTML = B_HTML;
       if (!hero.querySelector('.pmd-line')) {
         var groups = [[]];
-        Array.prototype.forEach.call(hero.childNodes, function (n) {
-          if (n.nodeName === 'BR') groups.push([]); else groups[groups.length - 1].push(n);
-        });
+        Array.prototype.forEach.call(hero.childNodes, function (n) { if (n.nodeName === 'BR') groups.push([]); else groups[groups.length - 1].push(n); });
         hero.textContent = '';
-        var spans = groups.map(function (g) {
-          var s = document.createElement('span'); s.className = 'pmd-line';
-          g.forEach(function (n) { s.appendChild(n); }); hero.appendChild(s); return s;
-        });
+        var spans = groups.map(function (g) { var s = document.createElement('span'); s.className = 'pmd-line'; g.forEach(function (n) { s.appendChild(n); }); hero.appendChild(s); return s; });
         if (!RM && !window.__pmdHeroAnim) {
           window.__pmdHeroAnim = true;
-          spans.forEach(function (s, i) {
-            s.animate([
-              { opacity: 0, clipPath: 'inset(0 100% 0 0)', filter: 'blur(3px)' },
-              { opacity: 1, clipPath: 'inset(0 0 0 0)', filter: 'blur(0)' }
-            ], { duration: 950, delay: i * 240, easing: 'cubic-bezier(.5,0,.15,1)', fill: 'both' });
-          });
+          spans.forEach(function (s, i) { s.animate([{ opacity: 0, clipPath: 'inset(0 100% 0 0)', filter: 'blur(3px)' }, { opacity: 1, clipPath: 'inset(0 0 0 0)', filter: 'blur(0)' }], { duration: 950, delay: i * 240, easing: 'cubic-bezier(.5,0,.15,1)', fill: 'both' }); });
         }
       }
       var sub = hero.nextElementSibling;
       while (sub && sub.tagName !== 'P') sub = sub.nextElementSibling;
       if (sub && !sub.classList.contains('pmd-subhead')) {
-        sub.classList.remove('pmd-cursive');
-        sub.classList.add('pmd-subhead');
+        sub.classList.remove('pmd-cursive'); sub.classList.add('pmd-subhead');
         sub.textContent = 'Ceramic coating & detailing — at your door.';
         if (sub.parentNode && !sub.parentNode.querySelector('.pmd-trust')) {
           var tr = document.createElement('div'); tr.className = 'pmd-trust';
-          tr.innerHTML = '<span>+30 Years Combined Experience</span><span>Ceramic Coating Specialist</span>';
+          tr.innerHTML = '<span>+30 Years Combined Experience</span>';
           sub.parentNode.insertBefore(tr, sub.nextSibling);
+        }
+      }
+      if (hero.parentNode) Array.prototype.forEach.call(hero.parentNode.querySelectorAll('a, button'), function (el) {
+        if (el.textContent.trim().toLowerCase() === 'start your quote') el.style.display = 'none';
+      });
+      var as = root.querySelectorAll('a');
+      for (var k = 0; k < as.length; k++) {
+        var t = as[k].textContent.replace(/[^a-z ]/gi, '').trim().toLowerCase();
+        if (STRIP.indexOf(t) > -1 && as[k].classList.contains('group') && !as[k].querySelector('img') && !as[k].closest('nav')) {
+          var sc = as[k].closest('section');
+          if (sc && !sc.querySelector('h1')) sc.style.display = 'none';
+          else { var g = as[k].closest('.grid') || as[k].parentElement; if (g) g.style.display = 'none'; }
+          break;
         }
       }
     }
@@ -78,6 +84,18 @@
     document.addEventListener('DOMContentLoaded', apply);
     [150, 500, 1200, 2500].forEach(function (t) { setTimeout(apply, t); });
     apply();
+    function toggle() {
+      if (document.getElementById('pmd-abtoggle')) return;
+      var box = document.createElement('div'); box.id = 'pmd-abtoggle';
+      box.style.cssText = 'position:fixed;left:16px;bottom:16px;z-index:99998;display:flex;gap:6px;align-items:center;background:rgba(11,16,28,.85);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border:1px solid rgba(255,255,255,.14);border-radius:9999px;padding:6px 10px 6px 14px;font:600 12px/1 system-ui,sans-serif;color:#cbd2dd;box-shadow:0 10px 30px rgba(0,0,0,.5)';
+      box.innerHTML = '<span style="opacity:.6;margin-right:2px">Hero</span><button data-v="A" style="border:0;border-radius:9999px;padding:6px 12px;cursor:pointer;font:inherit">A</button><button data-v="B" style="border:0;border-radius:9999px;padding:6px 12px;cursor:pointer;font:inherit">B</button>';
+      Array.prototype.forEach.call(box.querySelectorAll('button'), function (b) {
+        var on = b.getAttribute('data-v') === V; b.style.background = on ? '#2f6bff' : 'rgba(255,255,255,.08)'; b.style.color = on ? '#fff' : '#cbd2dd';
+        b.addEventListener('click', function () { try { localStorage.setItem('pmdHero', b.getAttribute('data-v')); } catch (e) { } location.reload(); });
+      });
+      (document.body || document.documentElement).appendChild(box);
+    }
+    if (document.body) toggle(); else document.addEventListener('DOMContentLoaded', toggle);
   })();
 
   // ---- homepage: fold the stats bar into the "What Our Clients Say" section ----
@@ -295,6 +313,8 @@
       var txt = el.textContent.trim().toLowerCase();
       if (href === '/#services' || href === '/#areas' || txt === 'services' || txt === 'areas' || txt === 'get in touch' || href.indexOf('tel:') === 0) {
         el.style.display = 'none';
+      } else if (txt === 'start your quote') {
+        el.textContent = 'Book Now';
       }
     });
   }
