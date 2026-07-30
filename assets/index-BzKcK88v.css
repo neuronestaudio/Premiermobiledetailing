@@ -266,3 +266,10 @@
 #root .pmd-statrow{ background:transparent !important; box-shadow:none !important; border-radius:0 !important; overflow:visible !important; }
 #root .pmd-statrow > *{ background:transparent !important; }
 #root section.pmd-nomesh::after{ display:none !important; background:none !important; content:none !important; }
+
+/* === NLP-style pill buttons === */
+#root a.bg-primary, #root button.bg-primary,
+#root a.bg-white, #root button.bg-white,
+#root button.border-white\/20, #root a.border-white\/20,
+#root a.border.bg-background, #root button.border.bg-background,
+.enq-btn{ border-radius:9999px !important; }
