@@ -240,9 +240,9 @@
           d.classList.toggle('active', s === n);
         });
         stepTitle.textContent = TITLES[n][0]; stepSub.textContent = TITLES[n][1];
-        btnBack.hidden = (n === 1);            // Back on every step after the first
-        btnNext.hidden = (n === TOTAL);         // Continue on steps 1-3
-        btnSubmit.hidden = (n !== TOTAL);       // Submit on step 4
+        btnBack.hidden = (n === 1);                 // Back on every step after the first
+        btnNext.hidden = (n === 1 || n === TOTAL);  // Continue on steps 2-3 (step 1 cards auto-advance)
+        btnSubmit.hidden = (n !== TOTAL);           // Submit on step 4
         if (n === 4) {
           review.innerHTML = '<strong style="color:#dfe5f0">Your booking:</strong> ' +
             (serviceInput.value || '—') +
@@ -251,21 +251,30 @@
             (val('vehicle') ? ' &middot; ' + val('vehicle') : '');
         }
       }
-      // package select -> highlight + set value (NO auto-advance; user clicks Continue)
+      // package select -> highlight + auto-advance (Back stays available to edit)
       [].forEach.call(form.querySelectorAll('.pmd-pkg'), function (b) {
         b.addEventListener('click', function () {
           [].forEach.call(form.querySelectorAll('.pmd-pkg'), function (x) { x.classList.remove('sel'); });
           b.classList.add('sel'); serviceInput.value = b.getAttribute('data-val'); stepErr.hidden = true;
+          setTimeout(function () { if (cur === 1) show(2); }, 260);
         });
       });
-      // location select -> highlight + set value; Mobile reveals the required postcode
+      // location select -> Studio auto-advances; Mobile reveals the required postcode
       [].forEach.call(form.querySelectorAll('.pmd-loc'), function (b) {
         b.addEventListener('click', function () {
           [].forEach.call(form.querySelectorAll('.pmd-loc'), function (x) { x.classList.remove('sel'); });
           b.classList.add('sel'); locInput.value = b.getAttribute('data-val'); stepErr.hidden = true;
-          if (isMobile()) { postcodeWrap.hidden = false; setTimeout(function () { postcode.focus(); }, 60); }
-          else { postcodeWrap.hidden = true; postcode.value = ''; }
+          if (isMobile()) {
+            postcodeWrap.hidden = false; setTimeout(function () { postcode.focus(); }, 60);
+          } else {
+            postcodeWrap.hidden = true; postcode.value = '';
+            setTimeout(function () { if (cur === 2) show(3); }, 260);
+          }
         });
+      });
+      // postcode filled (4 digits) -> auto-advance too, keeping the flow moving
+      postcode.addEventListener('input', function () {
+        if (postcode.value.replace(/\D/g, '').length === 4) { setTimeout(function () { if (cur === 2 && isMobile()) show(3); }, 320); }
       });
       function canAdvance(n) {
         if (n === 1 && !serviceInput.value) { stepErr.textContent = 'Please choose a service to continue.'; stepErr.hidden = false; return false; }
