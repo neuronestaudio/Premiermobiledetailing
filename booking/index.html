@@ -167,10 +167,17 @@
               </div>
             </div>
 
-            <!-- STEP 3 — vehicle -->
+            <!-- STEP 3 — vehicle + paint condition -->
             <div class="pmd-step" data-step="3" hidden>
-              <div style="margin-bottom:16px"><label class="enq-label" for="vehicle">Vehicle</label><input class="enq-field" id="vehicle" name="vehicle" type="text" placeholder="e.g. 2022 Audi RS5 (make, model, year)" /></div>
-              <div><label class="enq-label" for="message">Any other comments / special requests?</label><textarea class="enq-field" id="message" name="message" placeholder="Special requests, paint condition, access notes — anything we should know..."></textarea></div>
+              <div style="margin-bottom:18px"><label class="enq-label" for="vehicle">Vehicle <span style="color:#f87171">*</span></label><input class="enq-field" id="vehicle" name="vehicle" type="text" placeholder="e.g. 2022 Audi RS5 (make, model, year)" /></div>
+              <label class="enq-label">Paint condition <span style="color:#f87171">*</span></label>
+              <div class="pmd-grid2" style="margin-bottom:18px">
+                <button type="button" class="pmd-card pmd-cond" data-val="New / Excellent"><span class="pmd-card-t">New / Excellent</span><span class="pmd-card-d">Near-new, minimal marks</span><span class="pmd-card-tick">&#10003;</span></button>
+                <button type="button" class="pmd-card pmd-cond" data-val="Good"><span class="pmd-card-t">Good</span><span class="pmd-card-d">Light swirls, minor marks</span><span class="pmd-card-tick">&#10003;</span></button>
+                <button type="button" class="pmd-card pmd-cond" data-val="Fair"><span class="pmd-card-t">Fair</span><span class="pmd-card-d">Noticeable swirls &amp; scratches</span><span class="pmd-card-tick">&#10003;</span></button>
+                <button type="button" class="pmd-card pmd-cond" data-val="Poor"><span class="pmd-card-t">Poor</span><span class="pmd-card-d">Heavy scratches / oxidation</span><span class="pmd-card-tick">&#10003;</span></button>
+              </div>
+              <div><label class="enq-label" for="message">Any other comments / special requests? <span style="color:#8b95a7;font-weight:400;text-transform:none;letter-spacing:0">(optional)</span></label><textarea class="enq-field" id="message" name="message" placeholder="Access notes, specific concerns — anything else we should know..."></textarea></div>
             </div>
 
             <!-- STEP 4 — contact -->
@@ -185,6 +192,7 @@
 
             <input type="hidden" name="service" id="service" />
             <input type="hidden" name="service_location" id="service_location" />
+            <input type="hidden" name="condition" id="condition" />
             <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off" />
 
             <div class="pmd-inline-err" id="stepErr" hidden></div>
@@ -225,6 +233,7 @@
       var btnSubmit = document.getElementById('enqBtn');
       var serviceInput = document.getElementById('service');
       var locInput = document.getElementById('service_location');
+      var condInput = document.getElementById('condition');
       var postcodeWrap = document.getElementById('postcodeWrap');
       var postcode = document.getElementById('postcode');
       var stepErr = document.getElementById('stepErr');
@@ -258,7 +267,8 @@
             (serviceInput.value || '—') +
             (locInput.value ? ' &middot; ' + locInput.value : '') +
             (isMobile() && val('postcode') ? ' (' + val('postcode') + ')' : '') +
-            (val('vehicle') ? ' &middot; ' + val('vehicle') : '');
+            (val('vehicle') ? ' &middot; ' + val('vehicle') : '') +
+            (condInput.value ? ' &middot; ' + condInput.value + ' condition' : '');
         }
       }
       // package select -> highlight + auto-advance (Back stays available to edit)
@@ -286,11 +296,24 @@
       postcode.addEventListener('input', function () {
         if (postcode.value.replace(/\D/g, '').length === 4) { setTimeout(function () { if (cur === 2 && isMobile()) show(3); }, 320); }
       });
+      // paint condition select -> highlight + set value (both vehicle & condition required for step 4)
+      [].forEach.call(form.querySelectorAll('.pmd-cond'), function (b) {
+        b.addEventListener('click', function () {
+          [].forEach.call(form.querySelectorAll('.pmd-cond'), function (x) { x.classList.remove('sel'); });
+          b.classList.add('sel'); condInput.value = b.getAttribute('data-val'); stepErr.hidden = true;
+        });
+      });
       function canAdvance(n) {
         if (n === 1 && !serviceInput.value) { stepErr.textContent = 'Please choose a service to continue.'; stepErr.hidden = false; return false; }
         if (n === 2) {
           if (!locInput.value) { stepErr.textContent = 'Please choose how you’d like it done.'; stepErr.hidden = false; return false; }
           if (isMobile() && !val('postcode')) { stepErr.textContent = 'Please enter your postcode so we can confirm we service your area.'; stepErr.hidden = false; postcode.focus(); return false; }
+        }
+        if (n === 3) {
+          var hasV = !!val('vehicle'), hasC = !!condInput.value;
+          if (!hasV && !hasC) { stepErr.textContent = 'Please fill in the mandatory fields — enter your vehicle and select its paint condition.'; stepErr.hidden = false; return false; }
+          if (!hasV) { stepErr.textContent = 'Please enter your vehicle — it’s required to continue.'; stepErr.hidden = false; return false; }
+          if (!hasC) { stepErr.textContent = 'Please select the paint condition — it’s required to continue.'; stepErr.hidden = false; return false; }
         }
         return true;
       }
@@ -324,6 +347,7 @@
           'Location: ' + (data.service_location || '-') +
           (data.postcode ? '\nPostcode: ' + data.postcode : '') +
           '\nVehicle: ' + (data.vehicle || '-') +
+          '\nCondition: ' + (data.condition || '-') +
           (data.message ? '\n\nComments / requests:\n' + data.message : '') +
           '\n\nSubmitted: ' + data.submitted_at + '\nPage: ' + data.page;
         btnSubmit.disabled = true; btnSubmit.textContent = 'Sending...';
@@ -334,7 +358,7 @@
         }).then(function () {
           form.reset();
           [].forEach.call(form.querySelectorAll('.pmd-card'), function (x) { x.classList.remove('sel'); });
-          serviceInput.value = ''; locInput.value = ''; postcodeWrap.hidden = true;
+          serviceInput.value = ''; locInput.value = ''; condInput.value = ''; postcodeWrap.hidden = true;
           ok.classList.add('enq-ok'); ok.scrollIntoView({ block: 'center', behavior: 'smooth' });
         }).catch(function () {
           err.classList.add('enq-err');
