@@ -235,8 +235,8 @@
   -webkit-text-fill-color:transparent !important; color:transparent !important;
   animation:none !important;
 }
-#root h1 span.text-primary, #root h2 span.text-primary,
-#root h1 span.italic, #root h2 span.italic{
+#root h1 span.text-primary:not(.pmd-shine-blue), #root h2 span.text-primary,
+#root h1 span.italic:not(.pmd-shine-blue), #root h2 span.italic{
   background-image:linear-gradient(100deg, transparent 44%, rgba(255,255,255,.7) 50%, transparent 56%), linear-gradient(hsl(var(--primary)),hsl(var(--primary))) !important;
   background-size:260% 100%, 100% 100% !important;
   background-repeat:no-repeat, no-repeat !important;
@@ -372,7 +372,7 @@
 @font-face{ font-family:'Allura'; font-style:normal; font-weight:400; font-display:swap; src:url('/assets/fonts/allura-400.woff2') format('woff2'); }
 
 /* Blue text -> clean blue gradient fill, no white shine/fade */
-#root h1 span.text-primary, #root h2 span.text-primary, #root h1 span.italic, #root h2 span.italic,
+#root h1 span.text-primary:not(.pmd-shine-blue), #root h2 span.text-primary, #root h1 span.italic:not(.pmd-shine-blue), #root h2 span.italic,
 #root p.text-primary, .pmd-svc-cat, .pmd-svc-more{
   background:linear-gradient(102deg, #6aa0ff 0%, #2f6bff 55%, #1a52e6 100%) !important;
   background-size:100% 100% !important;
@@ -413,9 +413,10 @@
   line-height: 0.95;
   font-size: clamp(48px, 8vw, 96px) !important;
   display: inline-block;
-  background: linear-gradient(90deg,
+  background-image: linear-gradient(90deg,
     #bfc2c7 0%, #fff 5%, #fafbfc 15%, #cfd2d6 30%, #fff 65%,
     #bfc2c7 80%, #f8f9fa 90%, #fff 95%, #bfc2c7 100%) !important;
+  background-repeat: repeat !important;
   background-size: 200% 100% !important;
   -webkit-background-clip: text !important; background-clip: text !important;
   -webkit-text-fill-color: transparent !important; color: transparent !important;
@@ -476,9 +477,10 @@
 /* ---- Hero WHITE text = EXACT NLP metal shine (variants A & B; C uses .pmd-hero-mono, identical) ---- */
 /* white lines: EXACT NLP hero-text-mono metal gradient + sweep */
 #root h1 .pmd-line.pmd-shine {
-  background: linear-gradient(90deg,
+  background-image: linear-gradient(90deg,
     #bfc2c7 0%, #fff 5%, #fafbfc 15%, #cfd2d6 30%, #fff 65%,
     #bfc2c7 80%, #f8f9fa 90%, #fff 95%, #bfc2c7 100%) !important;
+  background-repeat: repeat !important;
   background-size: 200% 100% !important;
   -webkit-background-clip: text !important; background-clip: text !important;
   -webkit-text-fill-color: transparent !important; color: transparent !important;
@@ -489,8 +491,9 @@
 #root h1 .pmd-line span.pmd-shine-blue,
 #root h1 span.pmd-shine-blue,
 #root h1 .pmd-shine-blue {
-  background: linear-gradient(90deg,
+  background-image: linear-gradient(90deg,
     #2f6bff 0%, #6aa0ff 25%, #1a52e6 50%, #6aa0ff 75%, #2f6bff 100%) !important;
+  background-repeat: repeat !important;
   background-size: 200% 100% !important;
   -webkit-background-clip: text !important; background-clip: text !important;
   -webkit-text-fill-color: transparent !important; color: transparent !important;
