@@ -10,6 +10,13 @@
   <link rel="canonical" href="https://premiermobiledetailing.com.au/booking" />
   <style>
     body{background:#080B16;margin:0;color:#fff}
+    /* hero tagline: NLP metal on white + blue accent */
+    .pmd-book-metal{background:linear-gradient(90deg,#bfc2c7 0%,#fff 5%,#fafbfc 15%,#cfd2d6 30%,#fff 65%,#bfc2c7 80%,#f8f9fa 90%,#fff 95%,#bfc2c7 100%) !important;
+      background-size:200% 100% !important;-webkit-background-clip:text !important;background-clip:text !important;
+      -webkit-text-fill-color:transparent !important;color:transparent !important;animation:pmdShineSweep 3.2s ease-in-out infinite !important}
+    .pmd-book-blue{background:linear-gradient(102deg,#6aa0ff,#2f6bff,#1a52e6) !important;-webkit-background-clip:text !important;background-clip:text !important;
+      -webkit-text-fill-color:transparent !important;color:transparent !important}
+    @keyframes pmdShineSweep{0%{background-position:200% 0}100%{background-position:-200% 0}}
     .enq-label{display:block;font-size:13px;font-weight:600;color:#cbd2dd;margin:0 0 6px}
     .enq-field{width:100%;box-sizing:border-box;background:rgba(9,13,24,.55);border:1px solid rgba(255,255,255,.16);border-radius:10px;
       padding:12px 14px;color:#fff;font-size:15px;font-family:inherit;transition:border-color .2s, box-shadow .2s;outline:none}
@@ -106,17 +113,20 @@
 
     <!-- BOOKING -->
     <section class="relative overflow-hidden" style="padding-top:130px;padding-bottom:90px;min-height:100vh">
-      <!-- Woven carbon backdrop (the Glossed Out texture, over PD's dark navy) -->
+      <!-- Woven carbon backdrop with an on-brand navy overlay -->
       <div class="absolute inset-0 -z-10" style="background:#080B16"></div>
-      <div aria-hidden="true" class="absolute inset-0 -z-10" style="background-image:url('/assets/images/carbon-bg.jpg');background-size:cover;background-position:center;opacity:.78"></div>
-      <div aria-hidden="true" class="absolute inset-0 -z-10" style="background:radial-gradient(1200px 700px at 50% -8%, rgba(37,99,235,.18), transparent 60%)"></div>
-      <div aria-hidden="true" class="absolute inset-0 -z-10" style="background:linear-gradient(180deg, rgba(8,11,22,.30), rgba(8,11,22,.62) 72%, #080B16 96%)"></div>
+      <div aria-hidden="true" class="absolute inset-0 -z-10" style="background:linear-gradient(rgba(8,11,22,.62), rgba(11,16,32,.72)), url('/assets/images/carbon-bg.jpg');background-size:cover;background-position:center"></div>
+      <div aria-hidden="true" class="absolute inset-0 -z-10" style="background:radial-gradient(1200px 700px at 50% -8%, rgba(37,99,235,.20), transparent 60%)"></div>
+      <div aria-hidden="true" class="absolute inset-0 -z-10" style="background:linear-gradient(180deg, rgba(8,11,22,.25), rgba(8,11,22,.55) 72%, #080B16 96%)"></div>
 
       <div class="pmd-book-wrap">
         <div style="text-align:center;margin-bottom:26px;position:relative;z-index:2">
           <p class="mb-3" style="font-size:15px;font-weight:800;letter-spacing:.26em;text-transform:uppercase;text-shadow:0 2px 14px rgba(0,0,0,.85);background:linear-gradient(100deg,#eaf1ff 0%,#a9c6ff 38%,#5f92ff 70%,#2f6bff 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent">Premium Mobile Detailing</p>
-          <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight text-white drop-shadow-xl" style="margin:0">Book Your <span class="text-primary italic">Detail.</span></h1>
-          <p class="text-muted-foreground" style="margin-top:12px">Takes under a minute — we'll call or text back to confirm a time.</p>
+          <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight drop-shadow-xl" style="margin:0;line-height:1.06">
+            <span class="pmd-book-metal">The Best Your Car Has Ever Looked.</span><br />
+            <span class="pmd-book-blue">Detailed at Your Door.</span>
+          </h1>
+          <p class="text-muted-foreground" style="margin-top:14px">Book below — takes under a minute, and we'll call or text back to confirm a time.</p>
         </div>
 
         <div class="pmd-book-card">

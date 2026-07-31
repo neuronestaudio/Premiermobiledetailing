@@ -184,6 +184,30 @@
     if (document.body) toggle(); else document.addEventListener('DOMContentLoaded', toggle);
   })();
 
+  // ---- homepage: move Services above "What Our Clients Say"; navy-carbon bg on Gallery ----
+  (function () {
+    if ((location.pathname.replace(/\/+$/, '') || '/') !== '/') return;
+    function apply() {
+      var root = document.getElementById('root'); if (!root) return;
+      // 1) navy-carbon backdrop on the Gallery section
+      var gal = root.querySelector('section#gallery');
+      if (gal) gal.classList.add('pmd-navycarbon', 'pmd-nomesh');   // nomesh kills the hex ::after so the woven carbon shows
+      // 2) ensure #services sits ABOVE the "What Our Clients Say" section
+      var svc = root.querySelector('section#services');
+      if (!svc) return;
+      var clients = null, h2s = root.querySelectorAll('section h2');
+      for (var i = 0; i < h2s.length; i++) { if (/what our clients say/i.test(h2s[i].textContent)) { clients = h2s[i].closest('section'); break; } }
+      if (clients && (svc.compareDocumentPosition(clients) & Node.DOCUMENT_POSITION_PRECEDING)) {
+        clients.parentNode.insertBefore(svc, clients);   // clients was above -> pull services up
+      }
+    }
+    var r = document.getElementById('root');
+    if (r) new MutationObserver(apply).observe(r, { childList: true, subtree: true });
+    document.addEventListener('DOMContentLoaded', apply);
+    [300, 900, 2000, 3500].forEach(function (t) { setTimeout(apply, t); });
+    apply();
+  })();
+
   // ---- homepage: fold the stats bar into the "What Our Clients Say" section ----
   (function () {
     if ((location.pathname.replace(/\/+$/, '') || '/') !== '/') return;
