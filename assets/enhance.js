@@ -20,6 +20,30 @@
     }, true);
   })();
 
+  // ---- inject "Accredited & Certified" (GYEON + ONYX) tiles into the footer ----
+  (function () {
+    function injectCert() {
+      [].forEach.call(document.querySelectorAll('footer'), function (f) {
+        if (f.querySelector('.pmd-certified')) return;
+        var container = f.querySelector('.container') || f;
+        var block = document.createElement('div');
+        block.className = 'pmd-certified';
+        block.innerHTML = '<p class="pmd-certified-lbl">Accredited &amp; Certified</p>' +
+          '<div class="pmd-certified-row">' +
+          '<div class="pmd-cert-tile"><img src="/assets/images/Gyeon.png" alt="GYEON Certified Detailer" loading="lazy"></div>' +
+          '<div class="pmd-cert-tile"><img src="/assets/images/Onyx.png" alt="ONYX Coating Certified" loading="lazy"></div>' +
+          '</div>';
+        var bottom = container.querySelector('.border-t');   // the copyright bar
+        if (bottom) container.insertBefore(block, bottom); else container.appendChild(block);
+      });
+    }
+    var r = document.getElementById('root');
+    if (r) new MutationObserver(injectCert).observe(r, { childList: true, subtree: true });
+    document.addEventListener('DOMContentLoaded', injectCert);
+    [400, 1200, 2500].forEach(function (t) { setTimeout(injectCert, t); });
+    injectCert();
+  })();
+
   // ---- About page: PD logo splash intro ----
   (function () {
     var path = (location.pathname.replace(/\/+$/, '') || '/');
