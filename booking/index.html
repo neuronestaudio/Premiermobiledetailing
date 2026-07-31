@@ -11,36 +11,36 @@
   <style>
     body{background:#080B16;margin:0;color:#fff}
     .enq-label{display:block;font-size:13px;font-weight:600;color:#cbd2dd;margin:0 0 6px}
-    .enq-field{width:100%;box-sizing:border-box;background:#0F1524;border:1px solid rgba(255,255,255,.12);border-radius:10px;
+    .enq-field{width:100%;box-sizing:border-box;background:rgba(9,13,24,.55);border:1px solid rgba(255,255,255,.16);border-radius:10px;
       padding:12px 14px;color:#fff;font-size:15px;font-family:inherit;transition:border-color .2s, box-shadow .2s;outline:none}
-    .enq-field::placeholder{color:#6b7280}
+    .enq-field::placeholder{color:#8b93a3}
     .enq-field:focus{border-color:#2563eb;box-shadow:0 0 0 3px rgba(37,99,235,.25)}
     textarea.enq-field{resize:vertical;min-height:110px}
     .enq-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
     @media (max-width:640px){.enq-row{grid-template-columns:1fr}}
 
-    /* ---- stepped booking card ---- */
+    /* ---- stepped booking card (glassmorphism) ---- */
     .pmd-book-wrap{max-width:720px;margin:0 auto;padding:0 20px}
-    .pmd-book-card{background:#0b1020;border:1px solid rgba(255,255,255,.10);border-radius:22px;padding:26px 30px 34px;
-      box-shadow:0 40px 90px -40px rgba(0,0,0,.9)}
+    .pmd-book-card{background:linear-gradient(160deg, rgba(255,255,255,.13), rgba(255,255,255,.05));
+      -webkit-backdrop-filter:blur(26px) saturate(150%);backdrop-filter:blur(26px) saturate(150%);
+      border:1px solid rgba(255,255,255,.22);border-radius:22px;padding:26px 30px 34px;
+      box-shadow:0 40px 90px -30px rgba(0,0,0,.85), inset 0 1px 0 rgba(255,255,255,.28)}
     @media (max-width:640px){.pmd-book-card{padding:20px 16px 26px;border-radius:18px}}
 
     /* step indicator (4 circles like Glossed Out) */
     .pmd-steps{display:flex;align-items:flex-start;justify-content:space-between;position:relative;margin:2px 0 24px;padding:0 8px}
-    .pmd-steps::before{content:'';position:absolute;top:16px;left:26px;right:26px;height:2px;background:rgba(255,255,255,.12);z-index:0}
+    .pmd-steps::before{content:'';position:absolute;top:16px;left:26px;right:26px;height:2px;background:rgba(255,255,255,.18);z-index:0}
     .pmd-stp{position:relative;z-index:1;display:flex;flex-direction:column;align-items:center;gap:8px;flex:1}
     .pmd-stp-dot{width:34px;height:34px;border-radius:9999px;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:14px;
-      background:#0F1524;border:2px solid rgba(255,255,255,.18);color:#8b95a7;transition:background .3s, border-color .3s, color .3s, box-shadow .3s}
-    .pmd-stp-lbl{font-size:11.5px;color:#6b7280;font-weight:600;text-align:center;letter-spacing:.02em;transition:color .3s}
+      background:rgba(9,13,24,.6);border:2px solid rgba(255,255,255,.28);color:#cfd6e2;transition:background .3s, border-color .3s, color .3s, box-shadow .3s}
+    .pmd-stp-lbl{font-size:11.5px;color:#c3cad7;font-weight:600;text-align:center;letter-spacing:.02em;transition:color .3s}
     .pmd-stp.done .pmd-stp-dot{background:#2f6bff;border-color:#2f6bff;color:#fff}
-    .pmd-stp.done .pmd-stp-lbl{color:#aab4c5}
-    .pmd-stp.active .pmd-stp-dot{background:#2f6bff;border-color:#2f6bff;color:#fff;box-shadow:0 0 0 4px rgba(47,107,255,.28)}
+    .pmd-stp.active .pmd-stp-dot{background:#2f6bff;border-color:#2f6bff;color:#fff;box-shadow:0 0 0 4px rgba(47,107,255,.30)}
     .pmd-stp.active .pmd-stp-lbl{color:#fff}
+    .pmd-stp:not(.done):not(.active) .pmd-stp-lbl{color:#8b93a3}
 
-    .pmd-back{background:transparent;border:0;color:#9aa4b5;font:600 14px/1 inherit;cursor:pointer;display:inline-flex;align-items:center;gap:7px;padding:4px 2px 12px;transition:color .2s}
-    .pmd-back:hover{color:#fff}
-    .pmd-h{font-size:25px;font-weight:800;letter-spacing:-.01em;margin:0 0 4px}
-    .pmd-sub{color:#9aa4b5;font-size:14px;margin:0 0 22px}
+    .pmd-h{font-size:25px;font-weight:800;letter-spacing:-.01em;margin:0 0 4px;color:#fff}
+    .pmd-sub{color:#c3cad7;font-size:14px;margin:0 0 22px}
     @keyframes pmdStepIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
     .pmd-step{animation:pmdStepIn .34s ease both}
     .pmd-step[hidden]{display:none}
@@ -48,29 +48,41 @@
     /* selectable cards (packages + location) */
     .pmd-grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
     @media (max-width:560px){.pmd-grid2{grid-template-columns:1fr}}
-    .pmd-card{position:relative;text-align:left;background:#0F1524;border:1.5px solid rgba(255,255,255,.10);border-radius:14px;
+    .pmd-card{position:relative;text-align:left;background:rgba(9,13,24,.5);border:1.5px solid rgba(255,255,255,.16);border-radius:14px;
       padding:15px 16px;cursor:pointer;color:#fff;font-family:inherit;transition:transform .15s, border-color .2s, background .2s, box-shadow .3s}
-    .pmd-card:hover{transform:translateY(-3px);border-color:rgba(47,107,255,.55);box-shadow:0 16px 34px -18px rgba(47,107,255,.7)}
-    .pmd-card.sel{border-color:#2f6bff;background:#101b33;box-shadow:0 0 0 3px rgba(47,107,255,.25)}
+    .pmd-card:hover{transform:translateY(-3px);border-color:rgba(47,107,255,.6);box-shadow:0 16px 34px -18px rgba(47,107,255,.7)}
+    .pmd-card.sel{border-color:#2f6bff;background:rgba(16,27,51,.85);box-shadow:0 0 0 3px rgba(47,107,255,.3)}
     .pmd-card-t{display:block;font-weight:700;font-size:15px;margin-bottom:3px}
-    .pmd-card-d{display:block;font-size:12.5px;color:#9aa4b5;line-height:1.35}
+    .pmd-card-d{display:block;font-size:12.5px;color:#aab4c5;line-height:1.35}
     .pmd-card-ic{display:block;font-size:24px;margin-bottom:8px}
     .pmd-card-tick{position:absolute;top:12px;right:12px;width:20px;height:20px;border-radius:9999px;background:#2f6bff;color:#fff;
       display:none;align-items:center;justify-content:center;font-size:12px}
     .pmd-card.sel .pmd-card-tick{display:flex}
-    .pmd-loc-hint{font-size:12.5px;color:#9aa4b5;margin:8px 0 0}
+    .pmd-loc-hint{font-size:12.5px;color:#aab4c5;margin:8px 0 0}
     .pmd-inline-err{color:#fecaca;font-size:13px;margin-top:14px}
 
-    .pmd-nav{display:flex;gap:12px;margin-top:24px}
+    .pmd-nav{display:flex;gap:12px;margin-top:22px}
     .enq-btn{flex:1;background:#2563eb;color:#fff;border:0;border-radius:10px;padding:15px;font-size:16px;font-weight:700;cursor:pointer;
       transition:transform .15s, box-shadow .3s, background .2s}
     .enq-btn:hover{background:#1d4ed8;transform:translateY(-2px);box-shadow:0 14px 34px -12px rgba(37,99,235,.7)}
     .enq-btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
-    .enq-btn.ghost{background:transparent;border:1.5px solid rgba(255,255,255,.16);color:#cbd2dd;flex:0 0 auto;padding-left:22px;padding-right:22px}
-    .enq-btn.ghost:hover{background:rgba(255,255,255,.06);box-shadow:none}
+    .enq-btn.ghost{background:rgba(255,255,255,.06);border:1.5px solid rgba(255,255,255,.22);color:#e6ebf5;flex:0 0 auto;padding-left:26px;padding-right:26px}
+    .enq-btn.ghost:hover{background:rgba(255,255,255,.12);box-shadow:none}
     .enq-note{display:none;border-radius:10px;padding:14px 16px;margin-top:16px;font-size:14px}
-    .enq-ok{display:block;background:rgba(34,197,94,.12);border:1px solid rgba(34,197,94,.4);color:#bbf7d0}
-    .enq-err{display:block;background:rgba(239,68,68,.12);border:1px solid rgba(239,68,68,.4);color:#fecaca}
+    .enq-ok{display:block;background:rgba(34,197,94,.14);border:1px solid rgba(34,197,94,.45);color:#bbf7d0}
+    .enq-err{display:block;background:rgba(239,68,68,.14);border:1px solid rgba(239,68,68,.45);color:#fecaca}
+
+    /* contact info cards (Glossed Out style) */
+    .pmd-contact{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:20px}
+    @media (max-width:560px){.pmd-contact{grid-template-columns:1fr}}
+    .pmd-cc{display:block;text-align:left;background:linear-gradient(160deg, rgba(255,255,255,.10), rgba(255,255,255,.04));
+      -webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);
+      border:1px solid rgba(255,255,255,.16);border-radius:14px;padding:14px 16px;color:#fff;text-decoration:none;
+      transition:background .2s, border-color .2s, transform .15s}
+    a.pmd-cc:hover{background:linear-gradient(160deg, rgba(255,255,255,.16), rgba(255,255,255,.06));border-color:rgba(47,107,255,.55);transform:translateY(-2px)}
+    .pmd-cc-ic{font-size:18px}
+    .pmd-cc-l{display:block;font-size:10.5px;text-transform:uppercase;letter-spacing:.13em;color:#9aa4b5;margin:7px 0 3px;font-weight:700}
+    .pmd-cc-v{display:block;font-size:14px;font-weight:600;color:#eef2f8;word-break:break-word}
   </style>
   <link rel="stylesheet" crossorigin href="/assets/index-BzKcK88v.css" />
 </head>
@@ -101,14 +113,13 @@
       <div aria-hidden="true" class="absolute inset-0 -z-10" style="background:linear-gradient(180deg, rgba(8,11,22,.30), rgba(8,11,22,.62) 72%, #080B16 96%)"></div>
 
       <div class="pmd-book-wrap">
-        <div style="text-align:center;margin-bottom:26px">
-          <p class="text-primary font-semibold tracking-wider uppercase text-sm mb-3" style="letter-spacing:.18em">Premium Mobile Detailing</p>
+        <div style="text-align:center;margin-bottom:26px;position:relative;z-index:2">
+          <p class="mb-3" style="color:#9cc2ff;font-size:15px;font-weight:800;letter-spacing:.26em;text-transform:uppercase;text-shadow:0 2px 12px rgba(0,0,0,.9)">Premium Mobile Detailing</p>
           <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight text-white drop-shadow-xl" style="margin:0">Book Your <span class="text-primary italic">Detail.</span></h1>
           <p class="text-muted-foreground" style="margin-top:12px">Takes under a minute — we'll call or text back to confirm a time.</p>
         </div>
 
         <div class="pmd-book-card">
-          <button type="button" class="pmd-back" id="btnBack" hidden>&larr; Back</button>
           <!-- 4-step indicator -->
           <div class="pmd-steps" id="pmdSteps">
             <div class="pmd-stp" data-s="1"><div class="pmd-stp-dot">1</div><div class="pmd-stp-lbl">Service</div></div>
@@ -144,7 +155,6 @@
                 <input class="enq-field" id="postcode" name="postcode" type="text" inputmode="numeric" maxlength="4" placeholder="e.g. 3809" />
                 <p class="pmd-loc-hint">We come to you across Officer &amp; South-East Melbourne (Victoria-wide for larger jobs). Your postcode lets us confirm we can reach you.</p>
               </div>
-              <div id="locErr" class="pmd-inline-err" hidden></div>
             </div>
 
             <!-- STEP 3 — vehicle -->
@@ -160,16 +170,17 @@
                 <div><label class="enq-label" for="mobile">Mobile *</label><input class="enq-field" id="mobile" name="mobile" type="tel" placeholder="04__ ___ ___" /></div>
               </div>
               <div style="margin-top:16px"><label class="enq-label" for="email">Email</label><input class="enq-field" id="email" name="email" type="email" placeholder="you@email.com" /></div>
-              <div id="enqReview" style="margin-top:18px;font-size:13.5px;color:#9aa4b5;background:#0F1524;border:1px solid rgba(255,255,255,.08);border-radius:10px;padding:12px 14px"></div>
+              <div id="enqReview" style="margin-top:18px;font-size:13.5px;color:#c3cad7;background:rgba(9,13,24,.5);border:1px solid rgba(255,255,255,.12);border-radius:10px;padding:12px 14px"></div>
             </div>
 
             <input type="hidden" name="service" id="service" />
             <input type="hidden" name="service_location" id="service_location" />
             <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off" />
 
+            <div class="pmd-inline-err" id="stepErr" hidden></div>
             <div class="pmd-nav">
-              <button type="button" class="enq-btn ghost" id="btnBack2" hidden>Back</button>
-              <button type="button" class="enq-btn" id="btnNext" hidden>Continue</button>
+              <button type="button" class="enq-btn ghost" id="btnBack" hidden>&larr; Back</button>
+              <button type="button" class="enq-btn" id="btnNext">Continue &rarr;</button>
               <button type="submit" class="enq-btn" id="enqBtn" hidden>Request My Booking</button>
             </div>
             <div class="enq-note" id="enqOk">✅ Thanks — your booking request is in. We'll call or text shortly to confirm your time. For anything urgent, call <a href="tel:0411566186" style="color:#bbf7d0;text-decoration:underline">0411 566 186</a>.</div>
@@ -177,7 +188,13 @@
           </form>
         </div>
 
-        <p style="text-align:center;color:#6b7280;font-size:13px;margin-top:18px">Prefer to talk? Call or text <a href="tel:0411566186" style="color:#9aa4b5;text-decoration:underline">0411 566 186</a> · ⭐ 4.9 from 55+ Google reviews</p>
+        <!-- contact info cards -->
+        <div class="pmd-contact">
+          <a class="pmd-cc" href="tel:0411566186"><span class="pmd-cc-ic">📞</span><span class="pmd-cc-l">Prefer to call?</span><span class="pmd-cc-v">0411 566 186</span></a>
+          <a class="pmd-cc" href="mailto:info@premiermobiledetailing.com.au"><span class="pmd-cc-ic">✉️</span><span class="pmd-cc-l">Email us</span><span class="pmd-cc-v">info@premiermobiledetailing.com.au</span></a>
+          <div class="pmd-cc"><span class="pmd-cc-ic">📍</span><span class="pmd-cc-l">Studio</span><span class="pmd-cc-v">Officer, South-East Melbourne VIC</span></div>
+          <div class="pmd-cc"><span class="pmd-cc-ic">🕒</span><span class="pmd-cc-l">Opening hours</span><span class="pmd-cc-v">Mon–Sat: 8am – 6pm · Sun: by appointment</span></div>
+        </div>
       </div>
     </section>
   </div>
@@ -194,14 +211,13 @@
       var stepTitle = document.getElementById('stepTitle');
       var stepSub = document.getElementById('stepSub');
       var btnBack = document.getElementById('btnBack');
-      var btnBack2 = document.getElementById('btnBack2');
       var btnNext = document.getElementById('btnNext');
       var btnSubmit = document.getElementById('enqBtn');
       var serviceInput = document.getElementById('service');
       var locInput = document.getElementById('service_location');
       var postcodeWrap = document.getElementById('postcodeWrap');
       var postcode = document.getElementById('postcode');
-      var locErr = document.getElementById('locErr');
+      var stepErr = document.getElementById('stepErr');
       var ok = document.getElementById('enqOk'), err = document.getElementById('enqErr');
       var review = document.getElementById('enqReview');
       var TITLES = {
@@ -214,6 +230,7 @@
       var isMobile = function () { return /mobile/i.test(locInput.value); };
       function show(n) {
         cur = n;
+        stepErr.hidden = true;
         steps.forEach(function (s) { s.hidden = (+s.getAttribute('data-step') !== n); });
         var st = steps[n - 1];
         st.style.animation = 'none'; void st.offsetWidth; st.style.animation = '';
@@ -223,53 +240,43 @@
           d.classList.toggle('active', s === n);
         });
         stepTitle.textContent = TITLES[n][0]; stepSub.textContent = TITLES[n][1];
-        btnBack.hidden = (n === 1);
-        btnBack2.hidden = (n === 1);
-        btnNext.hidden = (n === 1 || n === TOTAL);
-        btnSubmit.hidden = (n !== TOTAL);
+        btnBack.hidden = (n === 1);            // Back on every step after the first
+        btnNext.hidden = (n === TOTAL);         // Continue on steps 1-3
+        btnSubmit.hidden = (n !== TOTAL);       // Submit on step 4
         if (n === 4) {
-          review.innerHTML = '<strong style="color:#cbd2dd">Your booking:</strong> ' +
+          review.innerHTML = '<strong style="color:#dfe5f0">Your booking:</strong> ' +
             (serviceInput.value || '—') +
             (locInput.value ? ' &middot; ' + locInput.value : '') +
             (isMobile() && val('postcode') ? ' (' + val('postcode') + ')' : '') +
             (val('vehicle') ? ' &middot; ' + val('vehicle') : '');
         }
       }
-      // package select -> set value, highlight, auto-advance
+      // package select -> highlight + set value (NO auto-advance; user clicks Continue)
       [].forEach.call(form.querySelectorAll('.pmd-pkg'), function (b) {
         b.addEventListener('click', function () {
           [].forEach.call(form.querySelectorAll('.pmd-pkg'), function (x) { x.classList.remove('sel'); });
-          b.classList.add('sel');
-          serviceInput.value = b.getAttribute('data-val');
-          setTimeout(function () { show(2); }, 240);
+          b.classList.add('sel'); serviceInput.value = b.getAttribute('data-val'); stepErr.hidden = true;
         });
       });
-      // location select -> set value, highlight; Mobile reveals postcode, Studio auto-advances
+      // location select -> highlight + set value; Mobile reveals the required postcode
       [].forEach.call(form.querySelectorAll('.pmd-loc'), function (b) {
         b.addEventListener('click', function () {
           [].forEach.call(form.querySelectorAll('.pmd-loc'), function (x) { x.classList.remove('sel'); });
-          b.classList.add('sel');
-          locInput.value = b.getAttribute('data-val');
-          locErr.hidden = true;
-          if (isMobile()) {
-            postcodeWrap.hidden = false;
-            setTimeout(function () { postcode.focus(); }, 60);
-          } else {
-            postcodeWrap.hidden = true; postcode.value = '';
-            setTimeout(function () { show(3); }, 240);   // Studio: no postcode needed, flow straight on
-          }
+          b.classList.add('sel'); locInput.value = b.getAttribute('data-val'); stepErr.hidden = true;
+          if (isMobile()) { postcodeWrap.hidden = false; setTimeout(function () { postcode.focus(); }, 60); }
+          else { postcodeWrap.hidden = true; postcode.value = ''; }
         });
       });
       function canAdvance(n) {
+        if (n === 1 && !serviceInput.value) { stepErr.textContent = 'Please choose a service to continue.'; stepErr.hidden = false; return false; }
         if (n === 2) {
-          if (!locInput.value) { locErr.textContent = 'Please choose an option to continue.'; locErr.hidden = false; return false; }
-          if (isMobile() && !val('postcode')) { locErr.textContent = 'Please enter your postcode so we can confirm we service your area.'; locErr.hidden = false; postcode.focus(); return false; }
+          if (!locInput.value) { stepErr.textContent = 'Please choose how you’d like it done.'; stepErr.hidden = false; return false; }
+          if (isMobile() && !val('postcode')) { stepErr.textContent = 'Please enter your postcode so we can confirm we service your area.'; stepErr.hidden = false; postcode.focus(); return false; }
         }
         return true;
       }
       btnNext.addEventListener('click', function () { if (canAdvance(cur) && cur < TOTAL) show(cur + 1); });
       btnBack.addEventListener('click', function () { if (cur > 1) show(cur - 1); });
-      btnBack2.addEventListener('click', function () { if (cur > 1) show(cur - 1); });
 
       form.addEventListener('submit', function (e) {
         e.preventDefault();
