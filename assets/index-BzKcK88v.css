@@ -473,29 +473,28 @@
   .pmd-about-badge-label { font-size: 10px; }
 }
 
-/* ---- Hero title shine sweep — variants A & B (C uses .pmd-hero-mono) ---- */
-@keyframes pmdTitleShine { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
-/* white lines shimmer */
+/* ---- Hero WHITE text = EXACT NLP metal shine (variants A & B; C uses .pmd-hero-mono, identical) ---- */
+/* white lines: EXACT NLP hero-text-mono metal gradient + sweep */
 #root h1 .pmd-line.pmd-shine {
-  background: linear-gradient(100deg,
-    #e6ecfb 0%, #ffffff 8%, #ffffff 16%, #e9eefb 30%,
-    #ffffff 50%, #e9eefb 66%, #ffffff 82%, #ffffff 92%, #e6ecfb 100%) !important;
-  background-size: 220% 100% !important;
+  background: linear-gradient(90deg,
+    #bfc2c7 0%, #fff 5%, #fafbfc 15%, #cfd2d6 30%, #fff 65%,
+    #bfc2c7 80%, #f8f9fa 90%, #fff 95%, #bfc2c7 100%) !important;
+  background-size: 200% 100% !important;
   -webkit-background-clip: text !important; background-clip: text !important;
   -webkit-text-fill-color: transparent !important; color: transparent !important;
-  animation: pmdTitleShine 3.2s ease-in-out infinite;
+  animation: pmdShineSweep 3.2s ease-in-out infinite !important;
 }
 /* blue accent shimmer — stays blue, gentle lighter-blue highlight band (no harsh white) */
 #root h1 .pmd-line span.pmd-shine-blue,
 #root h1 span.pmd-shine-blue,
 #root h1 .pmd-shine-blue {
-  background: linear-gradient(100deg,
+  background: linear-gradient(90deg,
     #1a52e6 0%, #2f6bff 24%, #6ea1ff 44%, #a9ccff 50%, #6ea1ff 56%,
     #2f6bff 76%, #1a52e6 100%) !important;
-  background-size: 220% 100% !important;
+  background-size: 200% 100% !important;
   -webkit-background-clip: text !important; background-clip: text !important;
   -webkit-text-fill-color: transparent !important; color: transparent !important;
-  animation: pmdTitleShine 3.2s ease-in-out infinite !important;
+  animation: pmdShineSweep 3.2s ease-in-out infinite !important;
 }
 @media (prefers-reduced-motion: reduce) {
   #root h1 .pmd-line.pmd-shine, #root h1 .pmd-shine-blue { animation: none !important; }
