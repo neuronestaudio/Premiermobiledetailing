@@ -412,7 +412,7 @@
       var hasAbout = [...ul.querySelectorAll('a')].some(function (a) { return /\/about$/.test(a.getAttribute('href') || ''); });
       if (hasAbout && !ul.querySelector('a[href="/ceramic-coating-melbourne"]')) {
         var li0 = ul.querySelector('li'), a0 = ul.querySelector('a');
-        [{ t: 'Ceramic Coating', h: '/ceramic-coating-melbourne' }, { t: 'PPF', h: '/ppf-melbourne' }, { t: 'Window Tinting', h: '/automotive-window-tinting-melbourne' }, { t: 'Get a Quote', h: '/enquiry' }, { t: 'Warranties', h: '/warranties' }, { t: 'Product TDS', h: '/product-tds' }].forEach(function (o) {
+        [{ t: 'Ceramic Coating', h: '/ceramic-coating-melbourne' }, { t: 'PPF', h: '/ppf-melbourne' }, { t: 'Window Tinting', h: '/automotive-window-tinting-melbourne' }, { t: 'Book Now', h: '/booking' }, { t: 'Warranties', h: '/warranties' }, { t: 'Product TDS', h: '/product-tds' }, { t: 'Privacy Policy', h: '/privacy-policy' }].forEach(function (o) {
           var li = document.createElement('li'); li.className = li0 ? li0.className : '';
           var a = document.createElement('a'); a.className = a0 ? a0.className : 'hover:text-primary transition-colors';
           a.href = o.h; a.textContent = o.t; li.appendChild(a); ul.appendChild(li);
