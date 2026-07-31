@@ -44,6 +44,39 @@
     injectCert();
   })();
 
+  // ---- Unify the header on every non-home (static) page to match the home nav ----
+  (function () {
+    if ((location.pathname.replace(/\/+$/, '') || '/') === '/') return; // home = React nav (handled elsewhere)
+    var LINKS = [['Services', '/#services'], ['Gallery', '/gallery'], ['About', '/about'], ['Warranties', '/warranties']];
+    function build() {
+      var nav = document.querySelector('#root nav'); if (!nav) return;
+      if (nav.getAttribute('data-pmdnav') === '1') return;
+      var row = nav.querySelector(':scope > div'); if (!row) return;
+      var logo = row.querySelector('a[href="/"]');
+      row.innerHTML = '';
+      if (!logo) {
+        logo = document.createElement('a'); logo.href = '/'; logo.className = 'flex flex-col justify-center';
+        logo.innerHTML = '<img src="/assets/images/45ead650-192d-44cb-8c3f-0ae51ecbbc4b.webp" alt="Premier Mobile Detailing" width="200" height="50" class="h-10 sm:h-12 w-auto">';
+      }
+      row.appendChild(logo);
+      var mid = document.createElement('div');
+      mid.className = 'hidden md:flex items-center gap-6 text-sm font-medium text-white';
+      LINKS.forEach(function (o) { var a = document.createElement('a'); a.href = o[1]; a.textContent = o[0]; a.className = 'hover:text-primary transition-colors'; mid.appendChild(a); });
+      row.appendChild(mid);
+      var right = document.createElement('div'); right.className = 'flex items-center gap-3';
+      var cta = document.createElement('a'); cta.href = '/booking'; cta.textContent = 'Book Now';
+      cta.className = 'inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground hover:bg-primary/90 h-10 rounded-md px-6 font-semibold shadow-lg transition-all';
+      right.appendChild(cta); row.appendChild(right);
+      // transparent nav so only the pill (styled on the row) shows — matches home
+      nav.style.setProperty('background', 'transparent', 'important');
+      nav.classList.remove('backdrop-blur-md');
+      nav.setAttribute('data-pmdnav', '1');
+    }
+    build();
+    document.addEventListener('DOMContentLoaded', build);
+    [150, 600, 1500].forEach(function (t) { setTimeout(build, t); });
+  })();
+
   // ---- About page: PD logo splash intro ----
   (function () {
     var path = (location.pathname.replace(/\/+$/, '') || '/');
