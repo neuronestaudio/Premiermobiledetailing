@@ -419,7 +419,7 @@
   background-size: 200% 100% !important;
   -webkit-background-clip: text !important; background-clip: text !important;
   -webkit-text-fill-color: transparent !important; color: transparent !important;
-  animation: pmdShineSweep 3.2s ease-in-out infinite;
+  animation: pmdShineSweep 6s ease-in-out infinite;
   text-shadow: none !important;
 }
 @keyframes pmdShineSweep {
@@ -482,20 +482,21 @@
   background-size: 200% 100% !important;
   -webkit-background-clip: text !important; background-clip: text !important;
   -webkit-text-fill-color: transparent !important; color: transparent !important;
-  animation: pmdShineSweep 3.2s ease-in-out infinite !important;
+  animation: pmdShineSweep 6s ease-in-out infinite !important;
 }
 /* blue accent shimmer — stays blue, gentle lighter-blue highlight band (no harsh white) */
+/* blue accent: seamless continuously-flowing blue gradient (no strip, no fade-in) */
 #root h1 .pmd-line span.pmd-shine-blue,
 #root h1 span.pmd-shine-blue,
 #root h1 .pmd-shine-blue {
   background: linear-gradient(90deg,
-    #1a52e6 0%, #2f6bff 24%, #6ea1ff 44%, #a9ccff 50%, #6ea1ff 56%,
-    #2f6bff 76%, #1a52e6 100%) !important;
+    #2f6bff 0%, #6aa0ff 25%, #1a52e6 50%, #6aa0ff 75%, #2f6bff 100%) !important;
   background-size: 200% 100% !important;
   -webkit-background-clip: text !important; background-clip: text !important;
   -webkit-text-fill-color: transparent !important; color: transparent !important;
-  animation: pmdShineSweep 3.2s ease-in-out infinite !important;
+  animation: pmdBlueFlow 5s linear infinite !important;
 }
+@keyframes pmdBlueFlow { 0% { background-position: 0% 0; } 100% { background-position: 200% 0; } }
 @media (prefers-reduced-motion: reduce) {
   #root h1 .pmd-line.pmd-shine, #root h1 .pmd-shine-blue { animation: none !important; }
 }

@@ -133,7 +133,14 @@
           Array.prototype.forEach.call(hero.querySelectorAll('span.text-primary, .italic'), function (el) { el.classList.add('pmd-shine-blue'); });
           if (!RM && !window.__pmdHeroAnim) {
             window.__pmdHeroAnim = true;
-            spans.forEach(function (s, i) { s.animate([{ opacity: 0, clipPath: 'inset(0 100% 0 0)', filter: 'blur(3px)' }, { opacity: 1, clipPath: 'inset(0 0 0 0)', filter: 'blur(0)' }], { duration: 950, delay: i * 240, easing: 'cubic-bezier(.5,0,.15,1)', fill: 'both' }); });
+            spans.forEach(function (s, i) {
+              if (s.querySelector('.text-primary, .italic')) {
+                // blue accent line: no strip-wipe — just a soft fade so the flowing gradient takes over
+                s.animate([{ opacity: 0 }, { opacity: 1 }], { duration: 650, delay: i * 240, easing: 'ease', fill: 'both' });
+              } else {
+                s.animate([{ opacity: 0, clipPath: 'inset(0 100% 0 0)', filter: 'blur(3px)' }, { opacity: 1, clipPath: 'inset(0 0 0 0)', filter: 'blur(0)' }], { duration: 950, delay: i * 240, easing: 'cubic-bezier(.5,0,.15,1)', fill: 'both' });
+              }
+            });
           }
         }
       }
