@@ -231,7 +231,7 @@
         if (V === 'C') {
           if (!sub.classList.contains('pmd-hero-kicker')) {
             sub.classList.remove('pmd-cursive', 'pmd-subhead'); sub.classList.add('pmd-hero-kicker');
-            sub.innerHTML = 'Auto Detailing Specialists<br><span class="pmd-kicker-city">&mdash; Melbourne &mdash;</span>';
+            sub.innerHTML = 'Ceramic Coating &middot; Paint Correction &middot; Auto Detailing Specialists<br><span class="pmd-kicker-city">&mdash; Melbourne &mdash;</span>';
           }
         } else if (!sub.classList.contains('pmd-subhead')) {
           sub.classList.remove('pmd-cursive'); sub.classList.add('pmd-subhead');
