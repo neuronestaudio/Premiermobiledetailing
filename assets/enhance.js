@@ -77,6 +77,53 @@
     [150, 600, 1500].forEach(function (t) { setTimeout(build, t); });
   })();
 
+  // ---- Unified mobile menu (every page): one clean drawer that matches the desktop header ----
+  //      Replaces the SPA's outdated mobile drawer (Areas / stale service routes -> wrong pages).
+  (function () {
+    var LINKS = [['Services', '/#services'], ['Gallery', '/gallery'], ['About', '/about'], ['Warranties', '/warranties'], ['Book Now', '/booking']];
+    function openDrawer() {
+      var d = document.getElementById('pmd-mdrawer'); if (!d) return;
+      d.removeAttribute('hidden');
+      try { document.documentElement.style.overflow = 'hidden'; } catch (e) {}
+      requestAnimationFrame(function () { d.classList.add('open'); });
+    }
+    function closeDrawer() {
+      var d = document.getElementById('pmd-mdrawer'); if (!d) return;
+      d.classList.remove('open');
+      try { document.documentElement.style.overflow = ''; } catch (e) {}
+      setTimeout(function () { d.setAttribute('hidden', ''); }, 320);
+    }
+    function ensure() {
+      var nav = document.querySelector('#root nav'); if (!nav) return;
+      var row = nav.querySelector(':scope > div'); if (!row) return;
+      if (!document.getElementById('pmd-mburger')) {
+        var burger = document.createElement('button');
+        burger.id = 'pmd-mburger'; burger.type = 'button'; burger.setAttribute('aria-label', 'Menu');
+        burger.innerHTML = '<span></span><span></span><span></span>';
+        burger.addEventListener('click', function (e) { e.preventDefault(); e.stopPropagation(); openDrawer(); });
+        row.appendChild(burger);
+      }
+      if (!document.getElementById('pmd-mdrawer')) {
+        var d = document.createElement('div'); d.id = 'pmd-mdrawer'; d.setAttribute('hidden', '');
+        var html = '<div class="pmd-md-backdrop"></div><nav class="pmd-md-panel">' +
+          '<button class="pmd-md-close" type="button" aria-label="Close menu">&times;</button>' +
+          '<img class="pmd-md-logo" src="/assets/images/45ead650-192d-44cb-8c3f-0ae51ecbbc4b.webp" alt="Premier Mobile Detailing">';
+        LINKS.forEach(function (o) { html += '<a href="' + o[1] + '"' + (o[0] === 'Book Now' ? ' class="pmd-md-cta"' : '') + '>' + o[0] + '</a>'; });
+        html += '<a class="pmd-md-call" href="tel:0411566186">Call 0411 566 186</a></nav>';
+        d.innerHTML = html;
+        d.addEventListener('click', function (e) {
+          if (e.target.closest('a') || e.target.classList.contains('pmd-md-backdrop') || e.target.classList.contains('pmd-md-close')) closeDrawer();
+        });
+        (document.body || document.documentElement).appendChild(d);
+      }
+    }
+    var r = document.getElementById('root');
+    if (r) new MutationObserver(ensure).observe(r, { childList: true, subtree: true });
+    document.addEventListener('DOMContentLoaded', ensure);
+    [200, 800, 1800].forEach(function (t) { setTimeout(ensure, t); });
+    ensure();
+  })();
+
   // ---- About page: PD logo splash intro ----
   (function () {
     var path = (location.pathname.replace(/\/+$/, '') || '/');
@@ -145,7 +192,8 @@
   // ---- homepage hero: A/B variant, scrub reveal, cursive subhead, cleanup ----
   (function () {
     if ((location.pathname.replace(/\/+$/, '') || '/') !== '/') return;
-    var V = (function () { try { var u = new URLSearchParams(location.search).get('hero'); if (u) localStorage.setItem('pmdHero', u.toUpperCase()); return (localStorage.getItem('pmdHero') || 'A').toUpperCase(); } catch (e) { return 'A'; } })();
+    // LOCKED to variant C (the chosen final). A/B logic below is kept for future reference; preview them with ?hero=A / ?hero=B.
+    var V = (function () { try { var u = new URLSearchParams(location.search).get('hero'); if (u) { localStorage.setItem('pmdHero', u.toUpperCase()); return u.toUpperCase(); } return 'C'; } catch (e) { return 'C'; } })();
     var B_HTML = 'Premier Mobile <br><span class="text-primary">Detailing.</span>';
     var C_HTML = '<span class="pmd-hero-mono">Premier Mobile Detailing.</span>';
     var STRIP = ['ceramic coating', 'paint correction', 'full detail'];
@@ -183,7 +231,7 @@
         if (V === 'C') {
           if (!sub.classList.contains('pmd-hero-kicker')) {
             sub.classList.remove('pmd-cursive', 'pmd-subhead'); sub.classList.add('pmd-hero-kicker');
-            sub.innerHTML = 'Ceramic Coating &middot; Paint Correction &middot; Detailing<br><span class="pmd-kicker-city">&mdash; Melbourne &mdash;</span>';
+            sub.innerHTML = 'Auto Detailing Specialists<br><span class="pmd-kicker-city">&mdash; Melbourne &mdash;</span>';
           }
         } else if (!sub.classList.contains('pmd-subhead')) {
           sub.classList.remove('pmd-cursive'); sub.classList.add('pmd-subhead');
@@ -221,7 +269,8 @@
       });
       (document.body || document.documentElement).appendChild(box);
     }
-    if (document.body) toggle(); else document.addEventListener('DOMContentLoaded', toggle);
+    // A/B/C switcher retired — site is locked to variant C. (toggle() kept above for future reference.)
+    void toggle;
   })();
 
   // ---- homepage: move Services above "What Our Clients Say"; navy-carbon bg on Gallery ----
@@ -257,24 +306,34 @@
       var revH = null, h2s = root.querySelectorAll('h2');
       for (var j = 0; j < h2s.length; j++) { if (/clients|combined 30\+ years/i.test(h2s[j].textContent)) { revH = h2s[j]; break; } }
       var sec = revH ? revH.closest('section') : null;
-      if (sec) {
-        if (/clients/i.test(revH.textContent)) revH.innerHTML = 'Combined 30+ Years <span class="text-primary italic">Experience</span>';
-        var gwrap = sec.querySelector('.container') || sec;
-        gwrap.classList.add('pmd-reviews-glass');
-      }
-      // fold the stats card into that section
+      if (!sec) return;
+      if (/clients/i.test(revH.textContent)) revH.innerHTML = 'Combined 30+ Years <span class="text-primary italic">Experience</span>';
+      var glass = sec.querySelector('.container') || sec;
+      glass.classList.add('pmd-reviews-glass');
+
+      // fold the stats card (55 / 1500+ / 4.9) into the glass box (once)
       var lab = null, divs = root.querySelectorAll('div');
       for (var i = 0; i < divs.length; i++) { if (!divs[i].children.length && divs[i].textContent.trim() === 'Cars Detailed') { lab = divs[i]; break; } }
-      if (!lab) return;
-      var card = lab.closest('.rounded-xl'); if (!card) return;
-      if (!sec || sec.contains(card)) return;
-      var inner = sec.querySelector('.container') || sec;
-      var wrap = card.parentElement;
-      card.classList.remove('mt-16', 'rounded-xl', 'shadow-2xl', 'overflow-hidden');
-      card.classList.add('max-w-3xl', 'mx-auto', 'pmd-statrow');
-      card.style.marginTop = '40px';
-      inner.appendChild(card);
-      if (wrap && !wrap.querySelector('*')) wrap.style.display = 'none';
+      if (lab) {
+        var card = lab.closest('.rounded-xl');
+        if (card && !glass.contains(card)) {
+          var wrap = card.parentElement;
+          card.classList.remove('mt-16', 'rounded-xl', 'shadow-2xl', 'overflow-hidden');
+          card.classList.add('max-w-3xl', 'mx-auto', 'pmd-statrow');
+          card.style.marginTop = '40px';
+          glass.appendChild(card);
+          if (wrap && !wrap.querySelector('*')) wrap.style.display = 'none';
+        }
+      }
+
+      // fold the Google review widget INTO the glass, kept as the LAST child (sits under the stats -> one connected unit)
+      var widget = sec.querySelector('.pmd-reviews-widget');
+      if (!widget && glass.parentElement) {
+        [].slice.call(glass.parentElement.children).forEach(function (ch) {
+          if (ch !== glass && !glass.contains(ch)) { ch.classList.add('pmd-reviews-widget'); widget = ch; }
+        });
+      }
+      if (widget && glass.lastElementChild !== widget) glass.appendChild(widget);
     }
     var r = document.getElementById('root');
     if (r) new MutationObserver(fold).observe(r, { childList: true, subtree: true });
@@ -291,6 +350,17 @@
       var secH = null, hs = root.querySelectorAll('h2');
       for (var i = 0; i < hs.length; i++) { if (/right service/i.test(hs[i].textContent)) { secH = hs[i]; break; } }
       var sec = secH ? secH.closest('section') : null; if (!sec) return;
+      // two-line heading, blue shiny "for Your Car"
+      if (secH && !secH.querySelector('.pmd-shine-blue')) {
+        secH.innerHTML = 'The Right Service<br><span class="pmd-shine-blue">for Your Car</span>';
+      }
+      // two-line subtitle
+      var psub = sec.querySelectorAll('p');
+      for (var pi = 0; pi < psub.length; pi++) {
+        if (psub[pi].children.length === 0 && /at your door/i.test(psub[pi].textContent) && psub[pi].innerHTML.indexOf('<br') === -1) {
+          psub[pi].innerHTML = 'Every job done at your door.<br>No drop-off required.'; break;
+        }
+      }
       var links = [].slice.call(sec.querySelectorAll('a[href*="/services/"]')).filter(function (a) { return a.querySelector('img'); });
       if (links.length < 3) return;
       var grid = links[0].closest('.grid');

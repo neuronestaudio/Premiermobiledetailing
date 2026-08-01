@@ -490,7 +490,8 @@
 /* blue accent: seamless continuously-flowing blue gradient (no strip, no fade-in) */
 #root h1 .pmd-line span.pmd-shine-blue,
 #root h1 span.pmd-shine-blue,
-#root h1 .pmd-shine-blue {
+#root h1 .pmd-shine-blue,
+#root h2 .pmd-shine-blue {
   background-image: linear-gradient(90deg,
     #2f6bff 0%, #6aa0ff 25%, #1a52e6 50%, #6aa0ff 75%, #2f6bff 100%) !important;
   background-repeat: repeat !important;
@@ -501,7 +502,7 @@
 }
 @keyframes pmdBlueFlow { 0% { background-position: 0% 0; } 100% { background-position: 200% 0; } }
 @media (prefers-reduced-motion: reduce) {
-  #root h1 .pmd-line.pmd-shine, #root h1 .pmd-shine-blue { animation: none !important; }
+  #root h1 .pmd-line.pmd-shine, #root h1 .pmd-shine-blue, #root h2 .pmd-shine-blue { animation: none !important; }
 }
 
 /* ---- footer "Accredited & Certified" logo tiles (GYEON + ONYX) ---- */
@@ -568,4 +569,62 @@
 #root section.pmd-navycarbon::before {
   -webkit-mask: linear-gradient(to bottom, transparent 0, #000 140px, #000 calc(100% - 140px), transparent 100%);
   mask: linear-gradient(to bottom, transparent 0, #000 140px, #000 calc(100% - 140px), transparent 100%);
+}
+
+/* ---- Unified mobile menu (burger + slide-in drawer) ---- */
+#pmd-mburger { display: none; }
+@media (max-width: 767px) {
+  #root nav button[aria-label="Open menu"] { display: none !important; }   /* hide the SPA's outdated drawer trigger */
+  #pmd-mburger {
+    display: inline-flex; flex-direction: column; justify-content: center; align-items: center; gap: 5px;
+    width: 44px; height: 44px; margin-left: 8px; flex: 0 0 auto;
+    background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.18); border-radius: 12px; cursor: pointer;
+  }
+  #pmd-mburger span { display: block; height: 2px; width: 20px; background: #e6ebf5; border-radius: 2px; }
+}
+#pmd-mdrawer { position: fixed; inset: 0; z-index: 100000; }
+#pmd-mdrawer[hidden] { display: none; }
+#pmd-mdrawer .pmd-md-backdrop {
+  position: absolute; inset: 0; background: rgba(4,7,14,.62);
+  -webkit-backdrop-filter: blur(4px); backdrop-filter: blur(4px);
+  opacity: 0; transition: opacity .32s ease;
+}
+#pmd-mdrawer.open .pmd-md-backdrop { opacity: 1; }
+#pmd-mdrawer .pmd-md-panel {
+  position: absolute; top: 0; right: 0; height: 100%; width: min(84vw, 340px);
+  display: flex; flex-direction: column; gap: 2px; padding: 30px 26px 30px;
+  background: linear-gradient(180deg, #0c1120, #080b16);
+  border-left: 1px solid rgba(255,255,255,.1); box-shadow: -30px 0 80px rgba(0,0,0,.6);
+  transform: translateX(100%); transition: transform .34s cubic-bezier(.4,0,.2,1);
+}
+#pmd-mdrawer.open .pmd-md-panel { transform: translateX(0); }
+#pmd-mdrawer .pmd-md-logo { height: 34px; width: auto; margin: 0 0 22px; }
+#pmd-mdrawer .pmd-md-panel a {
+  color: #e6ebf5; text-decoration: none; font-size: 19px; font-weight: 600; padding: 15px 4px;
+  border-bottom: 1px solid rgba(255,255,255,.07); transition: color .2s;
+}
+#pmd-mdrawer .pmd-md-panel a:hover { color: #6aa0ff; }
+#pmd-mdrawer .pmd-md-cta {
+  margin-top: 20px; background: #2563eb; color: #fff !important; text-align: center;
+  border: 0 !important; border-radius: 9999px; padding: 15px !important; font-weight: 700;
+}
+#pmd-mdrawer .pmd-md-call { text-align: center; color: #9aa4b5 !important; border: 0 !important; font-size: 15px !important; margin-top: 8px; }
+#pmd-mdrawer .pmd-md-close { position: absolute; top: 20px; right: 22px; background: none; border: 0; color: #c3cad7; font-size: 34px; line-height: 1; cursor: pointer; }
+
+/* ---- reviews: Google widget folded INSIDE the glass, under the stats (one connected unit) ---- */
+#root .pmd-reviews-glass > .pmd-reviews-widget {
+  margin-top: 30px; padding-top: 26px;
+  border-top: 1px solid rgba(255,255,255,.10);
+}
+/* stats stay side-by-side on EVERY width — never collapse to a vertical stack */
+#root .pmd-statrow { grid-template-columns: repeat(3, 1fr) !important; }
+
+/* ---- mobile compaction: high-end, no cramped vertical text boxes ---- */
+@media (max-width: 640px) {
+  #root .pmd-reviews-glass { padding: 32px 14px 28px !important; border-radius: 20px; }
+  #root .pmd-statrow { gap: 4px; margin-top: 24px !important; }
+  #root .pmd-statrow > * { padding: 12px 4px !important; }
+  #root .pmd-statrow .text-4xl, #root .pmd-statrow .text-5xl { font-size: 25px !important; line-height: 1.05 !important; }
+  #root .pmd-statrow .text-sm, #root .pmd-statrow p, #root .pmd-statrow [class*="muted"] { font-size: 10px !important; line-height: 1.25 !important; }
+  #root .pmd-reviews-glass > .pmd-reviews-widget { margin-top: 22px; padding-top: 20px; }
 }

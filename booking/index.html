@@ -358,13 +358,14 @@
           body: JSON.stringify(data)
         }).then(function (res) {
           if (!res.ok) throw new Error('HTTP ' + res.status);
-          form.reset();
-          [].forEach.call(form.querySelectorAll('.pmd-card'), function (x) { x.classList.remove('sel'); });
-          serviceInput.value = ''; locInput.value = ''; condInput.value = ''; postcodeWrap.hidden = true;
-          ok.classList.add('enq-ok'); ok.scrollIntoView({ block: 'center', behavior: 'smooth' });
+          // hand name + service to the thank-you page, then redirect (clean conversion URL)
+          try {
+            sessionStorage.setItem('pmd_lead_name', data.full_name || data.name || '');
+            sessionStorage.setItem('pmd_lead_service', data.service || '');
+          } catch (e2) {}
+          window.location.assign('/thank-you');
         }).catch(function () {
           err.classList.add('enq-err');
-        }).finally(function () {
           btnSubmit.disabled = false; btnSubmit.textContent = 'Request My Booking';
         });
       });
