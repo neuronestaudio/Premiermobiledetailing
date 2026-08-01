@@ -183,7 +183,7 @@
         if (V === 'C') {
           if (!sub.classList.contains('pmd-hero-kicker')) {
             sub.classList.remove('pmd-cursive', 'pmd-subhead'); sub.classList.add('pmd-hero-kicker');
-            sub.textContent = 'Ceramic Coating · Paint Correction · Detailing — Melbourne';
+            sub.innerHTML = 'Ceramic Coating &middot; Paint Correction &middot; Detailing<br><span class="pmd-kicker-city">&mdash; Melbourne &mdash;</span>';
           }
         } else if (!sub.classList.contains('pmd-subhead')) {
           sub.classList.remove('pmd-cursive'); sub.classList.add('pmd-subhead');
@@ -236,7 +236,7 @@
       var svc = root.querySelector('section#services');
       if (!svc) return;
       var clients = null, h2s = root.querySelectorAll('section h2');
-      for (var i = 0; i < h2s.length; i++) { if (/what our clients say/i.test(h2s[i].textContent)) { clients = h2s[i].closest('section'); break; } }
+      for (var i = 0; i < h2s.length; i++) { if (/what our clients say|combined 30\+ years/i.test(h2s[i].textContent)) { clients = h2s[i].closest('section'); break; } }
       if (clients && (svc.compareDocumentPosition(clients) & Node.DOCUMENT_POSITION_PRECEDING)) {
         clients.parentNode.insertBefore(svc, clients);   // clients was above -> pull services up
       }
@@ -253,13 +253,20 @@
     if ((location.pathname.replace(/\/+$/, '') || '/') !== '/') return;
     function fold() {
       var root = document.getElementById('root'); if (!root) return;
+      // locate the reviews section (old or renamed heading)
+      var revH = null, h2s = root.querySelectorAll('h2');
+      for (var j = 0; j < h2s.length; j++) { if (/clients|combined 30\+ years/i.test(h2s[j].textContent)) { revH = h2s[j]; break; } }
+      var sec = revH ? revH.closest('section') : null;
+      if (sec) {
+        if (/clients/i.test(revH.textContent)) revH.innerHTML = 'Combined 30+ Years <span class="text-primary italic">Experience</span>';
+        var gwrap = sec.querySelector('.container') || sec;
+        gwrap.classList.add('pmd-reviews-glass');
+      }
+      // fold the stats card into that section
       var lab = null, divs = root.querySelectorAll('div');
       for (var i = 0; i < divs.length; i++) { if (!divs[i].children.length && divs[i].textContent.trim() === 'Cars Detailed') { lab = divs[i]; break; } }
       if (!lab) return;
       var card = lab.closest('.rounded-xl'); if (!card) return;
-      var revH = null, h2s = root.querySelectorAll('h2');
-      for (var j = 0; j < h2s.length; j++) { if (/clients/i.test(h2s[j].textContent)) { revH = h2s[j]; break; } }
-      var sec = revH ? revH.closest('section') : null;
       if (!sec || sec.contains(card)) return;
       var inner = sec.querySelector('.container') || sec;
       var wrap = card.parentElement;
@@ -338,6 +345,27 @@
     document.addEventListener('DOMContentLoaded', tweak);
     [200, 700, 1500, 3000].forEach(function (t) { setTimeout(tweak, t); });
     tweak();
+  })();
+
+  // ---- homepage: recolor Google review stars to a metallic space-white gradient ----
+  (function () {
+    if ((location.pathname.replace(/\/+$/, '') || '/') !== '/') return;
+    function inject() {
+      if (document.getElementById('pmd-star-grad-svg')) return;
+      var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      svg.id = 'pmd-star-grad-svg';
+      svg.setAttribute('width', '0'); svg.setAttribute('height', '0'); svg.setAttribute('aria-hidden', 'true');
+      svg.style.cssText = 'position:absolute;width:0;height:0;overflow:hidden;pointer-events:none';
+      svg.innerHTML = '<defs><linearGradient id="pmdStarGrad" x1="0" y1="0" x2="0.15" y2="1">' +
+        '<stop offset="0%" stop-color="#ffffff"/>' +
+        '<stop offset="40%" stop-color="#eaf0f8"/>' +
+        '<stop offset="72%" stop-color="#c4cfe0"/>' +
+        '<stop offset="100%" stop-color="#a9b7d0"/>' +
+        '</linearGradient></defs>';
+      (document.body || document.documentElement).appendChild(svg);
+    }
+    if (document.body) inject(); else document.addEventListener('DOMContentLoaded', inject);
+    [200, 800, 2000].forEach(function (t) { setTimeout(inject, t); });
   })();
 
   var SPOT = 'a.group > div, .rounded-2xl.bg-card, .bg-primary\\/10.border-primary';
