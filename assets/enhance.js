@@ -302,6 +302,12 @@
       if (hero.parentNode) Array.prototype.forEach.call(hero.parentNode.querySelectorAll('a, button'), function (el) {
         if (el.textContent.trim().toLowerCase() === 'start your quote') el.style.display = 'none';
       });
+      // give the hero's primary CTA the same premium gradient + shine (faster sweep)
+      var heroSec = hero.closest('section');
+      if (heroSec) Array.prototype.forEach.call(heroSec.querySelectorAll('a, button'), function (el) {
+        var tt = el.textContent.replace(/\s+/g, ' ').trim().toLowerCase();
+        if ((tt === 'book now' || tt === 'start your quote') && !el.classList.contains('pmd-book-cta')) el.classList.add('pmd-book-cta', 'pmd-cta-hero');
+      });
       var as = root.querySelectorAll('a');
       for (var k = 0; k < as.length; k++) {
         var t = as[k].textContent.replace(/[^a-z ]/gi, '').trim().toLowerCase();
@@ -464,7 +470,7 @@
         if (/car washes|created equal/i.test(t)) {
           var sec = hs[i].closest('section');
           if (sec) Array.prototype.forEach.call(sec.querySelectorAll('.rounded-2xl'), function (c) {
-            if (!c.classList.contains('pmd-glass')) { c.classList.add('pmd-glass'); if (c.className.indexOf('primary') > -1) c.classList.add('pmd-glass-blue'); }
+            if (!c.classList.contains('pmd-glass')) { c.classList.add('pmd-glass', 'pmd-beam-box'); if (c.className.indexOf('primary') > -1) c.classList.add('pmd-glass-blue'); }
           });
         }
         if (/common questions/i.test(t)) { var s = hs[i].closest('section'); if (s) s.classList.add('pmd-nomesh'); }

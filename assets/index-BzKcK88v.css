@@ -469,6 +469,8 @@
 }
 @media (max-width: 640px) {
   .pmd-about-badge { right: 12px; top: 12px; padding: 10px 14px; gap: 10px; }
+  /* crop the top blue sky so the team is framed more proportionally on phones */
+  #root .pmd-about-swap { top: auto !important; bottom: 0 !important; height: 120% !important; }
   .pmd-about-badge-num { font-size: 38px; }
   .pmd-about-badge-num i { font-size: 24px; }
   .pmd-about-badge-label { font-size: 10px; }
@@ -667,6 +669,36 @@
 }
 @keyframes pmdCtaShine { 0% { left: -65%; } 22% { left: 150%; } 100% { left: 150%; } }
 @media (prefers-reduced-motion: reduce) { .pmd-book-cta::after, #pmd-mdrawer .pmd-md-cta::after { animation: none; opacity: 0; } }
+/* hero CTA: same gradient + shine, 1s faster sweep */
+.pmd-cta-hero::after { animation-duration: 3.2s !important; }
+
+/* nav logo must never stretch (mobile expanded header) */
+#root nav img { width: auto !important; object-fit: contain !important; }
+
+/* home mobile header "Book Now" = same size as on other pages */
+@media (max-width: 767px) {
+  #root nav .pmd-book-cta {
+    height: 40px !important; min-height: 40px !important; padding: 0 22px !important;
+    font-size: 15px !important; line-height: 1 !important; border-radius: 9999px !important;
+  }
+}
+
+/* ---- animated "border beam" outline on the Problem boxes (same as service panels) ---- */
+.pmd-beam-box { position: relative; isolation: isolate; }
+.pmd-beam-box::after {
+  content: ''; position: absolute; inset: 0; border-radius: inherit; padding: 1.6px; z-index: 5; pointer-events: none;
+  background: conic-gradient(from var(--pmd-beam),
+    rgba(80,140,255,0) 0deg, rgba(80,140,255,0) 232deg,
+    rgba(106,160,255,.22) 262deg, #6aa0ff 300deg, #cfe0ff 322deg, #6aa0ff 340deg,
+    rgba(106,160,255,.22) 360deg);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor; mask-composite: exclude;
+  filter: drop-shadow(0 0 5px rgba(80,140,255,.8));
+  animation: pmdBeam 4.5s linear infinite;
+}
+.pmd-beam-box:nth-child(2)::after { animation-delay: -1.5s; }
+.pmd-beam-box:nth-child(3)::after { animation-delay: -3s; }
+@media (prefers-reduced-motion: reduce) { .pmd-beam-box::after { animation: none; } }
 
 /* ---- reviews: Google widget folded INSIDE the glass, under the stats (one connected unit) ---- */
 #root .pmd-reviews-glass > .pmd-reviews-widget {
