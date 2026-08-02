@@ -443,7 +443,7 @@
 
 /* ---- About page: floating "+30 Years Combined Experience" glass stat card ---- */
 .pmd-about-badge {
-  position: absolute; left: 18px; bottom: 18px; z-index: 4;
+  position: absolute; right: 18px; top: 18px; z-index: 4;
   display: flex; align-items: center; gap: 13px;
   padding: 13px 18px;
   background: rgba(9, 13, 24, 0.60);
@@ -468,7 +468,7 @@
   color: rgba(255, 255, 255, 0.92);
 }
 @media (max-width: 640px) {
-  .pmd-about-badge { left: 12px; bottom: 12px; padding: 10px 14px; gap: 10px; }
+  .pmd-about-badge { right: 12px; top: 12px; padding: 10px 14px; gap: 10px; }
   .pmd-about-badge-num { font-size: 38px; }
   .pmd-about-badge-num i { font-size: 24px; }
   .pmd-about-badge-label { font-size: 10px; }
@@ -564,6 +564,16 @@
   stroke: url(#pmdStarGrad) !important;
   filter: drop-shadow(0 1px 1.5px rgba(0,0,0,.5));
 }
+
+/* ---- prices removed site-wide -> tasteful value line ---- */
+#root .pmd-quote {
+  font-size: 18px !important; font-weight: 700 !important; letter-spacing: .005em;
+  color: #6aa0ff !important; -webkit-text-fill-color: #6aa0ff !important;
+  background: none !important; opacity: 1 !important; white-space: nowrap;
+}
+
+/* ---- areas copy: emphasise the "we come to you across Greater Melbourne" line ---- */
+#root .pmd-greater { color: #dfe6f2; font-weight: 600; }
 
 /* ---- homepage FAQ: premium accordion ---- */
 #root .pmd-faq { display: flex; flex-direction: column; gap: 12px; margin-top: 10px; text-align: left; }

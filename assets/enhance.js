@@ -144,6 +144,46 @@
     ensure();
   })();
 
+  // ---- Remove prices site-wide; reframe each as a value line ("Tailored quote") ----
+  //      Prices are baked into the React bundle across service pages + cards; scrub them in the DOM
+  //      (Glossed Out approach: no fixed prices, value + a tailored quote on enquiry).
+  (function () {
+    var RE = /^\s*(from|starting at|starting|just)?\s*\$\s?[\d,]+/i;
+    function reword(s) {
+      return s.replace(/\bpric(e|es|ing)\b/gi, function (m) {
+        var r = /ing$/i.test(m) ? 'quotes' : (/es$/i.test(m) ? 'quotes' : 'quote');
+        return /^[A-Z]/.test(m) ? r.charAt(0).toUpperCase() + r.slice(1) : r;
+      });
+    }
+    function scrub() {
+      var root = document.getElementById('root'); if (!root) return;
+      var els = root.querySelectorAll('div, span, p, li, strong, h2, h3');
+      for (var i = 0; i < els.length; i++) {
+        var el = els[i];
+        if (el.children.length || el.getAttribute('data-pmdq')) continue;
+        var raw = (el.textContent || '');
+        if (raw.indexOf('$') === -1 && !/pric/i.test(raw)) continue;
+        var t = raw.trim();
+        // dollar amount -> value line
+        if (t.indexOf('$') > -1 && t.length <= 30 && RE.test(t)) {
+          el.setAttribute('data-pmdq', '1');
+          if (!el.classList.contains('pmd-svc-price')) { el.classList.add('pmd-quote'); el.textContent = 'Tailored quote'; }
+          continue;
+        }
+        // price-word reference -> "quote"
+        if (/\bpric(e|es|ing)\b/i.test(raw)) {
+          var nu = reword(raw);
+          if (nu !== raw) { el.setAttribute('data-pmdq', '1'); el.textContent = nu; }
+        }
+      }
+    }
+    var r = document.getElementById('root');
+    if (r) new MutationObserver(scrub).observe(r, { childList: true, subtree: true });
+    document.addEventListener('DOMContentLoaded', scrub);
+    [200, 700, 1500, 3000].forEach(function (t) { setTimeout(scrub, t); });
+    scrub();
+  })();
+
   // ---- About page: PD logo splash intro ----
   (function () {
     var path = (location.pathname.replace(/\/+$/, '') || '/');
@@ -494,6 +534,30 @@
     document.addEventListener('DOMContentLoaded', build);
     [300, 900, 1800, 3200].forEach(function (t) { setTimeout(build, t); });
     build();
+  })();
+
+  // ---- homepage: add the "we come to you across Greater Melbourne" line to the areas copy ----
+  (function () {
+    function apply() {
+      if ((location.pathname.replace(/\/+$/, '') || '/') !== '/') return;
+      var root = document.getElementById('root'); if (!root) return;
+      var ps = root.querySelectorAll('p');
+      for (var i = 0; i < ps.length; i++) {
+        var p = ps[i];
+        if (/premium services across|south[- ]?east melbourne region/i.test(p.textContent) && !/greater melbourne/i.test(p.textContent)) {
+          var span = document.createElement('span');
+          span.className = 'pmd-greater';
+          span.textContent = ' And wherever you are across Greater Melbourne — we’ll come to you.';
+          p.appendChild(span);
+          return;
+        }
+      }
+    }
+    var r = document.getElementById('root');
+    if (r) new MutationObserver(apply).observe(r, { childList: true, subtree: true });
+    document.addEventListener('DOMContentLoaded', apply);
+    [300, 900, 1800, 3200].forEach(function (t) { setTimeout(apply, t); });
+    apply();
   })();
 
   // ---- homepage: recolor Google review stars to a metallic space-white gradient ----
