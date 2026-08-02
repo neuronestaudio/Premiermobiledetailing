@@ -723,6 +723,27 @@
     apply();
   })();
 
+  // ---- visible A/B toggle for the Get In Touch background (A = white car, B = Rover studio) ----
+  (function () {
+    if ((location.pathname.replace(/\/+$/, '') || '/') !== '/') return;
+    function cur() { try { return (localStorage.getItem('pmdContactBg') || 'A').toUpperCase(); } catch (e) { return 'A'; } }
+    function applyVar(v) {
+      var gs = document.querySelector('.pmd-contact-bg');
+      if (gs) gs.classList.toggle('pmd-contact-bg-b', v === 'B');
+      try { localStorage.setItem('pmdContactBg', v); } catch (e) {}
+    }
+    function render() {
+      if (document.getElementById('pmd-cbg-toggle')) return;
+      var box = document.createElement('div'); box.id = 'pmd-cbg-toggle';
+      box.innerHTML = '<span class="pmd-cbg-lbl">Contact BG</span><button data-v="A">A · Car</button><button data-v="B">B · Rover</button>';
+      function mark() { var v = cur(); [].forEach.call(box.querySelectorAll('button'), function (b) { b.classList.toggle('on', b.getAttribute('data-v') === v); }); }
+      [].forEach.call(box.querySelectorAll('button'), function (b) { b.addEventListener('click', function () { applyVar(b.getAttribute('data-v')); mark(); }); });
+      (document.body || document.documentElement).appendChild(box); mark();
+    }
+    if (document.body) render(); else document.addEventListener('DOMContentLoaded', render);
+    [800, 2000].forEach(function (t) { setTimeout(render, t); });
+  })();
+
   var SPOT = 'a.group > div, .rounded-2xl.bg-card, .bg-primary\\/10.border-primary';
   var MAG = 'a.bg-primary, button.bg-primary, a.bg-white, button.bg-white';
 
