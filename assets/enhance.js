@@ -319,6 +319,17 @@
           ctaRow.parentNode.insertBefore(modes, ctaRow.nextSibling);
         }
       }
+      // tag the Google review pill so it can be lifted on mobile (off the subject's face)
+      if (heroSec && !heroSec.querySelector('.pmd-hero-pill')) {
+        var pn = heroSec.querySelectorAll('*');
+        for (var pw = 0; pw < pn.length; pw++) {
+          if (/\(55\+ reviews\)/i.test(pn[pw].textContent) && pn[pw].children.length <= 3) {
+            var gpill = pn[pw];
+            while (gpill.parentElement && !/flex-col/.test(gpill.parentElement.className || '')) gpill = gpill.parentElement;
+            gpill.classList.add('pmd-hero-pill'); break;
+          }
+        }
+      }
       var as = root.querySelectorAll('a');
       for (var k = 0; k < as.length; k++) {
         var t = as[k].textContent.replace(/[^a-z ]/gi, '').trim().toLowerCase();
@@ -604,6 +615,33 @@
     }
     if (document.body) inject(); else document.addEventListener('DOMContentLoaded', inject);
     [200, 800, 2000].forEach(function (t) { setTimeout(inject, t); });
+  })();
+
+  // ---- homepage gallery: two-row floating (auto-scroll) carousel ----
+  (function () {
+    function build() {
+      if ((location.pathname.replace(/\/+$/, '') || '/') !== '/') return;
+      var root = document.getElementById('root'); if (!root) return;
+      var sec = root.querySelector('section#gallery'); if (!sec) return;
+      if (sec.querySelector('.pmd-gal-carousel')) return;
+      var imgs = [].slice.call(sec.querySelectorAll('img')).map(function (i) { return i.currentSrc || i.getAttribute('src'); }).filter(Boolean);
+      if (imgs.length < 4) return;
+      var grid = sec.querySelector('.grid');
+      var half = Math.ceil(imgs.length / 2);
+      var row1 = imgs.slice(0, half), row2 = imgs.slice(half);
+      if (row2.length < 2) row2 = imgs.slice();
+      function track(list) { return list.concat(list).map(function (s) { return '<div class="pmd-gal-item"><img src="' + s + '" alt="Premier Mobile Detailing work"></div>'; }).join(''); }
+      var car = document.createElement('div'); car.className = 'pmd-gal-carousel';
+      car.innerHTML = '<div class="pmd-gal-row"><div class="pmd-gal-track">' + track(row1) + '</div></div>' +
+        '<div class="pmd-gal-row"><div class="pmd-gal-track pmd-gal-track-rev">' + track(row2) + '</div></div>';
+      if (grid) { grid.style.display = 'none'; grid.parentNode.insertBefore(car, grid.nextSibling); }
+      else (sec.querySelector('.container') || sec).appendChild(car);
+    }
+    var r = document.getElementById('root');
+    if (r) new MutationObserver(build).observe(r, { childList: true, subtree: true });
+    document.addEventListener('DOMContentLoaded', build);
+    [300, 900, 1800, 3200].forEach(function (t) { setTimeout(build, t); });
+    build();
   })();
 
   // ---- homepage contact/areas section: white-car backdrop, Google map below the copy, tags below map ----
