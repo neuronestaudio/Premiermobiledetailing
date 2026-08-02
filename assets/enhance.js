@@ -816,14 +816,29 @@
       }
     }
     document.querySelectorAll('footer ul').forEach(function (ul) {
-      var hasAbout = [...ul.querySelectorAll('a')].some(function (a) { return /\/about$/.test(a.getAttribute('href') || ''); });
-      if (hasAbout && !ul.querySelector('a[href="/ceramic-coating-melbourne"]')) {
-        var li0 = ul.querySelector('li'), a0 = ul.querySelector('a');
-        [{ t: 'Ceramic Coating', h: '/ceramic-coating-melbourne' }, { t: 'PPF', h: '/ppf-melbourne' }, { t: 'Window Tinting', h: '/automotive-window-tinting-melbourne' }, { t: 'Book Now', h: '/booking' }, { t: 'Warranties', h: '/warranties' }, { t: 'Product TDS', h: '/product-tds' }, { t: 'Privacy Policy', h: '/privacy-policy' }].forEach(function (o) {
+      var alist = [].slice.call(ul.querySelectorAll('a'));
+      var li0 = ul.querySelector('li'), a0 = ul.querySelector('a');
+      function addLinks(list) {
+        list.forEach(function (o) {
+          if (ul.querySelector('a[href="' + o.h + '"]')) return;   // idempotent
           var li = document.createElement('li'); li.className = li0 ? li0.className : '';
           var a = document.createElement('a'); a.className = a0 ? a0.className : 'hover:text-primary transition-colors';
           a.href = o.h; a.textContent = o.t; li.appendChild(a); ul.appendChild(li);
         });
+      }
+      var isServices = alist.some(function (a) { return /\/services\//.test(a.getAttribute('href') || ''); });
+      var isCompany = !isServices && alist.some(function (a) { return /\/about$/.test(a.getAttribute('href') || ''); });
+      if (isServices) {
+        // Services column also gets PPF + Window Tinting
+        addLinks([{ t: 'PPF', h: '/ppf-melbourne' }, { t: 'Window Tinting', h: '/automotive-window-tinting-melbourne' }]);
+      } else if (isCompany) {
+        // Ceramic Coating / PPF / Window Tinting live under Services now — strip the duplicates here
+        [].forEach.call(ul.querySelectorAll('a[href="/ceramic-coating-melbourne"], a[href="/ppf-melbourne"], a[href="/automotive-window-tinting-melbourne"]'), function (a) { (a.closest('li') || a).remove(); });
+        addLinks([{ t: 'Book Now', h: '/booking' }, { t: 'Warranties', h: '/warranties' }, { t: 'Product TDS', h: '/product-tds' }, { t: 'Privacy Policy', h: '/privacy-policy' }]);
+        // rename the (overloaded) "Company" heading to "Quick Links"
+        var head = ul.previousElementSibling;
+        if (!head || !/^H[34]$/.test(head.tagName)) { head = ul.parentElement ? ul.parentElement.querySelector('h4, h3') : null; }
+        if (head && /company/i.test(head.textContent)) head.textContent = 'Quick Links';
       }
     });
   }
