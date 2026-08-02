@@ -170,12 +170,22 @@
             <!-- STEP 3 — vehicle + paint condition -->
             <div class="pmd-step" data-step="3" hidden>
               <div style="margin-bottom:18px"><label class="enq-label" for="vehicle">Vehicle <span style="color:#f87171">*</span></label><input class="enq-field" id="vehicle" name="vehicle" type="text" placeholder="e.g. 2022 Audi RS5 (make, model, year)" /></div>
-              <label class="enq-label">Paint condition <span style="color:#f87171">*</span></label>
-              <div class="pmd-grid2" style="margin-bottom:18px">
-                <button type="button" class="pmd-card pmd-cond" data-val="New / Excellent"><span class="pmd-card-t">New / Excellent</span><span class="pmd-card-d">Near-new, minimal marks</span><span class="pmd-card-tick">&#10003;</span></button>
-                <button type="button" class="pmd-card pmd-cond" data-val="Good"><span class="pmd-card-t">Good</span><span class="pmd-card-d">Light swirls, minor marks</span><span class="pmd-card-tick">&#10003;</span></button>
-                <button type="button" class="pmd-card pmd-cond" data-val="Fair"><span class="pmd-card-t">Fair</span><span class="pmd-card-d">Noticeable swirls &amp; scratches</span><span class="pmd-card-tick">&#10003;</span></button>
-                <button type="button" class="pmd-card pmd-cond" data-val="Poor"><span class="pmd-card-t">Poor</span><span class="pmd-card-d">Heavy scratches / oxidation</span><span class="pmd-card-tick">&#10003;</span></button>
+              <div id="condWrap">
+                <label class="enq-label" id="condLabel">Paint condition <span style="color:#f87171">*</span></label>
+                <!-- PAINT services: paint condition -->
+                <div class="pmd-grid2" id="condPaint" style="margin-bottom:18px">
+                  <button type="button" class="pmd-card pmd-cond" data-cond="paint" data-val="New / Excellent"><span class="pmd-card-t">New / Excellent</span><span class="pmd-card-d">Near-new, minimal marks</span><span class="pmd-card-tick">&#10003;</span></button>
+                  <button type="button" class="pmd-card pmd-cond" data-cond="paint" data-val="Good"><span class="pmd-card-t">Good</span><span class="pmd-card-d">Light swirls, minor marks</span><span class="pmd-card-tick">&#10003;</span></button>
+                  <button type="button" class="pmd-card pmd-cond" data-cond="paint" data-val="Fair"><span class="pmd-card-t">Fair</span><span class="pmd-card-d">Noticeable swirls &amp; scratches</span><span class="pmd-card-tick">&#10003;</span></button>
+                  <button type="button" class="pmd-card pmd-cond" data-cond="paint" data-val="Poor"><span class="pmd-card-t">Poor</span><span class="pmd-card-d">Heavy scratches / oxidation</span><span class="pmd-card-tick">&#10003;</span></button>
+                </div>
+                <!-- DETAIL services: interior condition -->
+                <div class="pmd-grid2" id="condInterior" style="margin-bottom:18px" hidden>
+                  <button type="button" class="pmd-card pmd-cond" data-cond="interior" data-val="Clean / Tidy"><span class="pmd-card-t">Clean / Tidy</span><span class="pmd-card-d">Well-kept, just needs a refresh</span><span class="pmd-card-tick">&#10003;</span></button>
+                  <button type="button" class="pmd-card pmd-cond" data-cond="interior" data-val="Lived-in"><span class="pmd-card-t">Lived-in</span><span class="pmd-card-d">Everyday use, crumbs &amp; dust</span><span class="pmd-card-tick">&#10003;</span></button>
+                  <button type="button" class="pmd-card pmd-cond" data-cond="interior" data-val="Dirty"><span class="pmd-card-t">Dirty</span><span class="pmd-card-d">Stains, spills &amp; built-up grime</span><span class="pmd-card-tick">&#10003;</span></button>
+                  <button type="button" class="pmd-card pmd-cond" data-cond="interior" data-val="Full Reset"><span class="pmd-card-t">Full Reset</span><span class="pmd-card-d">Heavily soiled — needs a deep clean</span><span class="pmd-card-tick">&#10003;</span></button>
+                </div>
               </div>
               <div><label class="enq-label" for="message">Any other comments / special requests? <span style="color:#8b95a7;font-weight:400;text-transform:none;letter-spacing:0">(optional)</span></label><textarea class="enq-field" id="message" name="message" placeholder="Access notes, specific concerns — anything else we should know..."></textarea></div>
             </div>
@@ -193,6 +203,7 @@
             <input type="hidden" name="service" id="service" />
             <input type="hidden" name="service_location" id="service_location" />
             <input type="hidden" name="condition" id="condition" />
+            <input type="hidden" name="condition_type" id="condition_type" />
             <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off" />
 
             <div class="pmd-inline-err" id="stepErr" hidden></div>
@@ -234,6 +245,34 @@
       var serviceInput = document.getElementById('service');
       var locInput = document.getElementById('service_location');
       var condInput = document.getElementById('condition');
+      var condTypeInput = document.getElementById('condition_type');
+      var condWrap = document.getElementById('condWrap');
+      var condLabel = document.getElementById('condLabel');
+      var condPaint = document.getElementById('condPaint');
+      var condInterior = document.getElementById('condInterior');
+      var PAINT_SVCS = ['Paint Enhancement', 'Paint Correction', 'Ceramic Coating'];
+      var DETAIL_SVCS = ['Express Detail', 'Deluxe Detail', 'Full Detail'];
+      var condRequired = true;
+      function clearCond() {
+        [].forEach.call(form.querySelectorAll('.pmd-cond'), function (x) { x.classList.remove('sel'); });
+        condInput.value = ''; condTypeInput.value = '';
+      }
+      // Step 3 asks about PAINT for paint services, INTERIOR for detail services,
+      // and nothing at all for "Not sure" (less friction to enquire).
+      function configureStep3(service) {
+        var isDetail = DETAIL_SVCS.indexOf(service) > -1;
+        var isPaint = PAINT_SVCS.indexOf(service) > -1;
+        clearCond();
+        if (!isDetail && !isPaint) { condRequired = false; if (condWrap) condWrap.hidden = true; return; }
+        condRequired = true; if (condWrap) condWrap.hidden = false;
+        if (isDetail) {
+          condLabel.innerHTML = 'Interior condition <span style="color:#f87171">*</span>';
+          condInterior.hidden = false; condPaint.hidden = true;
+        } else {
+          condLabel.innerHTML = 'Paint condition <span style="color:#f87171">*</span>';
+          condPaint.hidden = false; condInterior.hidden = true;
+        }
+      }
       var postcodeWrap = document.getElementById('postcodeWrap');
       var postcode = document.getElementById('postcode');
       var stepErr = document.getElementById('stepErr');
@@ -276,6 +315,7 @@
         b.addEventListener('click', function () {
           [].forEach.call(form.querySelectorAll('.pmd-pkg'), function (x) { x.classList.remove('sel'); });
           b.classList.add('sel'); serviceInput.value = b.getAttribute('data-val'); stepErr.hidden = true;
+          configureStep3(serviceInput.value);
           setTimeout(function () { if (cur === 1) show(2); }, 260);
         });
       });
@@ -300,7 +340,9 @@
       [].forEach.call(form.querySelectorAll('.pmd-cond'), function (b) {
         b.addEventListener('click', function () {
           [].forEach.call(form.querySelectorAll('.pmd-cond'), function (x) { x.classList.remove('sel'); });
-          b.classList.add('sel'); condInput.value = b.getAttribute('data-val'); stepErr.hidden = true;
+          b.classList.add('sel'); condInput.value = b.getAttribute('data-val');
+          condTypeInput.value = (b.getAttribute('data-cond') === 'interior') ? 'Interior' : 'Paint';
+          stepErr.hidden = true;
         });
       });
       function canAdvance(n) {
@@ -310,10 +352,11 @@
           if (isMobile() && !val('postcode')) { stepErr.textContent = 'Please enter your postcode so we can confirm we service your area.'; stepErr.hidden = false; postcode.focus(); return false; }
         }
         if (n === 3) {
-          var hasV = !!val('vehicle'), hasC = !!condInput.value;
-          if (!hasV && !hasC) { stepErr.textContent = 'Please fill in the mandatory fields — enter your vehicle and select its paint condition.'; stepErr.hidden = false; return false; }
-          if (!hasV) { stepErr.textContent = 'Please enter your vehicle — it’s required to continue.'; stepErr.hidden = false; return false; }
-          if (!hasC) { stepErr.textContent = 'Please select the paint condition — it’s required to continue.'; stepErr.hidden = false; return false; }
+          if (!val('vehicle')) { stepErr.textContent = 'Please enter your vehicle — it’s required to continue.'; stepErr.hidden = false; return false; }
+          if (condRequired && !condInput.value) {
+            var kind = (condInterior && !condInterior.hidden) ? 'interior' : 'paint';
+            stepErr.textContent = 'Please select the ' + kind + ' condition — it’s required to continue.'; stepErr.hidden = false; return false;
+          }
         }
         return true;
       }
@@ -347,7 +390,7 @@
           'Location: ' + (data.service_location || '-') +
           (data.postcode ? '\nPostcode: ' + data.postcode : '') +
           '\nVehicle: ' + (data.vehicle || '-') +
-          '\nCondition: ' + (data.condition || '-') +
+          (data.condition ? '\n' + (data.condition_type || 'Vehicle') + ' condition: ' + data.condition : '\nCondition: not specified (needs advice)') +
           (data.message ? '\n\nComments / requests:\n' + data.message : '') +
           '\n\nSubmitted: ' + data.submitted_at + '\nPage: ' + data.page;
         btnSubmit.disabled = true; btnSubmit.textContent = 'Sending...';
