@@ -703,6 +703,14 @@
       var mapDiv = null, divs = sec.querySelectorAll('div');
       for (var j = 0; j < divs.length; j++) { if (/h-\[350px\]/.test(divs[j].className || '')) { mapDiv = divs[j]; break; } }
       var textLeft = h.parentElement;
+      // heading -> "Serving the Greater Melbourne" + studio & mobile description
+      if (!/greater melbourne/i.test(h.textContent)) h.innerHTML = 'Serving the <span class="text-primary">Greater Melbourne</span>';
+      for (var dp = 0; dp < textLeft.children.length; dp++) {
+        var cp = textLeft.children[dp];
+        if (cp.tagName === 'P' && /come to your home|wherever the car|no drop-off|studio (&amp;|&) mobile/i.test(cp.textContent) && !/premium detailer at your door/i.test(cp.textContent)) {
+          cp.textContent = 'Wherever you are — studio & mobile service, with a premium detailer at your door.'; break;
+        }
+      }
       var tagsDiv = null;
       for (var k = 0; k < textLeft.children.length; k++) { if (/flex-wrap/.test(textLeft.children[k].className || '')) { tagsDiv = textLeft.children[k]; break; } }
       // reorder: the (existing Leaflet) map goes below the description, tags below the map
