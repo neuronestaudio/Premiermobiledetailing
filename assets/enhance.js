@@ -205,11 +205,14 @@
         var row = document.createElement('div'); row.className = 'pmd-social-row pmd-social-drawer'; row.innerHTML = icons('');
         panel.appendChild(row);
       }
-      var nav = document.querySelector('#root nav'); var navRow = nav && nav.querySelector(':scope > div');
-      if (navRow && !navRow.querySelector('.pmd-social-hdr-wrap')) {
-        var w = document.createElement('div'); w.className = 'pmd-social-hdr-wrap'; w.innerHTML = icons('pmd-social-hdr');
-        navRow.insertBefore(w, navRow.lastElementChild);
+      // socials sit below the hero "Studio & Mobile" title (not in the header)
+      var modes = document.querySelector('.pmd-hero-modes');
+      if (modes && !document.querySelector('.pmd-social-hero')) {
+        var hs = document.createElement('div'); hs.className = 'pmd-social-row pmd-social-hero'; hs.innerHTML = icons('');
+        modes.parentNode.insertBefore(hs, modes.nextSibling);
       }
+      // remove any previously-injected header social cluster
+      var stale = document.querySelector('.pmd-social-hdr-wrap'); if (stale) stale.remove();
     }
     var r = document.getElementById('root');
     if (r) new MutationObserver(run).observe(r, { childList: true, subtree: true });
@@ -691,7 +694,12 @@
       // the white-car backdrop belongs on the Get In Touch / Contact section
       var gitH = null, allH = root.querySelectorAll('h1, h2');
       for (var g = 0; g < allH.length; g++) { if (/get in touch|contact us|have a question/i.test(allH[g].textContent)) { gitH = allH[g]; break; } }
-      if (gitH && gitH.closest('section')) gitH.closest('section').classList.add('pmd-contact-bg');
+      if (gitH && gitH.closest('section')) {
+        var gs = gitH.closest('section'); gs.classList.add('pmd-contact-bg');
+        // version A = white_car (default), version B = Rover. Preview with ?contactbg=B
+        var cbVar = (function () { try { var u = new URLSearchParams(location.search).get('contactbg'); if (u) { localStorage.setItem('pmdContactBg', u.toUpperCase()); return u.toUpperCase(); } return (localStorage.getItem('pmdContactBg') || 'A').toUpperCase(); } catch (e) { return 'A'; } })();
+        gs.classList.toggle('pmd-contact-bg-b', cbVar === 'B');
+      }
       var mapDiv = null, divs = sec.querySelectorAll('div');
       for (var j = 0; j < divs.length; j++) { if (/h-\[350px\]/.test(divs[j].className || '')) { mapDiv = divs[j]; break; } }
       var textLeft = h.parentElement;

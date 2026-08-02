@@ -590,12 +590,12 @@
 .pmd-social-ic:hover { transform: translateY(-3px); background: rgba(47,107,255,.16); border-color: rgba(70,130,255,.6); color: #fff; }
 .pmd-social-ic svg { width: 20px; height: 20px; }
 #pmd-mdrawer .pmd-social-drawer { margin-top: 24px; gap: 14px; justify-content: flex-start; }
-/* desktop header social cluster (hidden on mobile — drawer covers it) */
-.pmd-social-hdr-wrap { display: none; }
+/* socials under the hero "Studio & Mobile" title */
+#root .pmd-social-hero { margin-top: 18px; justify-content: center; }
+
+/* header spacing: centre the nav links so the bar stays balanced at any width */
 @media (min-width: 768px) {
-  .pmd-social-hdr-wrap { display: flex; gap: 7px; align-items: center; margin: 0 4px 0 8px; }
-  #root nav .pmd-social-hdr { width: 34px; height: 34px; border-radius: 9px; }
-  #root nav .pmd-social-hdr svg { width: 16px; height: 16px; }
+  #root nav > div > div[class*="md:flex"] { flex: 1 1 auto; justify-content: center; }
 }
 
 /* ---- mobile: lift the Google review pill up off the subject's face (below the header) ---- */
@@ -649,6 +649,9 @@
   position: absolute; inset: 0; width: 100%; height: 100%; border: 0; display: block;
   filter: grayscale(.15) contrast(1.03);
 }
+/* version B — Rover studio shot (already dark, so show it more with a lighter overlay) */
+#root section.pmd-contact-bg-b::before { background-image: url('/assets/images/Rover.png') !important; opacity: .62 !important; }
+#root section.pmd-contact-bg-b::after { background: linear-gradient(90deg, rgba(8,11,22,.82) 0%, rgba(8,11,22,.5) 46%, rgba(8,11,22,.34) 100%) !important; }
 
 /* ---- homepage FAQ: premium accordion ---- */
 #root .pmd-faq { display: flex; flex-direction: column; gap: 12px; margin-top: 10px; text-align: left; }
