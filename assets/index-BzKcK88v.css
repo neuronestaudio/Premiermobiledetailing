@@ -600,7 +600,7 @@
 
 /* ---- mobile: lift the Google review pill up off the subject's face (below the header) ---- */
 @media (max-width: 767px) {
-  #root .pmd-hero-pill { transform: translateY(-92px); position: relative; z-index: 4; }
+  #root .pmd-hero-pill { transform: translateY(-23px); position: relative; z-index: 4; }
 }
 
 /* ---- gallery: two-row floating (auto-scroll) carousel ---- */
