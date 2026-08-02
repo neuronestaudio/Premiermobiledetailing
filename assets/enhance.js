@@ -315,7 +315,7 @@
         if (ctaRow) {
           var modes = document.createElement('div');
           modes.className = 'pmd-hero-modes';
-          modes.innerHTML = '<span class="pmd-hero-mono">Mobile &amp; Studio</span>';
+          modes.innerHTML = '<span class="pmd-hero-mono">Studio &amp; Mobile</span>';
           ctaRow.parentNode.insertBefore(modes, ctaRow.nextSibling);
         }
       }
@@ -437,6 +437,14 @@
         if (psub[pi].children.length === 0 && /at your door/i.test(psub[pi].textContent) && psub[pi].innerHTML.indexOf('<br') === -1) {
           psub[pi].innerHTML = 'Every job done at your door.<br>No drop-off required.'; break;
         }
+      }
+      // Warranties + TDS buttons below the service panels (once the panels exist)
+      var built = sec.querySelector('.pmd-svc-wrap');
+      if (built && !sec.querySelector('.pmd-svc-cta')) {
+        var ctaRow = document.createElement('div'); ctaRow.className = 'pmd-svc-cta';
+        ctaRow.innerHTML = '<a href="/warranties" class="pmd-svc-cta-btn pmd-svc-cta-primary">Our Warranties</a>' +
+          '<a href="/product-tds" class="pmd-svc-cta-btn">Technical Data Sheets</a>';
+        built.parentNode.insertBefore(ctaRow, built.nextSibling);
       }
       var links = [].slice.call(sec.querySelectorAll('a[href*="/services/"]')).filter(function (a) { return a.querySelector('img'); });
       if (links.length < 3) return;
@@ -596,6 +604,31 @@
     }
     if (document.body) inject(); else document.addEventListener('DOMContentLoaded', inject);
     [200, 800, 2000].forEach(function (t) { setTimeout(inject, t); });
+  })();
+
+  // ---- homepage contact/areas section: white-car backdrop, Google map below the copy, tags below map ----
+  (function () {
+    function apply() {
+      if ((location.pathname.replace(/\/+$/, '') || '/') !== '/') return;
+      var root = document.getElementById('root'); if (!root) return;
+      var h = null, h2s = root.querySelectorAll('h2');
+      for (var i = 0; i < h2s.length; i++) { if (/serving the south|serving the/i.test(h2s[i].textContent)) { h = h2s[i]; break; } }
+      if (!h) return;
+      var sec = h.closest('section'); if (!sec) return;
+      sec.classList.add('pmd-contact-bg');
+      var mapDiv = null, divs = sec.querySelectorAll('div');
+      for (var j = 0; j < divs.length; j++) { if (/h-\[350px\]/.test(divs[j].className || '')) { mapDiv = divs[j]; break; } }
+      var textLeft = h.parentElement;
+      var tagsDiv = null;
+      for (var k = 0; k < textLeft.children.length; k++) { if (/flex-wrap/.test(textLeft.children[k].className || '')) { tagsDiv = textLeft.children[k]; break; } }
+      // reorder: the (existing Leaflet) map goes below the description, tags below the map
+      if (mapDiv && tagsDiv && mapDiv.nextElementSibling !== tagsDiv) textLeft.insertBefore(mapDiv, tagsDiv);
+    }
+    var r = document.getElementById('root');
+    if (r) new MutationObserver(apply).observe(r, { childList: true, subtree: true });
+    document.addEventListener('DOMContentLoaded', apply);
+    [300, 900, 1800, 3200].forEach(function (t) { setTimeout(apply, t); });
+    apply();
   })();
 
   var SPOT = 'a.group > div, .rounded-2xl.bg-card, .bg-primary\\/10.border-primary';
