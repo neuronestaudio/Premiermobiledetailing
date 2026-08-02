@@ -406,7 +406,8 @@
 #root nav a[href="/ceramic-coating-melbourne"] { display:none !important; }
 
 /* ---- Hero variant C: NLP-style metallic shine title + uppercase kicker ---- */
-#root h1 .pmd-hero-mono {
+#root h1 .pmd-hero-mono,
+#root .pmd-hero-modes .pmd-hero-mono {
   font-family: 'Bebas Neue', sans-serif !important;
   font-weight: 400 !important;
   letter-spacing: -0.02em;
@@ -428,7 +429,7 @@
   100% { background-position: -200% 0; }
 }
 @media (prefers-reduced-motion: reduce) {
-  #root h1 .pmd-hero-mono { animation: none; background-position: 50% 0; }
+  #root h1 .pmd-hero-mono, #root .pmd-hero-modes .pmd-hero-mono { animation: none; background-position: 50% 0; }
 }
 #root p.pmd-hero-kicker {
   font-family: 'DM Sans', system-ui, sans-serif !important;
@@ -671,6 +672,10 @@
 @media (prefers-reduced-motion: reduce) { .pmd-book-cta::after, #pmd-mdrawer .pmd-md-cta::after { animation: none; opacity: 0; } }
 /* hero CTA: same gradient + shine, 1s faster sweep */
 .pmd-cta-hero::after { animation-duration: 3.2s !important; }
+
+/* hero "Mobile & Studio" title (white metallic, like the H1) below the CTAs */
+#root .pmd-hero-modes { margin-top: 26px; text-align: center; width: 100%; }
+#root .pmd-hero-modes .pmd-hero-mono { font-size: clamp(22px, 3vw, 32px) !important; letter-spacing: .06em; line-height: 1; }
 
 /* nav logo must never stretch (mobile expanded header) */
 #root nav img { width: auto !important; object-fit: contain !important; }

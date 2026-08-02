@@ -291,7 +291,7 @@
         if (V === 'C') {
           if (!sub.classList.contains('pmd-hero-kicker')) {
             sub.classList.remove('pmd-cursive', 'pmd-subhead'); sub.classList.add('pmd-hero-kicker');
-            sub.innerHTML = 'Ceramic Coating &middot; Paint Correction<br>Auto Detailing Specialists<br><span class="pmd-kicker-city">&mdash; Melbourne &mdash;</span>';
+            sub.innerHTML = 'Ceramic Coating &middot; Paint Correction<br>Auto Detailing Specialists<br><span class="pmd-kicker-city">&mdash; Melbourne Studio &amp; Mobile &mdash;</span>';
           }
         } else if (!sub.classList.contains('pmd-subhead')) {
           sub.classList.remove('pmd-cursive'); sub.classList.add('pmd-subhead');
@@ -308,6 +308,17 @@
         var tt = el.textContent.replace(/\s+/g, ' ').trim().toLowerCase();
         if ((tt === 'book now' || tt === 'start your quote') && !el.classList.contains('pmd-book-cta')) el.classList.add('pmd-book-cta', 'pmd-cta-hero');
       });
+      // inject a "Mobile & Studio" title just below the hero CTAs (white metallic, like the H1)
+      if (heroSec && !heroSec.querySelector('.pmd-hero-modes')) {
+        var pcta = heroSec.querySelector('.pmd-book-cta');
+        var ctaRow = pcta ? pcta.parentElement : null;
+        if (ctaRow) {
+          var modes = document.createElement('div');
+          modes.className = 'pmd-hero-modes';
+          modes.innerHTML = '<span class="pmd-hero-mono">Mobile &amp; Studio</span>';
+          ctaRow.parentNode.insertBefore(modes, ctaRow.nextSibling);
+        }
+      }
       var as = root.querySelectorAll('a');
       for (var k = 0; k < as.length; k++) {
         var t = as[k].textContent.replace(/[^a-z ]/gi, '').trim().toLowerCase();
