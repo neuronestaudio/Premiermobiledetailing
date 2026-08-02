@@ -148,6 +148,126 @@
       </div>
     </footer>
   </div>
+  <style id="pmd-tds-css">
+    #root a.group{cursor:pointer}
+    .tds-modal{position:fixed;inset:0;z-index:100000;display:none}
+    .tds-modal.open{display:block}
+    .tds-modal-bg{position:absolute;inset:0;background:rgba(4,7,14,.74);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px);opacity:0;transition:opacity .3s}
+    .tds-modal.open .tds-modal-bg{opacity:1}
+    .tds-modal-panel{position:absolute;top:50%;left:50%;transform:translate(-50%,-46%);width:min(92vw,600px);max-height:88vh;overflow:auto;
+      background:linear-gradient(180deg,#0d1324,#0a0f1c);border:1px solid rgba(255,255,255,.14);border-radius:22px;
+      box-shadow:0 60px 120px -40px rgba(0,0,0,.85);padding:34px 30px 28px;opacity:0;transition:opacity .3s,transform .3s}
+    .tds-modal.open .tds-modal-panel{opacity:1;transform:translate(-50%,-50%)}
+    .tds-modal-close{position:absolute;top:14px;right:18px;background:none;border:0;color:#c3cad7;font-size:30px;line-height:1;cursor:pointer}
+    .tds-m-brand{color:#6aa0ff;font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:.14em;margin:0 0 6px}
+    .tds-m-name{color:#fff;font-size:25px;font-weight:800;margin:0;letter-spacing:-.01em;line-height:1.15}
+    .tds-m-badge{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.04em;color:#cfe0ff;background:rgba(47,107,255,.16);
+      border:1px solid rgba(70,130,255,.4);border-radius:9999px;padding:4px 12px;margin:12px 0 2px}
+    .tds-specs{width:100%;border-collapse:collapse;margin:16px 0 18px}
+    .tds-specs tr{border-bottom:1px solid rgba(255,255,255,.08)}
+    .tds-specs td{padding:10px 0;font-size:14px;vertical-align:top}
+    .tds-specs td:first-child{color:#8b95a7;width:44%;padding-right:14px;font-weight:600}
+    .tds-specs td:last-child{color:#e6ebf5}
+    .tds-chips{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 16px}
+    .tds-chip{font-size:12px;color:#cfe0ff;background:rgba(47,107,255,.12);border:1px solid rgba(70,130,255,.3);border-radius:9999px;padding:5px 12px}
+    .tds-note{color:#aab4c5;font-size:13.5px;line-height:1.7;background:rgba(47,107,255,.07);border:1px solid rgba(70,130,255,.22);border-radius:12px;padding:13px 15px;margin:0 0 18px}
+    .tds-m-cta{display:inline-flex;align-items:center;justify-content:center;gap:8px;background:#2563eb;color:#fff;text-decoration:none;font-weight:700;border-radius:9999px;padding:12px 26px}
+    .tds-m-cta:hover{background:#1d4fd7}
+    .tds-disc{color:#6b7688;font-size:11.5px;margin:14px 0 0;line-height:1.6}
+  </style>
+  <script id="pmd-tds-js">
+    (function () {
+      var D = {
+        "Q² CanCoat EVO": { brand: "GYEON · Germany-engineered", badge: "SiO₂ Spray Ceramic · up to 12 months",
+          specs: [["Technology","SiO₂ (silica) spray ceramic"],["Durability","Up to 12 months"],["Surface","Automotive paint"],["Finish","Adds gloss & slickness"],["Hydrophobic","Yes — strong water beading"],["UV protection","Yes"],["Chemical resistance","Good"],["Application","Single layer, wipe-on"],["Backed by","GYEON Quartz"]],
+          features: ["SiO₂ ceramic","Spray-on","Hydrophobic","UV protection","~12 months"],
+          note: "Our fast, certified entry ceramic — locks in gloss and makes washing effortless. Ideal for newer cars or a first step into ceramic protection." },
+        "Q² Pure EVO": { brand: "GYEON · Germany-engineered", badge: "Pro SiO₂ Coating · up to 2 years",
+          specs: [["Technology","SiO₂ ceramic coating"],["Durability","Up to 2 years"],["Surface","Automotive paint"],["Finish","Deep gloss & clarity"],["Hydrophobic","Yes"],["UV protection","Yes"],["Chemical resistance","High"],["Application","Single layer"],["Backed by","GYEON Quartz"]],
+          features: ["SiO₂ ceramic","~2 years","Deep gloss","Hydrophobic","UV protection"],
+          note: "A professional SiO₂ coating with deeper gloss and stronger protection than a spray ceramic — excellent value for the durability." },
+        "Q² Mohs EVO": { brand: "GYEON · Germany-engineered", badge: "9H Ceramic · up to 3 years",
+          specs: [["Technology","SiO₂ ceramic (9H)"],["Hardness","9H"],["Durability","Up to 3 years"],["Surface","Automotive paint"],["Finish","High gloss, slick"],["Hydrophobic","Yes — strong beading"],["UV protection","Yes"],["Chemical resistance","High"],["Backed by","GYEON Quartz"]],
+          features: ["9H hardness","~3 years","High gloss","Hydrophobic","Scratch-resistant"],
+          note: "GYEON's hard 9H single-layer coating — excellent gloss and durability for daily-driven and weekend cars alike." },
+        "Q² Syncro EVO": { brand: "GYEON · Germany-engineered", badge: "Multi-Layer Flagship · 5+ years",
+          specs: [["Technology","Two-layer ceramic system"],["Layers","Mohs EVO base + Skin EVO top"],["Durability","5+ years"],["Surface","Automotive paint"],["Finish","Ultra-slick, self-cleaning top"],["Hydrophobic","Yes — self-cleaning"],["UV protection","Yes"],["Chemical resistance","Very high"],["Backed by","GYEON Quartz"]],
+          features: ["Multi-layer","5+ years","Self-cleaning top","9H base","Maximum gloss"],
+          note: "Our flagship GYEON system — a 9H Mohs EVO base sealed with the self-cleaning Skin EVO top layer for 5+ years of protection." },
+        "Q² DuraBead": { brand: "GYEON · Germany-engineered", badge: "Ceramic Topper · Maintenance",
+          specs: [["Technology","SiO₂ booster spray"],["Purpose","Refreshes beading & gloss"],["Surface","Over coating / paint"],["Hydrophobic","Restores strong beading"],["Durability","Adds months between details"],["Application","Spray & wipe"],["Backed by","GYEON Quartz"]],
+          features: ["Ceramic booster","Restores beading","Adds gloss","Easy top-up"],
+          note: "A ceramic maintenance topper we use to refresh water beading and gloss between details — it extends the life of your coating." },
+        "Q² DuraFlex": { brand: "GYEON · Germany-engineered", badge: "Trim & Plastics Coating",
+          specs: [["Technology","Flexible ceramic coating"],["Surface","Trim, plastic & rubber"],["Purpose","Restores & protects, stops fade"],["Finish","Satin, natural look"],["Durability","Long-lasting trim protection"],["Application","Wipe-on"],["Backed by","GYEON Quartz"]],
+          features: ["Flexible ceramic","Trim & plastic","Anti-fade","Satin finish"],
+          note: "Keeps exterior trim, plastic and rubber dark and protected — stops the grey, faded look UV causes over time." },
+        "Q² View": { brand: "GYEON · Germany-engineered", badge: "Glass Coating · 1–2 years",
+          specs: [["Technology","SiO₂ glass coating"],["Surface","Windscreen & glass"],["Benefit","Rain sheets off at speed"],["Hydrophobic","Yes — strong"],["Durability","1–2 years"],["Visibility","Improves wet-weather vision"],["Application","Wipe-on"],["Backed by","GYEON Quartz"]],
+          features: ["Glass coating","Hydrophobic","Better wet vision","1–2 years"],
+          note: "A hydrophobic windscreen and glass coating — rain beads and sheets off at speed, cutting wiper use and improving wet-weather visibility." },
+        "Q² Rim EVO": { brand: "GYEON · Germany-engineered", badge: "Wheel Ceramic · 1–2 years",
+          specs: [["Technology","Heat-resistant ceramic"],["Surface","Wheel faces"],["Benefit","Brake dust rinses off"],["Hydrophobic","Yes"],["Heat resistance","High"],["Durability","1–2 years"],["Application","Wipe-on"],["Backed by","GYEON Quartz"]],
+          features: ["Wheel ceramic","Heat-resistant","Easy-clean","1–2 years"],
+          note: "A heat-resistant ceramic for wheel faces — brake dust and grime rinse off instead of baking on, so wheels stay cleaner for longer." },
+        "Q² LeatherShield": { brand: "GYEON · Germany-engineered", badge: "Interior Coating · 1–2 years",
+          specs: [["Technology","Ceramic interior coating"],["Surface","Leather & fabric"],["Benefit","Repels spills & dye transfer"],["Protection","Guards against wear & staining"],["Durability","1–2 years"],["Application","Wipe-on"],["Backed by","GYEON Quartz"]],
+          features: ["Leather & fabric","Stain-resistant","Anti-dye-transfer","1–2 years"],
+          note: "Protects leather and fabric against spills, denim dye transfer and everyday wear — keeps interiors looking newer for longer." },
+        "Q² Trim": { brand: "GYEON · Germany-engineered", badge: "Exterior Trim Restore",
+          specs: [["Technology","Trim coating"],["Surface","Exterior trim"],["Purpose","Restores & protects faded trim"],["Finish","Deep, natural"],["Durability","Long-lasting"],["Application","Wipe-on"],["Backed by","GYEON Quartz"]],
+          features: ["Trim restore","Anti-fade","Natural finish"],
+          note: "Restores faded exterior trim to a deep, natural finish and protects it from going grey again." },
+        "ONYX Sprayable": { brand: "ONYX · Nano-Ceramic", badge: "Sprayable Nano-Ceramic · 12–24 months",
+          specs: [["Technology","Nano-ceramic (sprayable)"],["Durability","12 months (24 months, 2 coats)"],["Surface","Automotive paint"],["Finish","Gloss & slickness"],["Hydrophobic","Yes"],["UV protection","Yes"],["Application","Easy spray"],["Backed by","ONYX Coating"]],
+          features: ["Nano-ceramic","Sprayable","12–24 months","Hydrophobic"],
+          note: "An easy sprayable nano-ceramic — a certified entry into ONYX protection. Two coats push durability to around 24 months." },
+        "ONYX 360 Ceramic": { brand: "ONYX · Nano-Ceramic", badge: "Nano-Ceramic System · 3 years",
+          specs: [["Technology","Nano-ceramic system"],["Durability","3 years"],["Includes","Maintenance refresh"],["Surface","Automotive paint"],["Finish","High gloss"],["Hydrophobic","Yes"],["UV protection","Yes"],["Chemical resistance","High"],["Backed by","ONYX Coating"]],
+          features: ["3-year system","Includes refresh","High gloss","Hydrophobic"],
+          note: "A 3-year ONYX nano-ceramic system that includes a maintenance refresh to keep it performing across its life." },
+        "ONYX N1": { brand: "ONYX · Nano-Ceramic", badge: "Certified 10H & N1 · lifetime option",
+          specs: [["Technology","Certified nano-ceramic"],["Hardness","Certified 10H"],["Contact angle","≈110° (N1 certified)"],["Durability","Multi-year — lifetime program option"],["Surface","Automotive paint"],["Finish","Maximum gloss & depth"],["Hydrophobic","Yes — maximum"],["UV protection","Yes"],["Chemical resistance","Very high"],["Backed by","ONYX Coating"]],
+          features: ["Certified 10H","N1 certified","≈110° contact angle","Lifetime option","Maximum gloss"],
+          note: "ONYX's flagship — the first certified 10H & N1 nano-ceramic, with a ~110° contact angle and an available lifetime protection program." }
+      };
+      function esc(s) { return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;"); }
+      var m = document.createElement("div"); m.className = "tds-modal"; m.id = "tdsModal";
+      m.innerHTML = '<div class="tds-modal-bg"></div><div class="tds-modal-panel" role="dialog" aria-modal="true">' +
+        '<button class="tds-modal-close" type="button" aria-label="Close">&times;</button>' +
+        '<p class="tds-m-brand" id="tdsBrand"></p><h3 class="tds-m-name" id="tdsName"></h3><span class="tds-m-badge" id="tdsBadge"></span>' +
+        '<table class="tds-specs"><tbody id="tdsSpecs"></tbody></table><div class="tds-chips" id="tdsChips"></div>' +
+        '<div class="tds-note" id="tdsNote"></div><a class="tds-m-cta" href="/booking">Get a tailored quote &rarr;</a>' +
+        '<p class="tds-disc">Figures are indicative, taken from the manufacturer&rsquo;s product information. Exact current technical data sheets are available on request.</p></div>';
+      document.body.appendChild(m);
+      function openTds(name) {
+        var d = D[name]; if (!d) return;
+        document.getElementById("tdsBrand").textContent = d.brand;
+        document.getElementById("tdsName").textContent = name;
+        var badge = document.getElementById("tdsBadge"); badge.textContent = d.badge || ""; badge.style.display = d.badge ? "inline-block" : "none";
+        document.getElementById("tdsSpecs").innerHTML = d.specs.map(function (r) { return "<tr><td>" + esc(r[0]) + "</td><td>" + esc(r[1]) + "</td></tr>"; }).join("");
+        document.getElementById("tdsChips").innerHTML = (d.features || []).map(function (f) { return '<span class="tds-chip">' + esc(f) + "</span>"; }).join("");
+        document.getElementById("tdsNote").textContent = d.note || "";
+        m.querySelector(".tds-modal-panel").scrollTop = 0;
+        m.classList.add("open"); try { document.documentElement.style.overflow = "hidden"; } catch (e) {}
+      }
+      function closeTds() { m.classList.remove("open"); try { document.documentElement.style.overflow = ""; } catch (e) {} }
+      m.addEventListener("click", function (e) { if (e.target.classList.contains("tds-modal-bg") || e.target.classList.contains("tds-modal-close")) closeTds(); });
+      document.addEventListener("keydown", function (e) { if (e.key === "Escape") closeTds(); });
+      function wire() {
+        [].forEach.call(document.querySelectorAll("#root a.group"), function (a) {
+          var h3 = a.querySelector("h3"); if (!h3) return;
+          var name = h3.textContent.trim();
+          if (!D[name] || a.getAttribute("data-tds")) return;
+          a.setAttribute("data-tds", "1"); a.style.cursor = "pointer";
+          a.addEventListener("click", function (e) { e.preventDefault(); e.stopPropagation(); openTds(name); });
+        });
+      }
+      wire();
+      document.addEventListener("DOMContentLoaded", wire);
+      [400, 1200, 2500].forEach(function (t) { setTimeout(wire, t); });
+    })();
+  </script>
   <script defer src="/assets/enhance.js"></script>
 </body>
 </html>
