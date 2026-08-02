@@ -712,6 +712,10 @@
         el.textContent = 'Book Now';
       }
     });
+    // tag the header CTA so it gets the premium gradient + shine
+    [].forEach.call(nav.querySelectorAll('a, button'), function (el) {
+      if (/^book now$/i.test(el.textContent.trim())) el.classList.add('pmd-book-cta');
+    });
   }
   function boot() { init(); injectNavLinks(); trimNav(); }
   // Keep observing: init() is guarded by `done`, but nav injection/relabel must

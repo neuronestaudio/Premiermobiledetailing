@@ -645,6 +645,29 @@
 #pmd-mdrawer .pmd-md-call { text-align: center; color: #9aa4b5 !important; border: 0 !important; font-size: 15px !important; margin-top: 8px; }
 #pmd-mdrawer .pmd-md-close { position: absolute; top: 20px; right: 22px; background: none; border: 0; color: #c3cad7; font-size: 34px; line-height: 1; cursor: pointer; }
 
+/* ---- header "Book Now" CTA: premium gradient + shine sweep ---- */
+.pmd-book-cta, #pmd-mdrawer .pmd-md-cta {
+  position: relative !important; overflow: hidden !important;
+  background-color: #2f6bff !important;
+  background-image: linear-gradient(120deg, #1746cf 0%, #2f6bff 42%, #5a93ff 58%, #2f6bff 100%) !important;
+  background-size: 200% 100% !important; background-position: 0 0 !important;
+  border: 0 !important; color: #fff !important;
+  box-shadow: 0 8px 22px -6px rgba(47,107,255,.75), inset 0 1px 0 rgba(255,255,255,.28) !important;
+  transition: box-shadow .3s ease, transform .2s ease, background-position .6s ease !important;
+}
+.pmd-book-cta:hover, #pmd-mdrawer .pmd-md-cta:hover {
+  background-position: 100% 0 !important;
+  box-shadow: 0 14px 32px -6px rgba(47,107,255,.95), inset 0 1px 0 rgba(255,255,255,.34) !important;
+}
+.pmd-book-cta::after, #pmd-mdrawer .pmd-md-cta::after {
+  content: ''; position: absolute; top: 0; left: -65%; width: 45%; height: 100%;
+  background: linear-gradient(100deg, transparent, rgba(255,255,255,.6), transparent);
+  transform: skewX(-20deg); pointer-events: none; z-index: 1;
+  animation: pmdCtaShine 4.2s ease-in-out infinite;
+}
+@keyframes pmdCtaShine { 0% { left: -65%; } 22% { left: 150%; } 100% { left: 150%; } }
+@media (prefers-reduced-motion: reduce) { .pmd-book-cta::after, #pmd-mdrawer .pmd-md-cta::after { animation: none; opacity: 0; } }
+
 /* ---- reviews: Google widget folded INSIDE the glass, under the stats (one connected unit) ---- */
 #root .pmd-reviews-glass > .pmd-reviews-widget {
   margin-top: 30px; padding-top: 26px;
