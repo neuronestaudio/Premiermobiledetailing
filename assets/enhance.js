@@ -437,6 +437,65 @@
     tweak();
   })();
 
+  // ---- homepage: high-level FAQ (premium studio + mobile hybrid), replaces the stock 4-Q accordion ----
+  (function () {
+    var FAQ = [
+      ["Do you come to me, or do I drop the car off?",
+       "Both. As a mobile detailer we come fully self-sufficient to your home or workplace across Officer and South-East Melbourne. For paint correction and ceramic coating we also offer a controlled studio drop-off, where dust-free, climate-controlled conditions produce the highest-level finish. Tell us your suburb and the service and we'll recommend the right option."],
+      ["Do you need water or power on site?",
+       "No. Our mobile rig carries its own water and power — all we need is room to work around the car. For coating and correction work we'll usually recommend the studio, so products can be applied and cured in a properly controlled environment."],
+      ["What's the difference between a detail, paint correction and ceramic coating?",
+       "A detail deep-cleans and protects — wash, decontamination, interior, and a sealant. Paint correction is machine polishing that removes swirls, scratches and oxidation to restore clarity and gloss. Ceramic coating is a semi-permanent layer applied over corrected paint that locks in the finish, repels water and grime, and makes upkeep far easier. The best results correct first, then coat."],
+      ["Do I need paint correction before a ceramic coating?",
+       "If your paint has swirls, light scratches or oxidation — yes. A coating is transparent and seals whatever is beneath it, so any defects get locked in permanently. We inspect every car first and advise honestly: sometimes a single-stage enhancement is enough, sometimes multi-stage correction is worth it."],
+      ["How long does ceramic coating last in Australia's sun?",
+       "A correctly prepared and professionally applied coating lasts years — not the few weeks you get from spray-on ‘ceramics’. Melbourne's UV is punishing on unprotected paint, so preparation and product quality matter. We match the coating tier to how long you keep your cars and how they're stored."],
+      ["How long does each service take?",
+       "A maintenance detail is a few hours; a full detail is most of a day. Paint correction and ceramic coating are typically a one-to-three-day studio process, because the paint has to be decontaminated, corrected, coated and left to cure. You'll get an accurate window when we confirm your booking."],
+      ["How do I look after the car afterwards?",
+       "Every car goes back with simple aftercare guidance. For coated cars: leave the first wash a few days, use a pH-neutral shampoo and a soft mitt, skip abrasive automatic car washes, and don't wax over the coating. Correct maintenance washing is what makes a coating go the distance."],
+      ["What areas do you cover?",
+       "We're based in Officer and service South-East Melbourne — Berwick, Pakenham, Cranbourne, Narre Warren, Frankston and surrounds — mobile to your door, plus studio drop-off for correction and coating work. Not sure if you're in range? Just ask."]
+    ];
+    function esc(s) { return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;'); }
+    function commonAncestor(a, b) { var s = []; var n = a; while (n) { s.push(n); n = n.parentElement; } n = b; while (n) { if (s.indexOf(n) > -1) return n; n = n.parentElement; } return null; }
+    function build() {
+      if ((location.pathname.replace(/\/+$/, '') || '/') !== '/') return;
+      var root = document.getElementById('root'); if (!root) return;
+      var h = null, hs = root.querySelectorAll('h2');
+      for (var i = 0; i < hs.length; i++) { if (/common questions|frequently asked|faq/i.test(hs[i].textContent)) { h = hs[i]; break; } }
+      if (!h) return;
+      var sec = h.closest('section'); if (!sec) return;
+      if (sec.querySelector('.pmd-faq')) return;
+      var qbtns = [].slice.call(sec.querySelectorAll('button')).filter(function (b) { return /\?\s*$/.test(b.textContent.trim()); });
+      if (qbtns.length < 2) return; // wait for React to render the accordion
+      var wrap = document.createElement('div'); wrap.className = 'pmd-faq';
+      FAQ.forEach(function (pair) {
+        var it = document.createElement('div'); it.className = 'pmd-faq-item';
+        it.innerHTML = '<button class="pmd-faq-q" type="button"><span>' + esc(pair[0]) + '</span><i class="pmd-faq-ic"></i></button>' +
+          '<div class="pmd-faq-a"><p>' + esc(pair[1]) + '</p></div>';
+        it.querySelector('.pmd-faq-q').addEventListener('click', function () {
+          var isOpen = it.classList.contains('open');
+          [].forEach.call(wrap.querySelectorAll('.pmd-faq-item.open'), function (o) { o.classList.remove('open'); o.querySelector('.pmd-faq-a').style.maxHeight = null; });
+          if (!isOpen) { it.classList.add('open'); var a = it.querySelector('.pmd-faq-a'); a.style.maxHeight = a.scrollHeight + 'px'; }
+        });
+        wrap.appendChild(it);
+      });
+      var list = commonAncestor(qbtns[0], qbtns[1]);
+      if (!list || list === sec) {
+        qbtns.forEach(function (bq) { var item = bq; while (item.parentElement && item.parentElement !== sec) item = item.parentElement; item.style.display = 'none'; });
+        (h.parentNode === sec ? sec : h.closest('div') || sec).appendChild(wrap);
+      } else {
+        list.parentNode.insertBefore(wrap, list); list.style.display = 'none';
+      }
+    }
+    var r = document.getElementById('root');
+    if (r) new MutationObserver(build).observe(r, { childList: true, subtree: true });
+    document.addEventListener('DOMContentLoaded', build);
+    [300, 900, 1800, 3200].forEach(function (t) { setTimeout(build, t); });
+    build();
+  })();
+
   // ---- homepage: recolor Google review stars to a metallic space-white gradient ----
   (function () {
     if ((location.pathname.replace(/\/+$/, '') || '/') !== '/') return;

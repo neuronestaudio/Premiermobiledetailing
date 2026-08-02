@@ -565,6 +565,30 @@
   filter: drop-shadow(0 1px 1.5px rgba(0,0,0,.5));
 }
 
+/* ---- homepage FAQ: premium accordion ---- */
+#root .pmd-faq { display: flex; flex-direction: column; gap: 12px; margin-top: 10px; text-align: left; }
+#root .pmd-faq-item {
+  border: 1px solid rgba(255,255,255,.1); border-radius: 14px;
+  background: rgba(255,255,255,.02); overflow: hidden;
+  transition: border-color .3s, background .3s, box-shadow .3s;
+}
+#root .pmd-faq-item.open {
+  border-color: rgba(70,130,255,.5); background: rgba(37,99,235,.06);
+  box-shadow: 0 20px 50px -24px rgba(37,99,235,.5);
+}
+#root .pmd-faq-q {
+  width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 18px;
+  text-align: left; background: none; border: 0; cursor: pointer; padding: 20px 22px;
+  color: #fff; font-size: 17px; font-weight: 600; font-family: inherit; line-height: 1.35;
+}
+#root .pmd-faq-ic { position: relative; width: 16px; height: 16px; flex: 0 0 auto; }
+#root .pmd-faq-ic::before, #root .pmd-faq-ic::after { content: ''; position: absolute; background: #6aa0ff; border-radius: 2px; transition: transform .3s ease, opacity .3s ease; }
+#root .pmd-faq-ic::before { top: 7px; left: 0; width: 16px; height: 2px; }
+#root .pmd-faq-ic::after { top: 0; left: 7px; width: 2px; height: 16px; }
+#root .pmd-faq-item.open .pmd-faq-ic::after { transform: scaleY(0); opacity: 0; }
+#root .pmd-faq-a { max-height: 0; overflow: hidden; transition: max-height .42s cubic-bezier(.4,0,.2,1); }
+#root .pmd-faq-a p { margin: 0; padding: 2px 22px 22px; color: #c3cad7; line-height: 1.75; font-size: 15px; }
+
 /* ---- feather section seams: carbon Gallery softly fades into the page ---- */
 #root section.pmd-navycarbon::before {
   -webkit-mask: linear-gradient(to bottom, transparent 0, #000 140px, #000 calc(100% - 140px), transparent 100%);
