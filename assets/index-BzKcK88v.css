@@ -559,7 +559,7 @@
 }
 
 /* ---- hero C kicker: "— Melbourne —" on its own line ---- */
-#root p.pmd-hero-kicker .pmd-kicker-city { display: inline-block; margin-top: 4px; }
+#root p.pmd-hero-kicker .pmd-kicker-city { display: inline-block; margin-top: 6px; font-size: 1.2em; }
 
 /* ---- Google review stars → metallic space-white gradient ---- */
 #root svg.lucide-star.fill-current {
@@ -675,7 +675,7 @@
 
 /* hero "Mobile & Studio" title (white metallic, like the H1) below the CTAs */
 #root .pmd-hero-modes { margin-top: 26px; text-align: center; width: 100%; }
-#root .pmd-hero-modes .pmd-hero-mono { font-size: clamp(22px, 3vw, 32px) !important; letter-spacing: .06em; line-height: 1; }
+#root .pmd-hero-modes .pmd-hero-mono { font-size: clamp(26px, 3.6vw, 38px) !important; letter-spacing: .06em; line-height: 1; }
 
 /* nav logo must never stretch (mobile expanded header) */
 #root nav img { width: auto !important; object-fit: contain !important; }
