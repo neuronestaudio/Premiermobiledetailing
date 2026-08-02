@@ -5,6 +5,26 @@
   if (window.__pmdEnhanced) return; window.__pmdEnhanced = true;
   var RM = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+  // ---- Always render the CURRENT version of every page (fix "old cache" on in-app navigation) ----
+  // This is a client-side-routed SPA: moving between pages swaps content in place WITHOUT a real
+  // page load, so enhance.js (which sets up each page's premium layer once, keyed to the page you
+  // FIRST landed on) never re-initialises for the new route. Reaching Home via another page then
+  // showed the raw/un-enhanced ("old") version. Forcing a fresh load whenever the PATHNAME changes
+  // guarantees the latest version of every page renders. Hash-only changes (/#services) are ignored
+  // so in-page anchor scrolling still works.
+  (function () {
+    var lastPath = (location.pathname.replace(/\/+$/, '') || '/');
+    function onNav() {
+      var now = (location.pathname.replace(/\/+$/, '') || '/');
+      if (now !== lastPath) { lastPath = now; location.reload(); }
+    }
+    ['pushState', 'replaceState'].forEach(function (m) {
+      var orig = history[m];
+      history[m] = function () { var r = orig.apply(this, arguments); try { onNav(); } catch (e) {} return r; };
+    });
+    window.addEventListener('popstate', onNav);
+  })();
+
   // ---- Route EVERY booking/quote CTA to the single /booking form (kills the Vibe popups) ----
   (function () {
     var CTA = /^(book now|book your detail( now)?|start your quote|get a quote|get my quote|request (a )?quote|get started|enquire( now)?|get in touch)$/i;
@@ -307,7 +327,7 @@
       for (var j = 0; j < h2s.length; j++) { if (/clients|combined 30\+ years/i.test(h2s[j].textContent)) { revH = h2s[j]; break; } }
       var sec = revH ? revH.closest('section') : null;
       if (!sec) return;
-      if (/clients/i.test(revH.textContent)) revH.innerHTML = 'Combined 30+ Years <span class="text-primary italic">Experience</span>';
+      if (/clients/i.test(revH.textContent)) revH.innerHTML = 'Combined <span class="text-primary">30+ Years</span> Experience';
       var glass = sec.querySelector('.container') || sec;
       glass.classList.add('pmd-reviews-glass');
 
