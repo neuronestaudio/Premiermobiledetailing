@@ -554,9 +554,9 @@
   (function () {
     var FAQ = [
       ["Do you come to me, or do I drop the car off?",
-       "Both. As a mobile detailer we come fully self-sufficient to your home or workplace across Officer and South-East Melbourne. For paint correction and ceramic coating we also offer a controlled studio drop-off, where dust-free, climate-controlled conditions produce the highest-level finish. Tell us your suburb and the service and we'll recommend the right option."],
+       "Both. As a mobile detailer we bring the full professional setup to your home or workplace across Officer and South-East Melbourne. For paint correction and ceramic coating we also have a dust-free, climate-controlled studio for the highest-level finish. You've got both mobile and studio options to suit your needs and schedule — just tell us your suburb and the service."],
       ["Do you need water or power on site?",
-       "No. Our mobile rig carries its own water and power — all we need is room to work around the car. For coating and correction work we'll usually recommend the studio, so products can be applied and cured in a properly controlled environment."],
+       "Yes — for a mobile detail we just need access to a garden tap and a standard power point, plus a bit of room to work around the car. Most homes and workplaces have both without any issue; if access is tricky, just flag it when you book. Either way you've got both mobile and studio options to suit your setup and schedule."],
       ["What's the difference between a detail, paint correction and ceramic coating?",
        "A detail deep-cleans and protects — wash, decontamination, interior, and a sealant. Paint correction is machine polishing that removes swirls, scratches and oxidation to restore clarity and gloss. Ceramic coating is a semi-permanent layer applied over corrected paint that locks in the finish, repels water and grime, and makes upkeep far easier. The best results correct first, then coat."],
       ["Do I need paint correction before a ceramic coating?",
