@@ -159,7 +159,8 @@
             <div class="pmd-stp" data-s="1"><div class="pmd-stp-dot">1</div><div class="pmd-stp-lbl">Service</div></div>
             <div class="pmd-stp" data-s="2"><div class="pmd-stp-dot">2</div><div class="pmd-stp-lbl">Location</div></div>
             <div class="pmd-stp" data-s="3"><div class="pmd-stp-dot">3</div><div class="pmd-stp-lbl">Vehicle</div></div>
-            <div class="pmd-stp" data-s="4"><div class="pmd-stp-dot">4</div><div class="pmd-stp-lbl">Details</div></div>
+            <div class="pmd-stp" data-s="4"><div class="pmd-stp-dot">4</div><div class="pmd-stp-lbl">Budget</div></div>
+            <div class="pmd-stp" data-s="5"><div class="pmd-stp-dot">5</div><div class="pmd-stp-lbl">Details</div></div>
           </div>
           <h2 class="pmd-h" id="stepTitle">Choose your service</h2>
           <p class="pmd-sub" id="stepSub">Pick what you're after — not sure? Choose “Not sure yet”.</p>
@@ -214,8 +215,18 @@
               <div><label class="enq-label" for="message">Any other comments / special requests? <span style="color:#8b95a7;font-weight:400;text-transform:none;letter-spacing:0">(optional)</span></label><textarea class="enq-field" id="message" name="message" placeholder="Access notes, specific concerns — anything else we should know..."></textarea></div>
             </div>
 
-            <!-- STEP 4 — contact -->
+            <!-- STEP 4 — budget -->
             <div class="pmd-step" data-step="4" hidden>
+              <div class="pmd-grid2">
+                <button type="button" class="pmd-card pmd-budget" data-val="Entry Level (Under $1000)"><span class="pmd-card-t">Entry Level</span><span class="pmd-card-d">Under $1000</span><span class="pmd-card-tick">&#10003;</span></button>
+                <button type="button" class="pmd-card pmd-budget" data-val="Standard Range ($1000 – $2500)"><span class="pmd-card-t">Standard Range</span><span class="pmd-card-d">$1000 – $2500</span><span class="pmd-card-tick">&#10003;</span></button>
+                <button type="button" class="pmd-card pmd-budget" data-val="Elite Protection ($2,500+)"><span class="pmd-card-t">Elite Protection</span><span class="pmd-card-d">$2,500+</span><span class="pmd-card-tick">&#10003;</span></button>
+              </div>
+              <button type="button" id="budgetSkip" style="display:block;width:100%;margin-top:14px;background:none;border:0;color:#8b95a7;font-size:14px;cursor:pointer">Not sure yet? Skip this — we'll talk it through</button>
+            </div>
+
+            <!-- STEP 5 — contact -->
+            <div class="pmd-step" data-step="5" hidden>
               <div class="enq-row">
                 <div><label class="enq-label" for="name">Name *</label><input class="enq-field" id="name" name="name" type="text" placeholder="Your name" /></div>
                 <div><label class="enq-label" for="mobile">Mobile *</label><input class="enq-field" id="mobile" name="mobile" type="tel" placeholder="04__ ___ ___" /></div>
@@ -228,6 +239,7 @@
             <input type="hidden" name="service_location" id="service_location" />
             <input type="hidden" name="condition" id="condition" />
             <input type="hidden" name="condition_type" id="condition_type" />
+            <input type="hidden" name="budget" id="budget" />
             <input type="checkbox" name="botcheck" style="display:none" tabindex="-1" autocomplete="off" />
 
             <div class="pmd-inline-err" id="stepErr" hidden></div>
@@ -270,6 +282,7 @@
       var locInput = document.getElementById('service_location');
       var condInput = document.getElementById('condition');
       var condTypeInput = document.getElementById('condition_type');
+      var budgetInput = document.getElementById('budget');
       var condWrap = document.getElementById('condWrap');
       var condLabel = document.getElementById('condLabel');
       var condPaint = document.getElementById('condPaint');
@@ -306,7 +319,8 @@
         1: ['Choose your service', 'Pick what you’re after — not sure? Choose “Not sure yet”.'],
         2: ['How would you like it done?', 'Drop your car to our studio, or we come to you.'],
         3: ['Your vehicle', 'What are we detailing? Add anything we should know.'],
-        4: ['Your details', 'Last step — how do we reach you to confirm?']
+        4: ['What’s your budget?', 'Just helps us tailor the right package — you can skip it.'],
+        5: ['Your details', 'Last step — how do we reach you to confirm?']
       };
       function val(id){ var el = document.getElementById(id); return el ? el.value.trim() : ''; }
       var isMobile = function () { return /mobile/i.test(locInput.value); };
@@ -324,14 +338,15 @@
         stepTitle.textContent = TITLES[n][0]; stepSub.textContent = TITLES[n][1];
         btnBack.hidden = (n === 1);                 // Back on every step after the first
         btnNext.hidden = (n === 1 || n === TOTAL);  // Continue on steps 2-3 (step 1 cards auto-advance)
-        btnSubmit.hidden = (n !== TOTAL);           // Submit on step 4
-        if (n === 4) {
+        btnSubmit.hidden = (n !== TOTAL);           // Submit on the last step
+        if (n === TOTAL) {
           review.innerHTML = '<strong style="color:#dfe5f0">Your booking:</strong> ' +
             (serviceInput.value || '—') +
             (locInput.value ? ' &middot; ' + locInput.value : '') +
             (isMobile() && val('postcode') ? ' (' + val('postcode') + ')' : '') +
             (val('vehicle') ? ' &middot; ' + val('vehicle') : '') +
-            (condInput.value ? ' &middot; ' + condInput.value + ' condition' : '');
+            (condInput.value ? ' &middot; ' + condInput.value + ' condition' : '') +
+            (budgetInput.value ? ' &middot; ' + budgetInput.value : '');
         }
       }
       // package select -> highlight + auto-advance (Back stays available to edit)
@@ -369,6 +384,16 @@
           stepErr.hidden = true;
         });
       });
+      // budget select -> highlight + auto-advance (optional step)
+      [].forEach.call(form.querySelectorAll('.pmd-budget'), function (b) {
+        b.addEventListener('click', function () {
+          [].forEach.call(form.querySelectorAll('.pmd-budget'), function (x) { x.classList.remove('sel'); });
+          b.classList.add('sel'); budgetInput.value = b.getAttribute('data-val'); stepErr.hidden = true;
+          setTimeout(function () { if (cur === 4) show(5); }, 260);
+        });
+      });
+      var budgetSkip = document.getElementById('budgetSkip');
+      if (budgetSkip) budgetSkip.addEventListener('click', function () { budgetInput.value = ''; if (cur === 4) show(5); });
       function canAdvance(n) {
         if (n === 1 && !serviceInput.value) { stepErr.textContent = 'Please choose a service to continue.'; stepErr.hidden = false; return false; }
         if (n === 2) {
@@ -415,6 +440,7 @@
           (data.postcode ? '\nPostcode: ' + data.postcode : '') +
           '\nVehicle: ' + (data.vehicle || '-') +
           (data.condition ? '\n' + (data.condition_type || 'Vehicle') + ' condition: ' + data.condition : '\nCondition: not specified (needs advice)') +
+          (data.budget ? '\nBudget: ' + data.budget : '') +
           (data.message ? '\n\nComments / requests:\n' + data.message : '') +
           '\n\nSubmitted: ' + data.submitted_at + '\nPage: ' + data.page;
         btnSubmit.disabled = true; btnSubmit.textContent = 'Sending...';

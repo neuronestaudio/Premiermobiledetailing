@@ -149,9 +149,9 @@
         sessionStorage.removeItem('pmd_lead_service');
       } catch (e) {}
       // Conversion tracking — fire only if a pixel/tag is already present (safe no-ops otherwise)
-      // Meta Lead is now handled via Google Tag Manager (fired off the booking_submitted dataLayer event).
+      // Lead conversion is handled via Google Tag Manager (fired off the generate_lead dataLayer event).
       try { if (window.gtag) gtag('event', 'conversion', { event_category: 'booking', event_label: 'booking_form' }); } catch (e) {}
-      try { if (window.dataLayer) window.dataLayer.push({ event: 'booking_submitted' }); } catch (e) {}
+      try { if (window.dataLayer) window.dataLayer.push({ event: 'generate_lead' }); } catch (e) {}
     })();
   </script>
   <script defer src="/assets/enhance.js"></script>
