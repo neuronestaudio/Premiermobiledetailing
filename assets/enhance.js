@@ -167,7 +167,7 @@
         // dollar amount -> value line
         if (t.indexOf('$') > -1 && t.length <= 30 && RE.test(t)) {
           el.setAttribute('data-pmdq', '1');
-          if (!el.classList.contains('pmd-svc-price')) { el.classList.add('pmd-quote'); el.textContent = 'Tailored quote'; }
+          if (!el.classList.contains('pmd-svc-price') && !el.closest('.pmd-budget')) { el.classList.add('pmd-quote'); el.textContent = 'Tailored quote'; }
           continue;
         }
         // price-word reference -> "quote"
