@@ -430,6 +430,14 @@
         data.lead_source = 'Website — Booking Form';
         data.page = location.href;
         data.submitted_at = new Date().toISOString();
+        // First-touch ad attribution (captured by enhance.js on the landing page)
+        var ATTR_FIELDS = ['utm_source','utm_medium','utm_campaign','utm_content','utm_term','gclid','gbraid','wbraid','fbclid','msclkid','first_landing_page'];
+        var attr = {};
+        try { attr = JSON.parse(window.localStorage.getItem('premier_attribution') || '{}') || {}; } catch (eA) { attr = {}; }
+        for (var ai = 0; ai < ATTR_FIELDS.length; ai++) {
+          data[ATTR_FIELDS[ai]] = (attr && typeof attr[ATTR_FIELDS[ai]] === 'string') ? attr[ATTR_FIELDS[ai]] : '';
+        }
+        try { data.submission_id = (window.crypto && crypto.randomUUID) ? crypto.randomUUID() : ('sub-' + Date.now().toString(36) + Math.random().toString(36).slice(2, 10)); } catch (eS) { data.submission_id = 'sub-' + Date.now().toString(36) + Math.random().toString(36).slice(2, 10); }
         data.notes =
           'New booking request\n' +
           'Name: ' + (data.name || '-') + '\n' +
@@ -441,6 +449,7 @@
           '\nVehicle: ' + (data.vehicle || '-') +
           (data.condition ? '\n' + (data.condition_type || 'Vehicle') + ' condition: ' + data.condition : '\nCondition: not specified (needs advice)') +
           (data.budget ? '\nBudget: ' + data.budget : '') +
+          ((data.utm_source || data.gclid) ? '\nSource: ' + (data.utm_source || (data.gclid ? 'google' : '')) + (data.utm_medium ? ' / ' + data.utm_medium : '') + (data.utm_campaign ? ' / ' + data.utm_campaign : '') : '') +
           (data.message ? '\n\nComments / requests:\n' + data.message : '') +
           '\n\nSubmitted: ' + data.submitted_at + '\nPage: ' + data.page;
         btnSubmit.disabled = true; btnSubmit.textContent = 'Sending...';

@@ -1,6 +1,35 @@
 /* Premier — high-end interaction layer. Resilient to the SPA's re-renders:
    pointer effects use delegated document listeners (no per-node setup);
    reveal + count-up run once after the app first mounts. */
+
+/* First-touch advertising attribution — capture gclid / UTMs ONCE on the page the
+   visitor first lands on (e.g. a Google Ads landing page), persist to localStorage,
+   gap-fill only, never overwrite. The booking form reads this and sends it to the CRM.
+   Every browser API is guarded so blocked storage or an odd URL can never break a page. */
+(function () {
+  try {
+    var KEY = 'premier_attribution';
+    var FIELDS = ['utm_source','utm_medium','utm_campaign','utm_content','utm_term','gclid','gbraid','wbraid','fbclid','msclkid'];
+    var rec = {}, i;
+    for (i = 0; i < FIELDS.length; i++) rec[FIELDS[i]] = '';
+    rec.first_landing_page = '';
+    try {
+      var raw = window.localStorage.getItem(KEY);
+      if (raw) {
+        var parsed = JSON.parse(raw);
+        for (i = 0; i < FIELDS.length; i++) { if (typeof parsed[FIELDS[i]] === 'string') rec[FIELDS[i]] = parsed[FIELDS[i]]; }
+        if (typeof parsed.first_landing_page === 'string') rec.first_landing_page = parsed.first_landing_page;
+      }
+    } catch (e) {}
+    try {
+      var params = new URLSearchParams(window.location.search);
+      for (i = 0; i < FIELDS.length; i++) { if (rec[FIELDS[i]]) continue; var v = params.get(FIELDS[i]); if (v) rec[FIELDS[i]] = v; }
+    } catch (e) {}
+    if (!rec.first_landing_page) { try { rec.first_landing_page = window.location.href; } catch (e) {} }
+    try { window.localStorage.setItem(KEY, JSON.stringify(rec)); } catch (e) {}
+  } catch (e) {}
+})();
+
 (function () {
   if (window.__pmdEnhanced) return; window.__pmdEnhanced = true;
   var RM = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
