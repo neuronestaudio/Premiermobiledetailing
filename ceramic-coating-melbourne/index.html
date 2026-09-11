@@ -59,7 +59,16 @@
 .pmdc-pip[aria-selected='true']{color:#fff;background:linear-gradient(135deg,#3b82f6,#2563eb);border-color:transparent;box-shadow:0 6px 18px -8px rgba(37,99,235,.9)}
 .pmdc-count{margin:0;font-size:.78rem;color:#8b95a7;letter-spacing:.04em}
 @media (max-width:860px){.pmdc-word{font-size:clamp(3rem,18vw,6rem);right:auto;left:50%;translate:-50% 0}.pmdc-card{grid-template-columns:1fr;gap:.5rem}.pmdc-pips{order:-1;flex:0 0 100%;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;padding-bottom:.15rem}.pmdc-pips::-webkit-scrollbar{display:none}.pmdc-pip{flex:none;min-height:44px}}
-@media (prefers-reduced-motion:reduce){.pmdc-card{animation:none}.pmdc-vid{transition:none}}</style>
+@media (prefers-reduced-motion:reduce){.pmdc-card{animation:none}.pmdc-vid{transition:none}}
+h1,h2,h3{text-wrap:balance}
+@keyframes pmdSheenSweep{0%{background-position:200% 0}62%,100%{background-position:-200% 0}}
+.pmd-sheen-w,.pmd-sheen-b{-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;background-size:220% 100%;animation:pmdSheenSweep 6s ease-in-out infinite}
+.pmd-sheen-w{background-image:linear-gradient(100deg,#fff 0%,#fff 42%,#eaf2ff 50%,#fff 58%,#fff 100%)}
+.pmd-sheen-b{background-image:linear-gradient(100deg,#3b82f6 0%,#3b82f6 42%,#bfdbfe 50%,#60a5fa 58%,#3b82f6 100%)}
+@media (prefers-reduced-motion:reduce){.pmd-sheen-w,.pmd-sheen-b{animation:none}}
+@keyframes pmdRise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+.pmd-rise{animation:pmdRise .7s cubic-bezier(.22,1,.36,1) both}
+@media (prefers-reduced-motion:reduce){.pmd-rise{animation:none}}</style>
   <link rel="stylesheet" crossorigin href="/assets/index-BzKcK88v.css" />
 </head>
 <body>
@@ -90,14 +99,14 @@
         </div>
       </div>
     </nav>
-    <section class="relative overflow-hidden" style="padding-top:180px;padding-bottom:110px">
+    <section class="relative overflow-hidden" style="min-height:82vh;min-height:82svh;padding-top:96px;padding-bottom:48px;display:flex;align-items:center">
       <div class="absolute inset-0 -z-10" style="background:url('/assets/images/2f6f9104-e162-42a7-87bf-cbfa80baa445.jpg') center 58%/cover, #080B16;"></div>
       <div class="absolute inset-0 -z-10" style="background:linear-gradient(90deg, rgba(8,11,22,.95), rgba(8,11,22,.82) 45%, rgba(8,11,22,.42)), linear-gradient(0deg, #080B16 2%, transparent 34%);"></div>
-      <div class="container"><div class="max-w-3xl">
-        <p class="text-primary font-semibold tracking-wider uppercase text-sm mb-4">Ceramic Coating · South-East Melbourne</p>
-        <h1 class="hero-script text-5xl md:text-7xl font-extrabold tracking-tight mb-6 text-white drop-shadow-xl">Ceramic Coating <br /><span class="text-primary italic">Melbourne.</span></h1>
-        <p class="text-xl text-muted-foreground mb-10 max-w-2xl">A professionally applied ceramic coating is the single best thing you can do for your paint in Melbourne's climate. We install <strong class="text-white">GYEON</strong> and <strong class="text-white">ONYX</strong> coatings mobile, at your home or work across Officer, Berwick, Pakenham, Cranbourne, Clyde, Narre Warren, Frankston, Dandenong and the wider South-East Melbourne region.</p>
-        <div class="flex flex-col sm:flex-row gap-4">
+      <div class="container relative z-10"><div class="max-w-3xl mx-auto md:mx-0 text-center md:text-left">
+        <p class="text-primary font-semibold tracking-wider uppercase text-sm mb-3 pmd-rise">Ceramic Coating · South-East Melbourne</p>
+        <h1 class="hero-script text-5xl md:text-7xl font-extrabold tracking-tight mb-4 text-white drop-shadow-xl pmd-rise" style="animation-delay:.09s"><span class="pmd-sheen-w">Ceramic Coating</span> <br /><span class="pmd-sheen-b italic">Melbourne.</span></h1>
+        <p class="text-lg md:text-xl text-muted-foreground mb-6 max-w-2xl mx-auto md:mx-0 pmd-rise" style="animation-delay:.18s">A professionally applied ceramic coating is the single best thing you can do for your paint in Melbourne's climate. We install <strong class="text-white">GYEON</strong> and <strong class="text-white">ONYX</strong> coatings mobile, at your home or work across Officer, Berwick, Pakenham, Cranbourne, Clyde, Narre Warren, Frankston, Dandenong and the wider South-East Melbourne region.</p>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start pmd-rise" style="animation-delay:.27s">
           <a href="/booking" class="inline-flex items-center justify-center gap-2 bg-primary text-primary-foreground hover:bg-primary/90 rounded-md h-14 px-8 font-semibold shadow-lg transition-all">Start Your Quote</a>
           <a href="/ceramic-coating-cost-melbourne" class="inline-flex items-center justify-center gap-2 border bg-background border-white/20 text-white hover:bg-white/10 rounded-md h-14 px-8 font-semibold transition-all">Ceramic Coating Cost →</a>
         </div>

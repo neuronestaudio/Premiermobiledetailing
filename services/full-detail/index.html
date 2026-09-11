@@ -74,6 +74,10 @@
         position: relative;
         z-index: 1;
       }
+      @keyframes pmdSheenSweep{0%{background-position:200% 0}62%,100%{background-position:-200% 0}}
+      h1[class*="font-extrabold"]{-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;background-image:linear-gradient(100deg,#fff 0%,#fff 42%,#dbeafe 50%,#fff 58%,#fff 100%);background-size:220% 100%;animation:pmdSheenSweep 6s ease-in-out infinite}
+      h1,h2,h3{text-wrap:balance}
+      @media (prefers-reduced-motion:reduce){h1[class*="font-extrabold"]{animation:none}}
     </style>
     <script type="module" crossorigin="" src="/assets/index-LtW0yflB.js"></script>
     <link rel="stylesheet" crossorigin="" href="/assets/index-BzKcK88v.css">
