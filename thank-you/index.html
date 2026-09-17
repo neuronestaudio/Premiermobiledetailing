@@ -49,7 +49,8 @@
       padding:52px 42px 46px;
       box-shadow:0 60px 120px -50px rgba(0,0,0,.85), inset 0 1px 0 rgba(255,255,255,.16);
     }
-    .ty-check{width:88px;height:88px;margin:0 auto 24px;display:block}
+    .ty-logo{height:44px;width:auto;margin:0 auto 20px;display:block}
+    .ty-check{width:78px;height:78px;margin:0 auto 20px;display:block}
     .ty-check circle{fill:rgba(47,107,255,.14);stroke:#3f7dff;stroke-width:3}
     .ty-check path{fill:none;stroke:#6aa0ff;stroke-width:6;stroke-linecap:round;stroke-linejoin:round;
       stroke-dasharray:48;stroke-dashoffset:48;animation:tyDraw .7s .25s cubic-bezier(.65,0,.35,1) forwards}
@@ -57,16 +58,16 @@
     @media (prefers-reduced-motion: reduce){.ty-check path{animation:none;stroke-dashoffset:0}}
 
     .ty-eyebrow{color:#6aa0ff;font-size:12px;font-weight:800;letter-spacing:.24em;text-transform:uppercase;margin:0 0 14px}
-    .ty-title{font-size:clamp(30px,5.4vw,46px);font-weight:800;letter-spacing:-.01em;color:#fff;margin:0;line-height:1.06}
+    .ty-title{font-size:clamp(29px,5vw,44px);font-weight:800;letter-spacing:-.01em;color:#fff;margin:0;line-height:1.08;text-wrap:balance}
     .ty-title span{background:linear-gradient(102deg,#6aa0ff,#2f6bff,#1a52e6);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent}
-    .ty-lead{color:#c3cad7;font-size:17px;margin:16px auto 0;max-width:520px}
+    .ty-lead{color:#c3cad7;font-size:17px;margin:16px auto 0;max-width:480px;text-wrap:pretty}
     .ty-svc{display:inline-block;margin-top:18px;padding:7px 16px;font-size:13px;font-weight:700;letter-spacing:.04em;
       color:#dfe6f2;background:rgba(47,107,255,.12);border:1px solid rgba(47,107,255,.3);border-radius:9999px}
 
     .ty-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:34px 0 6px;text-align:left}
     .ty-step{background:rgba(9,13,24,.5);border:1px solid rgba(255,255,255,.1);border-radius:14px;padding:16px 16px 15px}
     .ty-step b{display:block;color:#6aa0ff;font-family:'Bebas Neue',Impact,sans-serif;font-size:26px;line-height:1;margin-bottom:8px;letter-spacing:.02em}
-    .ty-step p{margin:0;font-size:13.5px;color:#c3cad7;line-height:1.5}
+    .ty-step p{margin:0;font-size:13.5px;color:#c3cad7;line-height:1.5;text-wrap:pretty}
     @media (max-width:620px){.ty-steps{grid-template-columns:1fr}.ty-card{padding:44px 24px 38px}}
 
     .ty-actions{display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:32px}
@@ -107,12 +108,13 @@
   <main class="ty-main">
     <div class="ty-wrap">
       <div class="ty-card">
+        <img class="ty-logo" src="/assets/images/45ead650-192d-44cb-8c3f-0ae51ecbbc4b.webp" alt="Premier Mobile Detailing" />
         <svg class="ty-check" viewBox="0 0 100 100" aria-hidden="true">
           <circle cx="50" cy="50" r="45" />
           <path d="M30 51 L44 65 L71 36" />
         </svg>
         <p class="ty-eyebrow">Booking Request Received</p>
-        <h1 class="ty-title">Thank you<span id="ty-name"></span> &mdash;<br>you&rsquo;re all set.</h1>
+        <h1 class="ty-title">Thank you<span id="ty-name"></span> &mdash; you&rsquo;re all set.</h1>
         <p class="ty-lead">Your booking request has come through. Daniel will personally reach out shortly to confirm your time and lock it in &mdash; keep an eye on your phone.</p>
         <span class="ty-svc" id="ty-svc" hidden></span>
 
