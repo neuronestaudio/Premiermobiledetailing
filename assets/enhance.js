@@ -869,8 +869,8 @@
       var isServices = alist.some(function (a) { return /\/services\//.test(a.getAttribute('href') || ''); });
       var isCompany = !isServices && alist.some(function (a) { return /\/about$/.test(a.getAttribute('href') || ''); });
       if (isServices) {
-        // Services column also gets PPF + Window Tinting
-        addLinks([{ t: 'PPF', h: '/ppf-melbourne' }, { t: 'Window Tinting', h: '/automotive-window-tinting-melbourne' }]);
+        // Services column also gets Window Tinting
+        addLinks([{ t: 'Window Tinting', h: '/automotive-window-tinting-melbourne' }]);
       } else if (isCompany) {
         // Ceramic Coating / PPF / Window Tinting live under Services now — strip the duplicates here
         [].forEach.call(ul.querySelectorAll('a[href="/ceramic-coating-melbourne"], a[href="/ppf-melbourne"], a[href="/automotive-window-tinting-melbourne"]'), function (a) { (a.closest('li') || a).remove(); });
