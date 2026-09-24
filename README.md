@@ -1,3 +1,6 @@
+> **ARCHIVED 24 Sep 2026 — superseded by [neuronestaudio/premier-astro](https://github.com/neuronestaudio/premier-astro).**
+> The live site (premiermobiledetailing.com.au, Vercel project `premiermobiledetailing`) now deploys from that repo. Pushes here deploy nothing. This snapshot is kept only as the pre-switch rollback reference.
+
 # Premier Mobile Detailing — Website
 
 Working repository for the takeover and rebuild of **premiermobiledetailing.com.au**
